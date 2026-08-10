@@ -1,26 +1,26 @@
 # Still Scenes
 
-Still Scenes is a personal postcard and scene-zine system built around one rule: the user's selected picture and exact words remain authoritative.
+Still Scenes is a personal photography and visual-storytelling system built around one rule: the author's selected picture and exact words remain authoritative.
 
 The repository contains two related products:
 
-1. A dependency-free browser studio that composes uploaded photographs into postcard and zine layouts.
-2. A reusable Codex skill that plans, prompts, generates, edits, reviews, and documents personal paper artifacts.
+1. A dependency-free browser studio that composes uploaded photographs into Still Scenes layouts.
+2. A reusable Still Scenes skill for planning, transforming, reviewing, and documenting personal photographic artwork.
 
-![Geometric postcard made from a user-supplied urban sunset](demos/user-photo-styles/generated/demo-u11-wires-geometric.png)
+![Geometric postcard transformed from the author's urban-sunset photograph](demos/user-photo-styles/generated/demo-u11-wires-geometric.png)
 
 ## What is included
 
-- Six skill routes: Postcard Create, Scene Zine Create, Prompt-only, Reference Analysis, Analyze + Create, and Batch Set.
-- Five surfaces: image front, writable back, split card, duplex pair, and zine page.
+- Six workflow routes spanning artwork creation, prompt-only work, reference analysis, analyze-and-create, and batch sets.
+- Five surfaces: image front, writable back, split card, duplex pair, and editorial page.
 - Explicit image roles: edit target, reference-only image, supporting insert, or no image.
 - High, medium, and low preservation modes with visible source invariants.
 - Locked caption, message, location, and date handling.
 - Caption assistance, alt text, production records, and reusable generation prompts.
 - Source-safe batch variation and privacy rules that never infer a printable location from photo metadata.
 - A static Canvas-based web studio with local image upload and client-side PNG export.
-- 34 distinct rendered demos: seven original generated scenes and 27 source-preserving transformations.
-- Three treatments for each of the nine supplied photographs, with exact prompts and SHA-256 provenance.
+- 34 distinct rendered Still Scenes artworks: seven original generated scenes and 27 source-preserving transformations.
+- Three transformations for each of the nine photographs taken by the owner and author, with exact prompts and SHA-256 provenance.
 - Twelve evaluation scenarios covering routing, source handling, exact copy, print surfaces, batches, and failure reporting.
 
 ## Quick start: browser studio
@@ -38,7 +38,7 @@ Serving the directory over HTTP is preferable to opening `index.html` directly b
 
 ### Browser-studio features
 
-- Split postcard, image front, writable back, duplex, and distilled-zine routes.
+- Split postcard, image front, writable back, duplex, and distilled editorial routes.
 - 3:2, 2:3, 4:5, 3:5, and A6 landscape output ratios.
 - Click-to-upload and drag-and-drop local images; uploaded images remain in browser memory.
 - Live location, date, caption, writing-rule, paper, accent, typography, postal-mark, and texture controls.
@@ -47,11 +47,11 @@ Serving the directory over HTTP is preferable to opening `index.html` directly b
 - Client-side RGB PNG export.
 - Three built-in presets using the first three generated demos.
 
-The browser studio is a deterministic layout composer and prompt workbench. It does not call an AI model or generate a new scene; raster generation and photo transformation happen through the Codex skill and image-generation workflow.
+The browser studio is a deterministic layout composer and prompt workbench. It does not call an AI model or generate a new scene; raster generation and photo transformation happen through the Still Scenes skill and image-generation workflow.
 
-## Use the Codex skill
+## Use the Still Scenes skill
 
-The portable skill package is [`skills/still-scenes-postcard-zine/`](skills/still-scenes-postcard-zine/).
+The portable skill is named **Still Scenes**. Its current compatibility package remains at [`skills/still-scenes-postcard-zine/`](skills/still-scenes-postcard-zine/); the legacy directory and command names are retained so existing installations continue to work.
 
 Copy that directory into a new, non-conflicting directory under your Codex skills location, then invoke:
 
@@ -62,12 +62,12 @@ $still-scenes-postcard-zine
 Example request:
 
 ~~~text
-Use $still-scenes-postcard-zine to turn my photo or scene idea into a postcard or zine artwork with a custom caption.
+Use the Still Scenes skill to transform my photograph or scene idea into a personal artwork with a custom caption.
 ~~~
 
 The skill returns the artifact or output path, final prompt, route and surface recipe, image role, preservation level, locked-copy record, accessibility alt text, and any retry or limitation note.
 
-## Personal-photo collection: three styles per source
+## Author-photo collection: three transformations per source
 
 | Source | Style 1 | Style 2 | Style 3 |
 |---|---|---|---|
@@ -81,15 +81,31 @@ The skill returns the artifact or output path, final prompt, route and surface r
 | Cloud and one bird | U08 cyanotype | U24 screenprint | U25 dry pastel |
 | Orange-lit cloud | U09 vintage duotone | U26 stained glass | U27 encaustic transfer |
 
+### Photographs by the author
+
+All nine source photographs in this collection were taken by me, Bryan, the repository owner and author. I transformed my original photographs with the Still Scenes skill to create the U01–U27 artworks. These are transformations of owner-authored photography, not stock-photo or third-party image inputs.
+
+The following four works are featured examples from that collection:
+
+| U27 — Encaustic cloud transfer | U24 — Four-ink cloud screenprint |
+|---|---|
+| [![The author's orange-cloud photograph transformed into an encaustic photo transfer](demos/user-photo-styles/generated/demo-u27-cloud-encaustic.png)](demos/user-photo-styles/generated/demo-u27-cloud-encaustic.png) | [![The author's cloud-and-bird photograph transformed into a four-ink screenprint](demos/user-photo-styles/generated/demo-u24-cloud-screenprint.png)](demos/user-photo-styles/generated/demo-u24-cloud-screenprint.png) |
+| *EMBER WEATHER, GOING DARK.* — [exact production prompt](demos/USER_PHOTO_STYLE_DEMOS_EXPANSION.md#L398) | *BLUE ABOVE, WHITE BELOW.* — [exact production prompt](demos/USER_PHOTO_STYLE_DEMOS_EXPANSION.md#L331) |
+| U21 — Colored-pencil house | U15 — Evening monoprint |
+| [![The author's blue-house photograph transformed into a colored-pencil diary artwork](demos/user-photo-styles/generated/demo-u21-house-colored-pencil.png)](demos/user-photo-styles/generated/demo-u21-house-colored-pencil.png) | [![The author's banded-sunset photograph transformed into a reduction monoprint](demos/user-photo-styles/generated/demo-u15-evening-monoprint.png)](demos/user-photo-styles/generated/demo-u15-evening-monoprint.png) |
+| *SHELTER UNDER A GREEN HORIZON.* — [exact production prompt](demos/USER_PHOTO_STYLE_DEMOS_EXPANSION.md#L265) | *A THIN FIRE AT THE EDGE.* — [exact production prompt](demos/USER_PHOTO_STYLE_DEMOS_EXPANSION.md#L133) |
+
 The complete, source-mapped prompt galleries are:
 
 - [`demos/USER_PHOTO_STYLE_DEMOS.md`](demos/USER_PHOTO_STYLE_DEMOS.md) — U01–U09.
 - [`demos/USER_PHOTO_STYLE_DEMOS_EXPANSION.md`](demos/USER_PHOTO_STYLE_DEMOS_EXPANSION.md) — U10–U27.
 - [`demos/user-photo-styles/MANIFEST.csv`](demos/user-photo-styles/MANIFEST.csv) — source files, review references, output files, dimensions, styles, captions, and SHA-256 hashes.
 
-## Representative generated examples and exact prompts
+## Representative Still Scenes transformations and exact prompts
 
 The following images are included directly in this README. Each prompt is the exact prompt used for the displayed output.
+
+The historical phrase `Still Scenes Postcard Zine skill` is preserved inside these prompt records because changing logged prompt text would break their exact provenance. The public-facing project and skill name is **Still Scenes**.
 
 ### U11 — Geometric urban sunset
 
@@ -206,7 +222,7 @@ Avoid: church window motifs, kaleidoscope clutter, literal fire, disaster imager
 
 ## Source handling and privacy
 
-- Full-resolution source photographs remain unchanged in `demos/user-photo-styles/source-photos/`.
+- All nine full-resolution source photographs were taken by Bryan, the repository owner and author, and remain unchanged in `demos/user-photo-styles/source-photos/`.
 - Reduced review copies were used as image-generation references because the camera-sized JPEGs exceeded the image service input limit.
 - The manifest records source and output hashes for integrity checks.
 - One source JPEG reports recoverable decoder marker warnings but remains readable and passes ZIP integrity testing; it was not rewritten.
@@ -261,8 +277,8 @@ The design study refers to:
 - [Gathered Scenes Zine Skill](https://github.com/Zeejay0/gathered-scenes-zine-skill)
 - [GC Minimal Zine Poster](https://github.com/LiamGvchi/gc-minimal-zine-poster)
 
-Still Scenes is independently written. It does not copy upstream assets, branding, source wording, or exact compositions, and it is not affiliated with or endorsed by either upstream project. Links in the demo research notes are visual-research cues only; the rendered demo assets are generated originals or transformations of the user's supplied photographs.
+Still Scenes is independently written. It does not copy upstream assets, branding, source wording, or exact compositions, and it is not affiliated with or endorsed by either upstream project. Links in the demo research notes are visual-research cues only; the rendered demo assets are generated originals or transformations of photographs taken by the repository owner and author.
 
 ## License
 
-No project license has been selected. Until the repository owner adds one, do not assume permission to redistribute the code, generated assets, or personal source photographs.
+Still Scenes is provided under the [MIT License](LICENSE). The source-photograph authorship and transformation provenance are documented above and in the source-mapped manifests.
