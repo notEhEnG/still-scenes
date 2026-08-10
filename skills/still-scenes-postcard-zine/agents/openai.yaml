@@ -1,0 +1,4 @@
+interface:
+  display_name: "Still Scenes Postcard Zine"
+  short_description: "Create personal postcards and quiet scene zines"
+  default_prompt: "Use $still-scenes-postcard-zine to turn my photo or scene idea into a postcard or zine artwork with a custom caption."

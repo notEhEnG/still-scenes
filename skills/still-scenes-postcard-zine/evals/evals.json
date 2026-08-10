@@ -1,0 +1,123 @@
+{
+  "skill": "still-scenes-postcard-zine",
+  "version": 1,
+  "evals": [
+    {
+      "id": "split-photo-locked-copy",
+      "prompt": "Use $still-scenes-postcard-zine with my attached flower photo. Make a landscape split postcard. Use the exact location “Pontian, Johor, Malaysia”, date “Apr 23, 2026”, and caption “A small bloom, held for later.”",
+      "assertions": [
+        "Routes to Postcard Create with the split surface.",
+        "Treats the photo as an edit target with high preservation.",
+        "Records all supplied strings as locked copy.",
+        "Uses or specifies deterministic text composition when exact rendering matters.",
+        "Returns an artifact, final prompt, recipe, preservation record, and alt text."
+      ]
+    },
+    {
+      "id": "generated-scene-user-picture-choice",
+      "prompt": "Use $still-scenes-postcard-zine to generate the picture too. I want a quiet red bus stop after rain, seen from across the road at blue hour. Make a postcard front with the exact caption “The rain left first.”",
+      "assertions": [
+        "Builds one concrete imageable scene from the user’s picture choice.",
+        "Does not substitute an unrelated visual metaphor.",
+        "Locks the caption exactly.",
+        "Uses an image-led front recipe."
+      ]
+    },
+    {
+      "id": "caption-assist-pauses",
+      "prompt": "Use $still-scenes-postcard-zine with this seaside photo. Give me three quiet captions under eight words before you make anything.",
+      "assertions": [
+        "Returns three materially different caption options.",
+        "Does not generate the postcard before the user selects a caption.",
+        "Avoids slogans, hashtags, and unsupported emotional claims."
+      ]
+    },
+    {
+      "id": "portrait-high-preservation",
+      "prompt": "Turn this portrait into a postcard. Keep the person’s face, freckles, pose, and green jacket exactly recognizable. You may change only the background and paper treatment.",
+      "assertions": [
+        "Classifies the photo as an edit target with high preservation.",
+        "Records face, freckles, pose, and jacket as invariants.",
+        "Permits only the background and paper changes.",
+        "Retries or reports a limitation if identity drifts."
+      ]
+    },
+    {
+      "id": "ambiguous-image-selection",
+      "prompt": "Make one postcard from these three unrelated photos.",
+      "assertions": [
+        "Inspects all usable images.",
+        "Asks one concise question about which picture to use.",
+        "Does not silently select based on hidden metadata."
+      ]
+    },
+    {
+      "id": "duplex-long-message",
+      "prompt": "Make a duplex card from this mountain image. Keep the front nearly textless and put my full two-paragraph message on the back.",
+      "assertions": [
+        "Returns separate front and back artifacts.",
+        "Keeps dimensions and orientation aligned.",
+        "Places the long exact message on the back rather than in image generation.",
+        "Does not fabricate an address or official postage."
+      ]
+    },
+    {
+      "id": "distilled-zine",
+      "prompt": "Distill this night-window photo into a zine artwork. Do not keep the photo. Express the feeling of one lit room answering another.",
+      "assertions": [
+        "Routes to Scene Zine Create.",
+        "Uses the photo as low-preservation semantic input.",
+        "Creates a new visual relation and composition.",
+        "Does not copy source text, date, location, or exact layout."
+      ]
+    },
+    {
+      "id": "prompt-only-honesty",
+      "prompt": "Give me only the final image-generation prompt for a writable postcard back in warm ivory with an orange camera mark. Do not generate an image.",
+      "assertions": [
+        "Routes to Prompt-only.",
+        "Returns a resolved prompt and recipe.",
+        "Does not generate an artifact or imply that it did."
+      ]
+    },
+    {
+      "id": "reference-analysis-single-sample",
+      "prompt": "Analyze this one postcard reference and give me reusable rules without making a new image.",
+      "assertions": [
+        "Separates observed traits from interpretation.",
+        "Reports single-sample confidence limits.",
+        "Separates fixed candidates, variables, and sample residue.",
+        "Does not copy source wording or exact composition."
+      ]
+    },
+    {
+      "id": "batch-variation",
+      "prompt": "Create four cards from these four trip photos. Keep one paper and type family, but make every layout noticeably different.",
+      "assertions": [
+        "Maps each image to one card.",
+        "Plans at least three layout families.",
+        "Changes at least three meaningful axes between adjacent cards.",
+        "Returns a variation ledger."
+      ]
+    },
+    {
+      "id": "location-privacy",
+      "prompt": "Make a postcard from this photo. Do not add a location.",
+      "assertions": [
+        "Does not inspect or expose EXIF GPS for copy.",
+        "Leaves the location field blank.",
+        "Does not invent a place from visual clues."
+      ]
+    },
+    {
+      "id": "text-failure-recovery",
+      "prompt": "The exact caption must be “I’ll remember the yellow door.” Make sure every character is correct.",
+      "assertions": [
+        "Treats the sentence as locked copy.",
+        "Verifies apostrophe, spelling, casing, and punctuation.",
+        "Uses a deterministic text pass or returns a clean layer and placement specification if image-model text fails.",
+        "Does not claim exactness without inspection."
+      ]
+    }
+  ]
+}

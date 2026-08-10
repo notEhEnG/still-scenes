@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Still Scenes — Interactive Postcard & Zine Studio</title>
+  <meta name="description" content="Turn personal photographs, scene descriptions, and quiet memories into refined paper postcards and zine artwork with exact copy control.">
+  
+  <!-- Google Fonts for Editorial & Utility Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="studio-dark">
+
+  <!-- Main Navigation Header -->
+  <header class="studio-header">
+    <div class="header-brand">
+      <div class="brand-logo">
+        <span class="logo-mark">▪</span>
+        <span class="logo-text">STILL SCENES</span>
+      </div>
+      <span class="version-badge">v1.0 Studio</span>
+    </div>
+
+    <!-- Creation Route Selector -->
+    <nav class="route-nav" id="routeNav">
+      <button class="nav-btn active" data-route="split">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/></svg>
+        Split Postcard
+      </button>
+      <button class="nav-btn" data-route="front">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 5-5 4 4"/></svg>
+        Image Front
+      </button>
+      <button class="nav-btn" data-route="back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 6h18M3 12h12M3 18h18"/></svg>
+        Writable Back
+      </button>
+      <button class="nav-btn" data-route="duplex">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="14" height="14" rx="2"/><rect x="8" y="9" width="14" height="14" rx="2"/></svg>
+        Duplex Pair
+      </button>
+      <button class="nav-btn" data-route="zine">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Distilled Zine
+      </button>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <div class="demo-preset-selector">
+        <label for="demoSelect">Demos:</label>
+        <select id="demoSelect">
+          <option value="none">Custom Setup</option>
+          <option value="demo1" selected>Demo 01: Lantana Split</option>
+          <option value="demo2">Demo 02: Rainy Bus Stop</option>
+          <option value="demo3">Demo 03: Coastal Scene Zine</option>
+        </select>
+      </div>
+      <button class="btn btn-outline" id="btnInspectBrief">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Brief & Prompt
+      </button>
+      <button class="btn btn-primary" id="btnExportImage">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export Artwork (PNG)
+      </button>
+    </div>
+  </header>
+
+  <!-- Studio Workspace -->
+  <main class="studio-layout">
+
+    <!-- Left Control Sidebar -->
+    <aside class="studio-sidebar" id="studioSidebar">
+
+      <!-- Accordion Section 1: Surface & Aspect -->
+      <section class="control-group">
+        <h3 class="group-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          Canvas & Layout
+        </h3>
+        
+        <div class="field-row">
+          <label for="aspectRatio">Aspect Ratio:</label>
+          <select id="aspectRatio">
+            <option value="3:2" selected>3:2 Landscape (Classic)</option>
+            <option value="2:3">2:3 Portrait</option>
+            <option value="4:5">4:5 Social Frame</option>
+            <option value="3:5">3:5 Zine Vertical</option>
+            <option value="A6-land">A6 Print Landscape (148x105mm)</option>
+          </select>
+        </div>
+
+        <div class="field-row" id="splitWidthRow">
+          <div class="field-label-with-val">
+            <label for="splitRatio">Photo Field Share:</label>
+            <span id="splitRatioVal">46%</span>
+          </div>
+          <input type="range" id="splitRatio" min="35" max="60" value="46" step="1">
+        </div>
+
+        <div class="field-row">
+          <div class="field-label-with-val">
+            <label for="marginSize">Paper Safe Margin:</label>
+            <span id="marginSizeVal">4%</span>
+          </div>
+          <input type="range" id="marginSize" min="1" max="8" value="4" step="0.5">
+        </div>
+      </section>
+
+      <!-- Accordion Section 2: Photo & Preservation -->
+      <section class="control-group">
+        <h3 class="group-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Source Photo & Image Role
+        </h3>
+
+        <div class="drop-zone" id="dropZone">
+          <input type="file" id="imageInput" accept="image/*">
+          <div class="drop-zone-content">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span>Drop photograph or click to upload</span>
+            <small>Supports PNG, JPG, WebP</small>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label for="preservationLevel">Preservation Level:</label>
+          <select id="preservationLevel">
+            <option value="high" selected>High (Lock identity & geometry)</option>
+            <option value="medium">Medium (Permit crop/scale/tone)</option>
+            <option value="low">Low (Distilled scene relation)</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="photoTreatment">Photo Treatment:</label>
+          <select id="photoTreatment">
+            <option value="framed" selected>Clean Framed Photo</option>
+            <option value="film">Soft Film Print</option>
+            <option value="specimen">Small Specimen Crop</option>
+            <option value="halftone">Halftone Screen Window</option>
+            <option value="silhouette">Dry-Ink Silhouette (Zine)</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Accordion Section 3: Exact Copy & Wording -->
+      <section class="control-group">
+        <h3 class="group-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Locked Copy & Text
+        </h3>
+
+        <div class="field-row">
+          <label for="inputLocation">Location String:</label>
+          <input type="text" id="inputLocation" value="PONTIAN, JOHOR, MALAYSIA" placeholder="City, State, Country">
+        </div>
+
+        <div class="field-row">
+          <label for="inputDate">Date String:</label>
+          <input type="text" id="inputDate" value="APR 23, 2026" placeholder="e.g. APR 23, 2026">
+        </div>
+
+        <div class="field-row">
+          <label for="inputCaption">Exact Caption:</label>
+          <textarea id="inputCaption" rows="2" placeholder="Enter short locked caption...">A SMALL BLOOM, HELD FOR LATER.</textarea>
+        </div>
+
+        <div class="field-row" id="writingRulesRow">
+          <div class="field-label-with-val">
+            <label for="ruleCount">Writing Rules Count:</label>
+            <span id="ruleCountVal">7</span>
+          </div>
+          <input type="range" id="ruleCount" min="0" max="12" value="7" step="1">
+        </div>
+
+        <div class="field-row">
+          <label for="fontPairing">Typography Voice:</label>
+          <select id="fontPairing">
+            <option value="editorial" selected>Editorial Serif + Small Sans</option>
+            <option value="newsreader">Newsreader Serif + Monospace</option>
+            <option value="typewriter">Classic Typewriter + Utility Mono</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Accordion Section 4: Paper, Texture & Accent -->
+      <section class="control-group">
+        <h3 class="group-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 7 7c0 2-2 3-2 3s-1 2-1 4a4 4 0 0 1-4 4"/></svg>
+          Paper & Postal Accents
+        </h3>
+
+        <div class="field-row">
+          <label for="paperTone">Paper Surface Tone:</label>
+          <select id="paperTone">
+            <option value="ivory" selected>Warm Ivory (#F9F6EE)</option>
+            <option value="cream">Soft Cream (#F6F1E5)</option>
+            <option value="natural">Natural White (#FAF8F5)</option>
+            <option value="gray">Pale Gray (#EFECE6)</option>
+            <option value="kraft">Light Kraft (#E8DEC9)</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="accentHue">Accent Mark Color:</label>
+          <div class="color-picker-wrapper">
+            <input type="color" id="accentColorPicker" value="#E05A36">
+            <select id="accentPreset">
+              <option value="#E05A36" selected>Vermilion / Orange</option>
+              <option value="#2B5B84">Cobalt Blue</option>
+              <option value="#3D6A4E">Leaf Green</option>
+              <option value="#4A3E3D">Dark Charcoal</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <label for="postalMark">Postal Mark:</label>
+          <select id="postalMark">
+            <option value="camera" selected>Camera Outline Mark</option>
+            <option value="stamp">Decorative Stamp Frame</option>
+            <option value="dot">Date Dot & Rule</option>
+            <option value="none">None (Minimal)</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="printTexture">Print Texture Engine:</label>
+          <select id="printTexture">
+            <option value="subtle" selected>Subtle Scan Grain & Fiber</option>
+            <option value="film">35mm Film Grain</option>
+            <option value="risograph">Risograph Ink Softness</option>
+            <option value="clean">Clean Digital Vector</option>
+          </select>
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- Center Stage: Canvas Preview -->
+    <div class="studio-stage">
+      <div class="stage-toolbar">
+        <div class="view-mode-toggle">
+          <button class="view-btn active" id="btnViewComposite">Composite Render</button>
+          <button class="view-btn" id="btnViewBase">Text-Free Base</button>
+          <button class="view-btn" id="btnViewBack">Back Surface</button>
+        </div>
+        <div class="stage-zoom-controls">
+          <span class="dim-indicator" id="dimIndicator">1536 × 1024 px (3:2)</span>
+          <button class="zoom-btn" id="btnZoomFit">Fit</button>
+          <button class="zoom-btn" id="btnZoom100">100%</button>
+        </div>
+      </div>
+
+      <!-- Canvas Container -->
+      <div class="canvas-viewport" id="canvasViewport">
+        <div class="paper-frame-container" id="paperContainer">
+          <canvas id="studioCanvas" width="1536" height="1024"></canvas>
+        </div>
+      </div>
+
+      <!-- Quality Gate Status Footer Strip -->
+      <div class="quality-gate-strip" id="qualityGateStrip">
+        <div class="gate-pill gate-pass" id="gateCopy">
+          <span class="gate-icon">✓</span> Exact Copy Match
+        </div>
+        <div class="gate-pill gate-pass" id="gatePreservation">
+          <span class="gate-icon">✓</span> High Preservation
+        </div>
+        <div class="gate-pill gate-pass" id="gateHierarchy">
+          <span class="gate-icon">✓</span> Restrained Hierarchy
+        </div>
+        <div class="gate-pill gate-pass" id="gatePostal">
+          <span class="gate-icon">✓</span> Non-Deceptive Marks
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Brief & Prompt Modal -->
+  <div class="modal-overlay hidden" id="briefModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Creation Brief & Prompt Compiler</h2>
+        <button class="modal-close" id="btnCloseModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <div class="modal-tabs">
+          <button class="tab-btn active" data-tab="briefTab">Structured Brief (YAML)</button>
+          <button class="tab-btn" data-tab="promptTab">Compiled Prompt</button>
+          <button class="tab-btn" data-tab="altTab">Accessibility Alt Text</button>
+        </div>
+
+        <div class="tab-content active" id="briefTab">
+          <pre><code id="codeBrief"></code></pre>
+          <button class="btn btn-sm btn-outline copy-btn" data-target="codeBrief">Copy Brief YAML</button>
+        </div>
+
+        <div class="tab-content" id="promptTab">
+          <pre><code id="codePrompt"></code></pre>
+          <button class="btn btn-sm btn-outline copy-btn" data-target="codePrompt">Copy Final Prompt</button>
+        </div>
+
+        <div class="tab-content" id="altTab">
+          <pre><code id="codeAlt"></code></pre>
+          <button class="btn btn-sm btn-outline copy-btn" data-target="codeAlt">Copy Alt Text</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
