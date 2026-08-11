@@ -1,6 +1,6 @@
 # Still Scenes
 
-[Still Scenes Studio on GitHub Pages](https://noteheng.github.io/still-scenes/) — published by the Pages workflow after these changes reach `main`; the default composer remains local-first, dependency-free, and telemetry-free.
+[Try Still Scenes Studio live on GitHub Pages](https://noteheng.github.io/still-scenes/) — the default composer remains local-first, dependency-free, and telemetry-free.
 
 Still Scenes is a scene-preservation and visual-memory system built around one rule: the author's selected picture and exact words remain authoritative.
 
