@@ -1,14 +1,14 @@
-# Still Scenes Postcard Zine — Design Specification
+# Still Scenes — Design Specification
 
 ## 1. Product definition
 
-Still Scenes Postcard Zine is a Codex skill for turning a supplied photograph, a scene description, or a small reference set into a personal paper artifact. It supports classic postcards, split photo-and-message cards, writable backs, duplex front/back pairs, and quiet scene-zine pages.
+Still Scenes is a scene-preservation system with two coordinated surfaces: a deterministic local browser Studio and an AI-assisted Codex Skill. Together they turn a supplied photograph, scene description, or small reference set into a personal paper artifact. Supported surfaces include image fronts, split photo-and-message cards, writable backs, true duplex pairs, and scene-zine pages.
 
 The product promise is simple:
 
 > The user chooses the picture and the words. The skill turns both into a coherent, inspectable paper composition without silently changing either.
 
-This is a skill package, not a fixed visual template. It combines a scene-reading workflow with measurable prompt compilation, explicit image-preservation rules, exact-copy handling, deliberate variation, and output quality checks.
+This is a system, not a fixed visual template. Both products share a Scene Contract, exact-copy handling, deliberate variation, route-aware prompts, and truthful quality language. The Studio measures deterministic layout behavior; the Skill handles semantic generation, editing, and inspection when the runtime supports them.
 
 ## 2. Source study and originality boundary
 
@@ -19,7 +19,7 @@ The design was informed by two public projects:
 
 This package does not copy upstream assets, unavailable skill text, author branding, example compositions, captions, or source-specific identity. The Gathered Scenes repository currently publishes a personal non-commercial license and has withdrawn its skill documents; only the high-level ideas visible in its public overview are treated as research context. GC Minimal Zine Poster is MIT-licensed, but this package still uses independently written structure and language.
 
-The license for this new package remains a project-owner decision. Do not represent it as affiliated with, endorsed by, or derived from either upstream author.
+Still Scenes is MIT-licensed. Do not represent it as affiliated with or endorsed by either upstream author. No substantial copied upstream implementation or prose was identified, so a third-party notice is not required for the current code; retain this research provenance rather than hiding it.
 
 ## 3. Goals
 
@@ -88,19 +88,43 @@ Every run compiles a creation brief:
 route: postcard-create
 surface: split
 image_source: supplied
-image_role: edit-target
-preservation: high
-subject_or_scene: pink and yellow flowers against deep green leaves
-exact_caption: "A small bloom, held for later."
+reference_role: scene-anchor
+subject_or_scene: user-selected photograph
+exact_caption: "Moon."
 message: ""
-location: "Pontian, Johor, Malaysia"
-date: "Apr 23, 2026"
+location: ""
+date: ""
 language: en
 orientation: landscape
 output_target: both
+scene_contract:
+  anchor: user-selected photograph
+  scene_dna:
+    - declared visual relation
+  identity_locks: []
+  geometry_locks:
+    - defining source silhouette
+  spatial_locks:
+    - focal relation and horizon
+  palette_locks:
+    - recognizable source colors
+  count_locks: []
+  text_locks:
+    - "Moon."
+  allowed_mutations:
+    - paper framing
+    - deterministic typography
+  forbidden_mutations:
+    - invented location
+    - rewritten locked copy
+  transformation_path: preserve
+  reduction_level: none
+  source_role: scene-anchor
+  privacy_constraints:
+    - no metadata-derived location
 style_recipe:
   layout: field-note-split
-  paper: warm-ivory
+  paper: warm-archive
   typography: editorial-serif-plus-small-sans
   accent: warm-orange
   texture: subtle-scan-grain
@@ -108,7 +132,7 @@ privacy_notes:
   use_embedded_location: false
 ~~~
 
-Required fields are route, surface, image source, and subject or selected image. The remainder may use declared defaults.
+Required fields are route, surface, image source, subject or selected image, Scene Contract anchor, transformation path, and privacy boundary. The remainder may use declared defaults. High, medium, and low remain accepted only as compatibility aliases for contract lock profiles.
 
 ## 7. Request routes
 
@@ -174,8 +198,8 @@ Editorial paper artwork with one visual event. It may retain a source-photo crop
 ### Postcard range
 
 - Ratios: 3:2 landscape, 2:3 portrait, 4:3 digital, A6 print.
-- Paper: warm ivory, soft cream, natural white, pale gray, light kraft.
-- Image treatments: clean framed photo, soft film print, torn insert, full front with margin, small specimen crop.
+- Paper families: warm archive, clean natural, dusk gray, flax, sun-aged, charcoal presentation.
+- Image treatments: documentary frame, quiet film, specimen crop, halftone field, dry-ink silhouette, and Skill-only material interpretations when supported.
 - Accent: orange, vermilion, cobalt, leaf green, or a sampled flower/sky color.
 - Marks: camera outline, stamp frame, fine rule, date dot, tiny coordinates only when user supplied.
 
@@ -191,21 +215,20 @@ Editorial paper artwork with one visual event. It may retain a source-photo crop
 
 Avoid commercial advertising, CTA buttons, fake brands, glossy product mockups, cinematic depth, hard shadows, 3D rendering, neon, dense scrapbooks, multicolor template kits, arbitrary stickers, copied reference text, and exact source composition.
 
-## 10. Image roles and preservation
+## 10. Scene Contract and source roles
 
-Every supplied image receives one role:
+Every supplied image receives one source role:
 
-- Edit target: the photo or recognizable subject must appear.
-- Reference-only: learn visual grammar, never source identity.
-- Supporting insert: preserve a selected fragment in a new composition.
+- Scene anchor: the real photo or recognizable subject organizes the artifact.
+- Reference grammar: only reusable visual behavior may transfer.
+- Supporting fragment: one selected source fragment remains real inside a new composition.
+- Generated scene: the subject is newly made from user-authored instructions.
 
-Preservation levels:
+The Scene Contract records anchor, Scene DNA, identity, geometry, spatial, palette, count, and text locks; permitted and forbidden mutations; transformation path; reduction level; source role; and privacy constraints.
 
-- High: identity and defining geometry remain stable; prefer direct photo use.
-- Medium: core subject remains, but crop, scale, paper treatment, and palette may change.
-- Low: use only mood or system traits.
+The four transformation paths are preserve, reduce, hybrid, and distill. A distilled result contains no recognizable source raster. High, medium, and low remain compatibility aliases that map respectively to strong locks/preserve, Scene-DNA locks/reduce, and reference grammar/distill.
 
-For identifiable people, pets, artworks, products, or keepsakes, default to high preservation. A generation that changes a face, number of objects, distinctive markings, or product geometry fails the contract.
+For identifiable people, pets, artworks, products, or keepsakes, explicit identity, geometry, spatial, palette, and count locks are required unless the user permits reinterpretation. A changed face, object count, distinctive marking, or product component is a contract failure, but it is only **verified** when an available inspection process compares the result.
 
 ## 11. Caption and message system
 
@@ -233,15 +256,18 @@ Generate art and exact type in separate passes when possible. The image model sh
 
 Compile prompts in this order:
 
-1. Surface, ratio, orientation, and output purpose.
-2. Paper field, safe area, image zone, and quiet-space geometry.
-3. Image role, preservation level, visible invariants, and permitted changes.
-4. Scene or visual relation.
-5. Photo crop, illustration, or material form.
-6. Typography placement and locked-copy strategy.
-7. Accent color, rules, postal marks, and print texture.
-8. Lighting, scan behavior, contrast, and emotional tone.
-9. Relevant hard avoids.
+1. Output contract.
+2. Scene Contract.
+3. Scene DNA.
+4. Transformation path.
+5. Composition.
+6. Material language.
+7. Scene-dependent reduction map.
+8. Color function.
+9. Locked-copy strategy.
+10. Reproduction.
+11. Privacy and source boundary.
+12. Hard failures.
 
 The prompt must specify visible decisions rather than aesthetic adjectives alone.
 
@@ -250,7 +276,7 @@ The prompt must specify visible decisions rather than aesthetic adjectives alone
 ### Content
 
 - Correct photo or generated subject is used.
-- Every image role and preservation level is recorded.
+- Every source role, Scene Contract lock, transformation path, and capability is recorded.
 - Exact caption, location, date, and message match character-for-character.
 - No private metadata is exposed.
 - No reference-specific brand, signature, watermark, or exact layout is copied.
@@ -281,6 +307,8 @@ The prompt must specify visible decisions rather than aesthetic adjectives alone
 
 Retry at most once when tightening the prompt has a clear chance of fixing preservation, hierarchy, or style. If a hard requirement still fails, provide the best clean layer, the exact copy and placement recipe, and a concise limitation.
 
+Every gate reports **verified**, **declared**, **warning**, **failed**, or **not applicable**. A high lock is a declaration, not evidence that an AI edit preserved identity.
+
 ## 14. Performance strategy
 
 - Load only route-relevant references.
@@ -290,6 +318,7 @@ Retry at most once when tightening the prompt has a clear chance of fixing prese
 - Use deterministic text composition for exact copy instead of regenerating the full scene.
 - For batches, plan all recipes before generation to prevent accidental repetition.
 - Regenerate only for hard failures, not small subjective preferences.
+- In the Studio, schedule through `requestAnimationFrame`, cache stable seeded texture and the art layer, and redraw the locked-copy layer independently during ordinary typing.
 
 ## 15. Accessibility and privacy
 
@@ -297,7 +326,9 @@ Retry at most once when tightening the prompt has a clear chance of fixing prese
 - Maintain strong enough contrast for required copy; texture must not reduce legibility.
 - Do not infer sensitive traits from people in photos.
 - Do not read, store, or publish EXIF GPS unless the user explicitly asks and understands the consequence.
-- Treat personal photos as task-scoped references; do not browse, re-upload, or retain them beyond what the requested tool flow requires.
+- Treat personal photos as task-scoped references; the Studio keeps them in memory for the current session and has no transmission path.
+- Ship no analytics, trackers, remote fonts, remote images, remote APIs, or telemetry; enforce `connect-src 'none'` in the browser Content Security Policy.
+- Track preset-owned versus user-owned copy so a custom photo cannot inherit demo location, date, caption, description, or provenance.
 - Flag when handwritten or tiny decorative text may be unreadable.
 
 ## 16. Output contract
@@ -307,15 +338,17 @@ Every creation response returns:
 1. Generated artifact or absolute local path.
 2. Final prompt actually used.
 3. Recipe and surface.
-4. Picture source, image role, preservation level, and invariants.
+4. Picture source, reference role, Scene Contract, transformation path, and capabilities.
 5. Locked-copy record.
 6. One short interpretation.
 7. Any retry or limitation.
 8. Concise alt text.
 
-Prompt-only responses omit the artifact and make no generation claim. Reference analysis returns evidence, system rules, sample residue, a reusable prompt, and confidence limits.
+Prompt-only responses omit the artifact and make no generation claim. Reference analysis returns evidence, reference grammar, variables, reference residue, a reusable prompt, and confidence limits.
 
 ## 17. Evaluation scenarios
+
+The V2 suite contains 30 scenarios. It retains the original routing and source cases and adds hostile file signatures, oversized inputs, quotes/newlines, emoji, CJK, overflow, portrait and product locks, extreme crop conflict, filename privacy, copyrighted reference residue, source-free distillation, exact preservation, hybrid and reduction paths, and missing-capability fallbacks.
 
 - One supplied landscape photo, exact location/date/caption, split layout.
 - One portrait of an identifiable person, high preservation, front-only.
@@ -330,26 +363,7 @@ Prompt-only responses omit the artifact and make no generation claim. Reference 
 
 ## 18. Package map
 
-~~~text
-DESIGN.md
-demos/
-├── DEMO.md
-└── generated/
-    ├── demo-01-lantana-split-postcard.png
-    ├── demo-02-rainy-bus-stop-front.png
-    └── demo-03-coastal-scene-zine.png
-skills/still-scenes-postcard-zine/
-├── SKILL.md
-├── agents/
-│   └── openai.yaml
-├── evals/
-│   └── evals.json
-└── references/
-    ├── postcard-system.md
-    ├── prompt-library.md
-    ├── quality-gates.md
-    └── style-system.md
-~~~
+See `ARCHITECTURE.md` for the shipped Studio module graph, provenance flow, render invalidation model, and Skill boundary. The legacy `app.js` monolith remains as a non-loaded historical reference; `index.html` loads `src/main.js`.
 
 Additional implemented demo assets:
 
@@ -360,10 +374,10 @@ Additional implemented demo assets:
 
 ## 19. Future enhancements
 
-- Optional deterministic postcard renderer with print profiles and locked-copy verification.
+- Semantic, local vision assistance for Scene DNA suggestions without location inference.
 - Contact-sheet selection when many images are supplied.
-- Multilingual caption fitting and line-break previews.
-- CMYK-aware proof export and bleed overlays.
+- Script-aware font packaging with clear licensing for broader multilingual glyph coverage.
+- CMYK-aware proof export, printer profiles, PDF, and bleed overlays.
 - Caption tone presets based on user-provided examples rather than generic labels.
 - Sequence planning for travel diaries and seasonal card sets.
 - Editable SVG or layered export when the runtime supports it.

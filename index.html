@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Still Scenes — Interactive Postcard & Zine Studio</title>
   <meta name="description" content="Turn personal photographs, scene descriptions, and quiet memories into refined paper postcards and zine artwork with exact copy control.">
-  
-  <!-- Google Fonts for Editorial & Utility Typography -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -22,30 +18,30 @@
         <span class="logo-mark">▪</span>
         <span class="logo-text">STILL SCENES</span>
       </div>
-      <span class="version-badge">v1.0 Studio</span>
+      <span class="version-badge">v2.0 Studio</span>
     </div>
 
     <!-- Creation Route Selector -->
-    <nav class="route-nav" id="routeNav">
-      <button class="nav-btn active" data-route="split">
+    <nav class="route-nav" id="routeNav" aria-label="Artifact route">
+      <button type="button" class="nav-btn active" data-route="split" aria-pressed="true">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 3v18"/></svg>
         Split Postcard
       </button>
-      <button class="nav-btn" data-route="front">
+      <button type="button" class="nav-btn" data-route="front" aria-pressed="false">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 5-5 4 4"/></svg>
         Image Front
       </button>
-      <button class="nav-btn" data-route="back">
+      <button type="button" class="nav-btn" data-route="back" aria-pressed="false">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 6h18M3 12h12M3 18h18"/></svg>
         Writable Back
       </button>
-      <button class="nav-btn" data-route="duplex">
+      <button type="button" class="nav-btn" data-route="duplex" aria-pressed="false">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="14" height="14" rx="2"/><rect x="8" y="9" width="14" height="14" rx="2"/></svg>
         Duplex Pair
       </button>
-      <button class="nav-btn" data-route="zine">
+      <button type="button" class="nav-btn" data-route="zine" aria-pressed="false">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        Distilled Zine
+        Scene Zine
       </button>
     </nav>
 
@@ -54,20 +50,21 @@
       <div class="demo-preset-selector">
         <label for="demoSelect">Demos:</label>
         <select id="demoSelect">
-          <option value="none">Custom Setup</option>
-          <option value="demo1" selected>Demo 01: Lantana Split</option>
+          <option value="none" selected>Custom Setup</option>
+          <option value="demo1">Demo 01: Lantana Split</option>
           <option value="demo2">Demo 02: Rainy Bus Stop</option>
           <option value="demo3">Demo 03: Coastal Scene Zine</option>
         </select>
       </div>
-      <button class="btn btn-outline" id="btnInspectBrief">
+      <button type="button" class="btn btn-outline" id="btnInspectBrief">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         Brief & Prompt
       </button>
-      <button class="btn btn-primary" id="btnExportImage">
+      <button type="button" class="btn btn-primary" id="btnExportImage">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Export Artwork (PNG)
       </button>
+      <button type="button" class="btn btn-outline" id="btnExportBoth" hidden>Export Both Sides</button>
     </div>
   </header>
 
@@ -78,7 +75,7 @@
     <aside class="studio-sidebar" id="studioSidebar">
 
       <!-- Accordion Section 1: Surface & Aspect -->
-      <section class="control-group">
+      <section class="control-group" id="canvasControlGroup">
         <h3 class="group-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
           Canvas & Layout
@@ -113,28 +110,62 @@
       </section>
 
       <!-- Accordion Section 2: Photo & Preservation -->
-      <section class="control-group">
+      <section class="control-group" id="sourceControlGroup">
         <h3 class="group-title">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           Source Photo & Image Role
         </h3>
 
-        <div class="drop-zone" id="dropZone">
-          <input type="file" id="imageInput" accept="image/*">
+        <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-describedby="uploadHelp uploadStatus">
+          <input type="file" id="imageInput" accept="image/jpeg,image/png,image/webp,image/avif" aria-label="Choose a photograph" tabindex="-1">
           <div class="drop-zone-content">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             <span>Drop photograph or click to upload</span>
-            <small>Supports PNG, JPG, WebP</small>
+            <small id="uploadHelp">JPEG, PNG, WebP, supported AVIF · 25 MB and 40 MP maximum</small>
           </div>
+        </div>
+        <p class="field-status" id="uploadStatus" aria-live="polite">No photograph selected.</p>
+
+        <div class="field-row">
+          <label for="preservationLevel">Scene Contract Profile:</label>
+          <select id="preservationLevel">
+            <option value="high" selected>Identity + geometry locked (legacy high)</option>
+            <option value="medium">Scene DNA locked (legacy medium)</option>
+            <option value="low">Reference grammar only (legacy low)</option>
+          </select>
         </div>
 
         <div class="field-row">
-          <label for="preservationLevel">Preservation Level:</label>
-          <select id="preservationLevel">
-            <option value="high" selected>High (Lock identity & geometry)</option>
-            <option value="medium">Medium (Permit crop/scale/tone)</option>
-            <option value="low">Low (Distilled scene relation)</option>
+          <label for="transformationPath">Transformation Path:</label>
+          <select id="transformationPath">
+            <option value="preserve" selected>Preserve — use source photo</option>
+            <option value="reduce">Reduce — merge secondary detail</option>
+            <option value="hybrid">Hybrid — photo anchor + paper extension</option>
+            <option value="distill">Distill — source-free procedural preview</option>
           </select>
+        </div>
+
+        <div class="field-row">
+          <label for="subjectCategory">Scene Type for Reduction:</label>
+          <select id="subjectCategory">
+            <option value="general" selected>General scene</option>
+            <option value="foliage">Dense foliage</option>
+            <option value="clouds">Clouds / weather</option>
+            <option value="city">City / infrastructure</option>
+            <option value="person">Identifiable person</option>
+            <option value="product">Product / constructed object</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <label for="inputSceneAnchor">Scene Anchor:</label>
+          <input type="text" id="inputSceneAnchor" value="" placeholder="The one scene or relation everything serves">
+        </div>
+
+        <div class="field-row">
+          <label for="inputSceneDNA">Scene DNA (one lock per line):</label>
+          <textarea id="inputSceneDNA" rows="3" placeholder="horizon remains low&#10;one figure faces the shore"></textarea>
         </div>
 
         <div class="field-row">
@@ -158,17 +189,17 @@
 
         <div class="field-row">
           <label for="inputLocation">Location String:</label>
-          <input type="text" id="inputLocation" value="PONTIAN, JOHOR, MALAYSIA" placeholder="City, State, Country">
+          <input type="text" id="inputLocation" value="" placeholder="Only a location you explicitly choose">
         </div>
 
         <div class="field-row">
           <label for="inputDate">Date String:</label>
-          <input type="text" id="inputDate" value="APR 23, 2026" placeholder="e.g. APR 23, 2026">
+          <input type="text" id="inputDate" value="" placeholder="e.g. APR 23, 2026">
         </div>
 
         <div class="field-row">
           <label for="inputCaption">Exact Caption:</label>
-          <textarea id="inputCaption" rows="2" placeholder="Enter short locked caption...">A SMALL BLOOM, HELD FOR LATER.</textarea>
+          <textarea id="inputCaption" rows="3" placeholder="Enter exact locked wording; line breaks are preserved"></textarea>
         </div>
 
         <div class="field-row" id="writingRulesRow">
@@ -197,27 +228,40 @@
         </h3>
 
         <div class="field-row">
-          <label for="paperTone">Paper Surface Tone:</label>
+          <label for="paperTone">Paper Family:</label>
           <select id="paperTone">
-            <option value="ivory" selected>Warm Ivory (#F9F6EE)</option>
-            <option value="cream">Soft Cream (#F6F1E5)</option>
-            <option value="natural">Natural White (#FAF8F5)</option>
-            <option value="gray">Pale Gray (#EFECE6)</option>
-            <option value="kraft">Light Kraft (#E8DEC9)</option>
+            <option value="warm-archive" selected>Warm Archive</option>
+            <option value="clean-natural">Clean Natural</option>
+            <option value="dusk-gray">Dusk Gray</option>
+            <option value="flax">Flax</option>
+            <option value="sun-aged">Sun-aged</option>
+            <option value="charcoal">Charcoal Presentation</option>
           </select>
         </div>
 
         <div class="field-row">
-          <label for="accentHue">Accent Mark Color:</label>
+          <label for="accentColorPicker">Accent Mark Color:</label>
           <div class="color-picker-wrapper">
             <input type="color" id="accentColorPicker" value="#E05A36">
             <select id="accentPreset">
-              <option value="#E05A36" selected>Vermilion / Orange</option>
-              <option value="#2B5B84">Cobalt Blue</option>
-              <option value="#3D6A4E">Leaf Green</option>
-              <option value="#4A3E3D">Dark Charcoal</option>
+              <option value="#e05a36" selected>Vermilion / Orange</option>
+              <option value="#2b5b84">Cobalt Blue</option>
+              <option value="#3d6a4e">Leaf Green</option>
+              <option value="#4a3e3d">Dark Charcoal</option>
+              <option value="custom" disabled>Custom color</option>
             </select>
           </div>
+        </div>
+
+        <div class="field-row">
+          <label for="accentReason">Accent Function:</label>
+          <select id="accentReason">
+            <option value="source resonance" selected>Source resonance</option>
+            <option value="temperature counterpoint">Temperature counterpoint</option>
+            <option value="spatial counterweight">Spatial counterweight</option>
+            <option value="directional cue">Directional cue</option>
+            <option value="subject emphasis">Subject emphasis</option>
+          </select>
         </div>
 
         <div class="field-row">
@@ -239,6 +283,8 @@
             <option value="clean">Clean Digital Vector</option>
           </select>
         </div>
+        <button type="button" class="btn btn-sm btn-outline" id="btnRegenerateTexture">Regenerate Texture</button>
+        <p class="privacy-note">Uploaded images remain in this browser session. The Studio does not transmit them over the network.</p>
       </section>
 
     </aside>
@@ -246,78 +292,75 @@
     <!-- Center Stage: Canvas Preview -->
     <div class="studio-stage">
       <div class="stage-toolbar">
-        <div class="view-mode-toggle">
-          <button class="view-btn active" id="btnViewComposite">Composite Render</button>
-          <button class="view-btn" id="btnViewBase">Text-Free Base</button>
-          <button class="view-btn" id="btnViewBack">Back Surface</button>
+        <div class="view-mode-toggle" role="group" aria-label="Preview surface">
+          <button type="button" class="view-btn active" id="btnViewComposite" data-view="composite" aria-pressed="true">Composite</button>
+          <button type="button" class="view-btn" id="btnViewBase" data-view="base" aria-pressed="false">Text-Free Base</button>
+          <button type="button" class="view-btn" id="btnViewFront" data-view="front" aria-pressed="false" hidden>Front Surface</button>
+          <button type="button" class="view-btn" id="btnViewBack" data-view="back" aria-pressed="false" hidden>Back Surface</button>
         </div>
         <div class="stage-zoom-controls">
           <span class="dim-indicator" id="dimIndicator">1536 × 1024 px (3:2)</span>
-          <button class="zoom-btn" id="btnZoomFit">Fit</button>
-          <button class="zoom-btn" id="btnZoom100">100%</button>
+          <button type="button" class="zoom-btn" id="btnZoomFit" aria-pressed="true">Fit</button>
+          <button type="button" class="zoom-btn" id="btnZoom100" aria-pressed="false">100%</button>
         </div>
       </div>
 
       <!-- Canvas Container -->
       <div class="canvas-viewport" id="canvasViewport">
-        <div class="paper-frame-container" id="paperContainer">
-          <canvas id="studioCanvas" width="1536" height="1024"></canvas>
+        <div class="paper-frame-container zoom-fit" id="paperContainer">
+          <canvas id="studioCanvas" width="1536" height="1024" role="img" aria-label="Still Scenes artwork preview">Your browser does not support the canvas preview.</canvas>
         </div>
       </div>
+      <p class="sr-only" id="canvasDescription">Still Scenes artwork preview.</p>
 
       <!-- Quality Gate Status Footer Strip -->
-      <div class="quality-gate-strip" id="qualityGateStrip">
-        <div class="gate-pill gate-pass" id="gateCopy">
-          <span class="gate-icon">✓</span> Exact Copy Match
-        </div>
-        <div class="gate-pill gate-pass" id="gatePreservation">
-          <span class="gate-icon">✓</span> High Preservation
-        </div>
-        <div class="gate-pill gate-pass" id="gateHierarchy">
-          <span class="gate-icon">✓</span> Restrained Hierarchy
-        </div>
-        <div class="gate-pill gate-pass" id="gatePostal">
-          <span class="gate-icon">✓</span> Non-Deceptive Marks
-        </div>
+      <div class="quality-gate-strip" id="qualityGateStrip" aria-label="Measured quality checks">
+        <div class="gate-pill gate-warning" id="gateSource">SOURCE · WARNING</div>
+        <div class="gate-pill gate-warning" id="gateContract">SCENE CONTRACT · WARNING</div>
+        <div class="gate-pill gate-not-applicable" id="gateCopy">LOCKED COPY · N/A</div>
+        <div class="gate-pill gate-verified" id="gateRoute">ROUTE · VERIFIED</div>
+        <div class="gate-pill gate-not-applicable" id="gatePrivacy">PRIVACY · N/A</div>
+        <div class="gate-pill gate-verified" id="gateExport">EXPORT · VERIFIED</div>
       </div>
     </div>
 
   </main>
 
   <!-- Brief & Prompt Modal -->
-  <div class="modal-overlay hidden" id="briefModal">
-    <div class="modal-card">
+  <div class="modal-overlay" id="briefModal" role="dialog" aria-modal="true" aria-labelledby="briefModalTitle" hidden>
+    <div class="modal-card" tabindex="-1">
       <div class="modal-header">
-        <h2>Creation Brief & Prompt Compiler</h2>
-        <button class="modal-close" id="btnCloseModal">&times;</button>
+        <h2 id="briefModalTitle">Creation Brief & Prompt Compiler</h2>
+        <button type="button" class="modal-close" id="btnCloseModal" aria-label="Close inspector">&times;</button>
       </div>
       <div class="modal-body">
         
-        <div class="modal-tabs">
-          <button class="tab-btn active" data-tab="briefTab">Structured Brief (YAML)</button>
-          <button class="tab-btn" data-tab="promptTab">Compiled Prompt</button>
-          <button class="tab-btn" data-tab="altTab">Accessibility Alt Text</button>
+        <div class="modal-tabs" role="tablist" aria-label="Inspector content">
+          <button type="button" class="tab-btn active" id="tabBrief" role="tab" aria-selected="true" aria-controls="briefTab">Structured Brief (JSON)</button>
+          <button type="button" class="tab-btn" id="tabPrompt" role="tab" aria-selected="false" aria-controls="promptTab" tabindex="-1">Compiled Prompt</button>
+          <button type="button" class="tab-btn" id="tabAlt" role="tab" aria-selected="false" aria-controls="altTab" tabindex="-1">Accessibility Alt Text</button>
         </div>
 
-        <div class="tab-content active" id="briefTab">
+        <div class="tab-content active" id="briefTab" role="tabpanel" aria-labelledby="tabBrief">
           <pre><code id="codeBrief"></code></pre>
-          <button class="btn btn-sm btn-outline copy-btn" data-target="codeBrief">Copy Brief YAML</button>
+          <button type="button" class="btn btn-sm btn-outline copy-btn" data-target="codeBrief">Copy Brief JSON</button>
         </div>
 
-        <div class="tab-content" id="promptTab">
+        <div class="tab-content" id="promptTab" role="tabpanel" aria-labelledby="tabPrompt" hidden>
           <pre><code id="codePrompt"></code></pre>
-          <button class="btn btn-sm btn-outline copy-btn" data-target="codePrompt">Copy Final Prompt</button>
+          <button type="button" class="btn btn-sm btn-outline copy-btn" data-target="codePrompt">Copy Final Prompt</button>
         </div>
 
-        <div class="tab-content" id="altTab">
+        <div class="tab-content" id="altTab" role="tabpanel" aria-labelledby="tabAlt" hidden>
           <pre><code id="codeAlt"></code></pre>
-          <button class="btn btn-sm btn-outline copy-btn" data-target="codeAlt">Copy Alt Text</button>
+          <button type="button" class="btn btn-sm btn-outline copy-btn" data-target="codeAlt">Copy Alt Text</button>
         </div>
 
       </div>
     </div>
   </div>
+  <div class="sr-only" id="studioStatus" aria-live="polite"></div>
 
-  <script src="app.js"></script>
+  <script type="module" src="src/main.js"></script>
 </body>
 </html>

@@ -30,10 +30,10 @@
   --paper-kraft: #e8dec9;
 
   /* Typography Stack */
-  --font-serif: 'Cormorant Garamond', 'Georgia', serif;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Space Mono', monospace;
-  --font-newsreader: 'Newsreader', serif;
+  --font-serif: Charter, 'Bitstream Charter', 'Iowan Old Style', Georgia, serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, 'Liberation Mono', monospace;
+  --font-newsreader: Charter, Georgia, serif;
 
   /* Layout Constants */
   --header-height: 60px;
@@ -50,6 +50,31 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #ff9a78;
+  outline-offset: 3px;
 }
 
 body.studio-dark {
@@ -334,6 +359,22 @@ body.studio-dark {
   background-color: rgba(224, 90, 54, 0.05);
 }
 
+.drop-zone.is-dragging {
+  border-color: var(--accent-orange);
+  background-color: rgba(224, 90, 54, 0.09);
+}
+
+.field-status,
+.privacy-note {
+  color: var(--text-dim);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.field-status.is-error {
+  color: #ff9a78;
+}
+
 .drop-zone input[type="file"] {
   position: absolute;
   top: 0;
@@ -478,6 +519,18 @@ canvas#studioCanvas {
   object-fit: contain;
 }
 
+.paper-frame-container.zoom-100 canvas#studioCanvas {
+  max-width: none;
+  max-height: none;
+  width: auto;
+  height: auto;
+}
+
+.zoom-btn[aria-pressed="true"] {
+  color: var(--text-main);
+  border-color: var(--accent-orange);
+}
+
 /* ==========================================================================
    QUALITY GATE FOOTER STRIP
    ========================================================================== */
@@ -514,6 +567,36 @@ canvas#studioCanvas {
   background: rgba(224, 90, 54, 0.15);
   color: var(--accent-orange);
   border: 1px solid rgba(224, 90, 54, 0.3);
+}
+
+.gate-verified {
+  background: rgba(59, 154, 140, 0.15);
+  color: #62c8b8;
+  border: 1px solid rgba(59, 154, 140, 0.42);
+}
+
+.gate-declared {
+  background: rgba(61, 130, 196, 0.16);
+  color: #7fb7ea;
+  border: 1px solid rgba(61, 130, 196, 0.42);
+}
+
+.gate-warning {
+  background: rgba(224, 154, 54, 0.15);
+  color: #f0b56a;
+  border: 1px solid rgba(224, 154, 54, 0.42);
+}
+
+.gate-failed {
+  background: rgba(220, 70, 70, 0.16);
+  color: #ff8b86;
+  border: 1px solid rgba(220, 70, 70, 0.44);
+}
+
+.gate-not-applicable {
+  background: rgba(155, 161, 176, 0.1);
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
 }
 
 .gate-icon {
@@ -623,6 +706,10 @@ canvas#studioCanvas {
   display: flex;
 }
 
+.tab-content[role="tabpanel"]:not([hidden]) {
+  display: flex;
+}
+
 pre {
   background: var(--bg-dark);
   border: 1px solid var(--border-subtle);
@@ -639,4 +726,89 @@ pre {
 
 .copy-btn {
   align-self: flex-end;
+}
+
+@media (max-width: 1220px) {
+  :root {
+    --sidebar-width: 320px;
+    --header-height: auto;
+  }
+
+  body.studio-dark {
+    min-height: 100vh;
+    height: auto;
+    overflow: auto;
+  }
+
+  .studio-header {
+    min-height: 60px;
+    flex-wrap: wrap;
+    padding-block: 10px;
+  }
+
+  .route-nav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .nav-btn {
+    flex: 0 0 auto;
+  }
+
+  .studio-layout {
+    min-height: calc(100vh - 118px);
+    height: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .header-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .studio-layout {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .studio-sidebar {
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .studio-stage {
+    min-height: 72vh;
+  }
+
+  .stage-toolbar {
+    height: auto;
+    min-height: 48px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-block: 8px;
+  }
+
+  .canvas-viewport {
+    min-height: 52vh;
+    padding: 12px;
+  }
+
+  .quality-gate-strip {
+    height: auto;
+    min-height: 44px;
+    padding-block: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

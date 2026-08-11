@@ -1,11 +1,13 @@
 ---
 name: still-scenes-postcard-zine
-description: Create, analyze, or prompt personal postcards and quiet scene-zine artwork from user photos, scene ideas, captions, locations, dates, moods, or reference images. Use when the user wants a postcard front, writable postcard back, split photo-and-message card, duplex card, memory card, travel card, minimal editorial zine poster, exact caption placement, photo-preserving transformation, scene distillation, batch variations, reference-style analysis, or production-ready image-generation prompts.
+description: Create, analyze, or prompt personal postcards and scene-preservation artwork from user photos, scene ideas, exact captions, locations, dates, or visual references. Use for postcard fronts, writable backs, split cards, duplex pairs, scene zines, deterministic locked copy, Scene Contracts, preserve/reduce/hybrid/distill transformations, source-safe reference analysis, batches, or production-ready image-generation prompts.
 ---
 
-# Still Scenes Postcard Zine
+# Still Scenes
 
 Turn a personally meaningful scene into a deliberate paper object. Let the user choose the image subject, source-photo treatment, exact caption, card surface, and mood while keeping the workflow fast when safe defaults are sufficient.
+
+Keep the legacy `$still-scenes-postcard-zine` invocation working. Treat “Still Scenes Postcard Zine” as a compatibility package name; use “Still Scenes” for the product and visual system.
 
 ## Route the request
 
@@ -18,28 +20,29 @@ Choose the smallest route that satisfies the request:
 - **Analyze + Create:** analyze references first, then create a composition that follows the system without copying a source layout or text.
 - **Batch Set:** create two or more related cards or zine pages with a shared identity and meaningful variation.
 
-If the user says only “make this a postcard” with one attached photo, use a split postcard, treat the photo as an edit target with high preservation, keep supplied text exact, and infer a restrained caption only when none is supplied. Do not ask about choices that can be reversed or safely inferred.
+If the user says only “make this a postcard” with one attached photo, use a split postcard, treat the photo as the scene anchor, apply strong identity/geometry/spatial locks through the preserve path, keep supplied text exact, and infer a restrained caption only when none is supplied. Do not ask about choices that can be reversed or safely inferred.
 
 ## Load only the relevant references
 
 - Read references/style-system.md for every route.
+- Read references/scene-contract.md for every route.
+- Read references/capability-matrix.md before promising generation, editing, exact text, inspection, or export.
 - Read references/postcard-system.md for Postcard Create and any print-ready request.
 - Read references/prompt-library.md for Create, Prompt-only, and Batch Set routes.
 - Read references/quality-gates.md before returning any prompt, analysis, or generated artifact.
 - Read the repository-level DESIGN.md only when changing or extending this skill itself.
 
-Packaged visual examples live in `assets/demos/` for generated-scene routes and `assets/user-photo-demos/` for source-preserving photo routes. Treat them as layout and treatment examples only; never substitute a demo image for a user's supplied edit target or reuse its locked caption by default.
+Packaged visual examples live in `assets/demos/` for generated-scene routes and `assets/user-photo-demos/` for source-preserving photo routes. Treat them as reference grammar only; never substitute a demo image for a user's scene anchor or reuse its reference residue or locked caption by default.
 
 ## Build the creation brief
 
 Record these fields before generation. Infer unprovided optional fields and disclose the chosen values in the final recipe.
 
-~~~text
+~~~yaml
 route:
 surface: front | back | split | duplex | zine
 image_source: supplied | generated | hybrid
-image_role: edit-target | reference-only | supporting-insert | none
-preservation: high | medium | low
+reference_role: scene-anchor | reference-grammar | supporting-fragment | generated-scene | none
 subject_or_scene:
 exact_caption:
 message:
@@ -48,6 +51,21 @@ date:
 language:
 orientation: landscape | portrait
 output_target: digital | print | both
+scene_contract:
+  anchor:
+  scene_dna: []
+  identity_locks: []
+  geometry_locks: []
+  spatial_locks: []
+  palette_locks: []
+  count_locks: []
+  text_locks: []
+  allowed_mutations: []
+  forbidden_mutations: []
+  transformation_path: preserve | reduce | hybrid | distill
+  reduction_level: none | restrained | simplified | distilled
+  source_role:
+  privacy_constraints: []
 style_recipe:
 privacy_notes:
 ~~~
@@ -58,21 +76,28 @@ Ask one concise question only when a required choice remains materially ambiguou
 
 Inspect every supplied image before describing or using it. Record visible subject, orientation, important identity traits, readable text or branding, and dimensions when available.
 
-Assign each image one role:
+Assign each image one reference role:
 
-- **Edit target:** the recognizable photo or subject must appear in the result.
-- **Reference-only:** learn color, texture, typography, or composition; do not carry over the exact subject, identity, text, brand, date, location, watermark, signature, or layout.
-- **Supporting insert:** preserve one specified person, object, flower, texture, or fragment inside a new composition.
+- **Scene anchor:** the recognizable photo or subject must organize the result.
+- **Reference grammar:** learn layout rhythm, paper character, typography role, reproduction process, or color relationship; do not transfer source-specific residue.
+- **Supporting fragment:** preserve one specified person, object, flower, texture, or fragment inside a new composition.
+- **Generated scene:** create a new scene from user-authored instructions.
 
-Set preservation deliberately:
+Build the Scene Contract before style selection. Use `references/scene-contract.md`. Treat old preservation levels only as compatibility aliases:
 
-- **High:** keep identity, face, body proportions, pose when relevant, defining markings, object geometry, object count, silhouette, and recognizable colors. Prefer an original-photo crop or printed fragment over redrawing.
-- **Medium:** keep the subject and defining traits while permitting crop, scale, palette treatment, surface, and surrounding layout changes.
-- **Low:** preserve only visual grammar or mood; create a new subject and composition.
+- **High:** strong identity, geometry, count, and spatial locks; default to preserve.
+- **Medium:** strong Scene DNA with flexible crop, material, and secondary detail; default to reduce.
+- **Low:** reference grammar or a declared relation only; default to distill.
 
-Use high preservation for identifiable people, pets, products, artworks, and personal keepsakes unless the user explicitly permits reinterpretation. Never infer or print private location metadata from a file. Use only a location or date the user supplies or explicitly approves.
+For people, pets, products, artworks, and keepsakes, record explicit identity, geometry, spatial, palette, and count locks unless the user permits reinterpretation. Never infer or print private location metadata from a file. Use only a location or date the user supplies or explicitly approves.
 
 When generating or editing an image, include the actual target image through the runtime’s supported reference mechanism. If not every required target can be included, ask the user to reattach the missing image rather than relying on a textual reconstruction.
+
+## Check capabilities before promising output
+
+Declare whether the runtime supports image generation, image editing with the actual source, deterministic text composition, file export, image inspection, and metadata inspection. Never infer one capability from another.
+
+If deterministic typography is unavailable, generate text-free art, return exact placement specifications, and disclose the limitation. If the source image cannot be attached to an edit call, ask for reattachment rather than reconstructing it from prose. If the result cannot be inspected, mark preservation and quality as declared or unverified, never passed.
 
 ## Choose the surface and picture
 
@@ -101,13 +126,13 @@ Keep generated in-image text short. Move long messages to a writable back or det
 
 ## Create the artifact
 
-1. **Read the scene.** Identify the subject, spatial relation, visual weight, quiet area, emotional temperature, and the one detail that makes the memory specific.
-2. **Choose the transformation.** Preserve the source photo, use a fragment, or distill the scene into a new visual metaphor.
-3. **Select a recipe.** Choose surface, ratio, picture treatment, paper tone, typography, accent, texture, and optional postal marks from the relevant references.
-4. **Compile the prompt.** Make every instruction visible and measurable. Name the picture, its position and scale, preservation invariants, locked text, palette, material treatment, and hard avoids.
+1. **Read the scene.** Identify the anchor, Scene DNA, spatial relation, visual weight, quiet field, emotional temperature, and specific evidence.
+2. **Write the Scene Contract.** Record locks, permitted changes, forbidden mutations, source role, privacy constraints, and one transformation path.
+3. **Select a recipe.** Choose surface, ratio, picture treatment, paper family, typography, purposeful accent, texture, and optional postal marks from the relevant references.
+4. **Compile Prompt V2.** Order it as output contract → Scene Contract → Scene DNA → transformation path → composition → material language → reduction map → color function → locked-copy strategy → reproduction → privacy/source boundary → hard failures.
 5. **Generate.** Use the built-in image-generation capability for new raster art. For photo-based work, include the actual user image.
 6. **Compose exact copy.** Use a deterministic text/layout pass when exact caption rendering matters.
-7. **Inspect.** Apply references/quality-gates.md. Compare photo-based results with declared invariants and verify every locked string character-for-character.
+7. **Inspect.** Apply references/quality-gates.md. Compare photo-based results with declared locks and verify every locked string character-for-character only when inspection is available.
 8. **Retry once if useful.** Tighten preservation, simplify text, or reduce decorative elements. If a second attempt still fails a hard requirement, return the best honest partial result and explain the limitation.
 
 ## Vary a batch deliberately
@@ -120,9 +145,9 @@ For a sequence, optionally create a narrative order: establishing scene → obse
 
 Separate evidence from interpretation. Report observed canvas, picture scale, whitespace, typography, palette, paper, reproduction defects, marks, and hierarchy. Synthesize:
 
-- **fixed system:** repeated traits required for family resemblance;
+- **reference grammar:** repeated or confidently observed visual behavior that may guide a new work;
 - **variable system:** safe axes of variation;
-- **sample residue:** source-specific wording, branding, people, dates, locations, objects, or exact layouts that must not be reused.
+- **reference residue:** source-specific wording, branding, people, dates, locations, objects, or exact layouts that must not be reused.
 
 With one reference, describe only observed traits and limitations. Do not claim collection-wide rules from a single sample.
 
@@ -139,8 +164,8 @@ For a generated artifact, return:
 
 **Recipe**
 - Route / surface / orientation:
-- Picture choice and image role:
-- Preservation and invariants:
+- Picture choice and reference role:
+- Scene Contract and transformation path:
 - Locked copy:
 - Layout / typography / palette / texture:
 - Output target:
@@ -149,7 +174,7 @@ For a generated artifact, return:
 [one short interpretation plus any limitation or retry]
 ~~~
 
-For Prompt-only, omit the artifact and never imply generation occurred. For Reference Analysis, return evidence, fixed rules, variable rules, sample residue, reusable prompt, avoid list, and confidence limits.
+For Prompt-only, omit the artifact and never imply generation occurred. For Reference Analysis, return evidence, reference grammar, variables, reference residue, a reusable prompt, avoid list, and confidence limits.
 
 ## Non-negotiable outcome
 

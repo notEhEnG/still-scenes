@@ -60,12 +60,12 @@ For a photo-preserving result, keep the minimum visual evidence that allows the 
 
 ### Paper
 
-- warm ivory;
-- soft cream;
-- natural white;
-- pale gray;
-- light kraft;
-- faint sun-aged yellow.
+- **Warm archive:** creamy, softly aged, personal-document warmth.
+- **Clean natural:** neutral uncoated stock for high-fidelity scenes.
+- **Dusk gray:** cool quiet support for nocturnes and weather.
+- **Flax:** fibrous tan paper for textile, field-note, and landscape work.
+- **Sun-aged:** restrained yellow warmth without fake severe damage.
+- **Charcoal presentation:** dark matte field for luminous or archival material.
 
 Use visible fiber, grain, dust, or scan softness sparingly. The surface should support the scene, not simulate severe damage.
 
@@ -108,9 +108,13 @@ Do not apply distortion to required text or defining identity details.
 
 Use the actual photograph as the anchor. Crop, frame, print, or softly treat it while keeping declared invariants. This path is preferred for personal memories, identifiable people, pets, products, and exact places.
 
+### Reduce the scene
+
+Keep the source photograph recognizable. Merge secondary detail using the scene-dependent maps in `scene-contract.md` and `prompt-library.md`. Preserve Scene DNA, identity locks, geometry locks, and spatial locks before texture.
+
 ### Distill the scene
 
-Do not retain the original photo as a visible object. Extract one relation—two flowers leaning together, a road disappearing, a window holding evening light—and create a new illustration or paper relation. Use only when the user requests reinterpretation or low preservation.
+Do not retain recognizable source-photo raster. Extract one relation—two flowers leaning together, a road disappearing, a window holding evening light—and create a new illustration or paper relation. Use only when the user requests reinterpretation or a source-free result.
 
 ### Hybrid
 

@@ -34,4 +34,4 @@ These 27 PNGs demonstrate three distinct, source-preserving routes for each of n
 
 The full-resolution personal source photographs are intentionally kept outside the portable skill package in `demos/user-photo-styles/source-photos/`. Exact source mappings, captions, dimensions, hashes, visual-preservation notes, and generation prompts are documented in `demos/USER_PHOTO_STYLE_DEMOS.md`, `demos/USER_PHOTO_STYLE_DEMOS_EXPANSION.md`, and `demos/user-photo-styles/MANIFEST.csv` at the repository root.
 
-Use these assets as route examples, not as edit targets. A new personal-photo request must include the user's actual image through the runtime reference mechanism, and the user's selected caption remains authoritative.
+Use these assets as reference grammar, never as a scene anchor. A new personal-photo request must include the user's actual image through the runtime reference mechanism, and the user's selected scene and exact caption remain authoritative.

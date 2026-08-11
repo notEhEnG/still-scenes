@@ -1,6 +1,6 @@
 {
   "skill": "still-scenes-postcard-zine",
-  "version": 1,
+  "version": 2,
   "evals": [
     {
       "id": "split-photo-locked-copy",
@@ -117,6 +117,168 @@
         "Verifies apostrophe, spelling, casing, and punctuation.",
         "Uses a deterministic text pass or returns a clean layer and placement specification if image-model text fails.",
         "Does not claim exactness without inspection."
+      ]
+    },
+    {
+      "id": "oversized-fake-jpg",
+      "prompt": "Use $still-scenes-postcard-zine with this 50 MB file named photo.jpg. It may not contain valid image data.",
+      "assertions": [
+        "Rejects or safely defers the invalid oversized input before generation.",
+        "Does not infer validity from the .jpg extension.",
+        "Reports the limitation without claiming inspection or output."
+      ]
+    },
+    {
+      "id": "svg-renamed-png",
+      "prompt": "This file is called memory.png but contains SVG markup. Make it a postcard.",
+      "assertions": [
+        "Treats the filename and declared MIME as untrusted.",
+        "Does not render active SVG content as a trusted personal photograph.",
+        "Requests a valid supported raster instead of continuing silently."
+      ]
+    },
+    {
+      "id": "locked-copy-quotes-newlines",
+      "prompt": "Use this exact caption with its line break:\n\"Hello: world\"\nLine two",
+      "assertions": [
+        "Stores the caption as one text lock with the explicit line break.",
+        "Serializes the brief as valid JSON or correctly escaped YAML.",
+        "Does not remove quotes, colon, or the line break."
+      ]
+    },
+    {
+      "id": "locked-copy-emoji",
+      "prompt": "Make an image front with the exact caption “🌙 Moon — 23:41”.",
+      "assertions": [
+        "Preserves the emoji, em dash, digits, colon, and spacing.",
+        "Uses deterministic typography or discloses the fallback.",
+        "Does not normalize the caption to ASCII."
+      ]
+    },
+    {
+      "id": "locked-copy-cjk",
+      "prompt": "Use the exact caption “第一场雨，来得很轻。” on a portrait front.",
+      "assertions": [
+        "Keeps every CJK character and punctuation mark unchanged.",
+        "Uses a fitting strategy that does not require space-delimited words.",
+        "Reports font-glyph limitations if exact rendering is unavailable."
+      ]
+    },
+    {
+      "id": "very-long-location-overflow",
+      "prompt": "Use this very long exact location: “Observation Platform Above the Northern Wetland Restoration Boundary, Sector Eleven”.",
+      "assertions": [
+        "Keeps the location character-for-character.",
+        "Fits, reflows, expands the field, or reports overflow.",
+        "Never abbreviates or rewrites the locked location to force a fit."
+      ]
+    },
+    {
+      "id": "no-caption-writable",
+      "prompt": "Make a writable postcard back with no caption and no inferred wording.",
+      "assertions": [
+        "Leaves locked copy empty.",
+        "Preserves a usable writing field.",
+        "Does not add a slogan, place, date, address, or official postage."
+      ]
+    },
+    {
+      "id": "portrait-scene-contract",
+      "prompt": "Use my portrait. Lock my face shape, mole, gaze, pose, red scarf, and body proportions. Simplify only the room behind me.",
+      "assertions": [
+        "Records identity, geometry, spatial, palette, and count locks.",
+        "Uses the preserve or tightly constrained reduce path.",
+        "Does not default to silhouette or claim identity verified without comparison."
+      ]
+    },
+    {
+      "id": "extreme-aspect-ratio",
+      "prompt": "This source is an extremely wide panorama. Make a portrait postcard without losing the person at the far right.",
+      "assertions": [
+        "Identifies the material crop conflict.",
+        "Uses fit-with-border, a fragment strategy, or asks one consequential question.",
+        "Does not silently crop away the locked person."
+      ]
+    },
+    {
+      "id": "filename-location-privacy",
+      "prompt": "The filename contains a city name. Do not print or infer any location.",
+      "assertions": [
+        "Treats the filename as non-authoritative for printable location.",
+        "Leaves the location text lock empty.",
+        "Records the privacy constraint in the Scene Contract."
+      ]
+    },
+    {
+      "id": "reference-only-copyrighted-poster",
+      "prompt": "Use this copyrighted poster only as a style reference. Do not copy its person, headline, logo, signature, or exact layout.",
+      "assertions": [
+        "Classifies the poster as reference grammar rather than a scene anchor.",
+        "Records the named source-specific elements as reference residue.",
+        "Creates a new subject and composition and reports confidence limits."
+      ]
+    },
+    {
+      "id": "product-geometry-lock",
+      "prompt": "Transform my product photo but preserve every physical component, port, seam, proportion, and the exact count of three controls.",
+      "assertions": [
+        "Creates strong geometry and count locks.",
+        "Makes product construction outrank decorative style.",
+        "Fails or retries if a component is missing, added, or reshaped."
+      ]
+    },
+    {
+      "id": "preserve-photo-exactly",
+      "prompt": "Preserve this photograph exactly. Add only a paper border and my exact caption “Moon.”",
+      "assertions": [
+        "Uses the actual source as a scene anchor on the preserve path.",
+        "Permits only the border and deterministic caption layer.",
+        "Does not redraw, recolor, or invent scene content."
+      ]
+    },
+    {
+      "id": "distill-source-free-adversarial",
+      "prompt": "Distill my photograph, but do not preserve, crop, mask, trace, or visibly retain any source-photo raster.",
+      "assertions": [
+        "Uses the distill path and reference-grammar source role.",
+        "Builds from Scene DNA, palette evidence, gesture, and relation only.",
+        "Treats any recognizable source raster as a hard failure."
+      ]
+    },
+    {
+      "id": "runtime-no-deterministic-text",
+      "prompt": "The runtime can generate images but cannot deterministically typeset. My exact caption is “Moon.”",
+      "assertions": [
+        "Records deterministic text composition as unavailable.",
+        "Generates text-free artwork and returns exact placement specifications.",
+        "Does not claim the caption is verified in the raster."
+      ]
+    },
+    {
+      "id": "runtime-no-inspection",
+      "prompt": "Generate the card, but this runtime cannot inspect the finished image.",
+      "assertions": [
+        "Records image inspection as unavailable.",
+        "Keeps identity, exact-copy, and layout-safety checks declared or unverified.",
+        "Does not present a successful tool call as visual verification."
+      ]
+    },
+    {
+      "id": "hybrid-photo-fragment",
+      "prompt": "Keep the real doorway from my photo, then extend its diagonal shadow with paper and ink. Do not redraw the doorway.",
+      "assertions": [
+        "Uses the hybrid path with the doorway as the real photographic anchor.",
+        "Records the diagonal shadow as source-derived extension geometry.",
+        "Does not replace the doorway with a generated look-alike."
+      ]
+    },
+    {
+      "id": "reduce-dense-foliage",
+      "prompt": "Reduce this dense tree scene while keeping the canopy direction and the three main branch gestures.",
+      "assertions": [
+        "Uses the reduce path rather than generic minimalism.",
+        "Keeps the declared canopy and branch Scene DNA.",
+        "Merges leaves into a few masses and removes secondary micro-detail first."
       ]
     }
   ]

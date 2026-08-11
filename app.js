@@ -1,3 +1,7 @@
+/* LEGACY V1 REFERENCE — NOT LOADED BY index.html.
+   Still Scenes V2 runs from src/main.js and browser-native ES modules.
+   This historical implementation remains intact for provenance and comparison. */
+
 /* ==========================================================================
    STILL SCENES STUDIO — APPLICATION ENGINE & CANVAS RENDERER
    ========================================================================== */

@@ -2,12 +2,22 @@
 
 Read this reference before returning any generated artifact, final prompt, or reference analysis.
 
+## Status vocabulary
+
+- **Verified:** measured by deterministic composition or available inspection.
+- **Declared:** recorded in the Scene Contract but not automatically measured.
+- **Warning:** incomplete evidence or a soft failure.
+- **Failed:** a measured hard requirement is violated.
+- **Not applicable:** irrelevant to the active route.
+
+Never mark identity, preservation, semantic fidelity, or reference safety verified merely because the brief declares it. If the runtime cannot inspect an output, keep those properties declared or unverified.
+
 ## Gate 1: Brief completeness
 
 - Route and surface are explicit.
 - Picture source is supplied, generated, or hybrid.
 - Every supplied image has one role.
-- Preservation level and visible invariants are recorded.
+- Scene Contract, transformation path, and visible locks are recorded.
 - Caption mode is locked, assisted, inferred, or writable.
 - Orientation and output target are explicit.
 - Privacy-sensitive location handling is recorded.
@@ -15,12 +25,14 @@ Read this reference before returning any generated artifact, final prompt, or re
 ## Gate 2: Source handling
 
 - Every material image was inspected.
-- The actual edit target was included in generation.
+- The actual scene anchor was included in generation.
 - Reference-only images contributed grammar, not identity.
 - No source watermark, signature, brand, caption, exact date, exact location, or exact composition was copied.
 - No hidden GPS or metadata-derived location was printed without approval.
 
-## Gate 3: Picture fidelity
+## Gate 3: Scene Contract fidelity
+
+First report the contract as **declared**. Upgrade individual locks to **verified** only after comparing an inspectable result against the source and stated evidence.
 
 For high preservation:
 
@@ -36,9 +48,10 @@ For medium preservation:
 - subject and defining traits remain recognizable;
 - permitted crop, palette, and paper treatment match the brief.
 
-For low preservation:
+For the distill path:
 
 - the new composition expresses the selected relation;
+- no recognizable source-photo raster remains;
 - the source subject and exact layout are not reproduced.
 
 If a hard invariant fails, regenerate once with fewer permitted changes. If it fails again, state the limitation.
@@ -110,6 +123,13 @@ Only claim print readiness after verifying:
 
 If CMYK or printer proofing is unavailable, describe the artifact as print-sized, not press-certified.
 
+## Gate 7A: Capability honesty
+
+- Image generation, image editing, deterministic typography, export, image inspection, and metadata inspection are recorded independently.
+- A missing source attachment is not reconstructed from prose.
+- Missing deterministic typography produces text-free art plus placement specifications.
+- Missing inspection never produces a verified visual claim.
+
 ## Gate 8: Prompt-only
 
 - No image was generated.
@@ -123,7 +143,7 @@ If CMYK or printer proofing is unavailable, describe the artifact as print-sized
 - Observed and inferred claims are separated.
 - Dimensions come from metadata when available.
 - Single-sample traits are not presented as collection-wide rules.
-- Fixed rules, variable rules, and sample residue are distinct.
+- Reference grammar, variable rules, and reference residue are distinct.
 - Reusable prompts create a new subject and composition.
 - Confidence and file limitations are stated.
 

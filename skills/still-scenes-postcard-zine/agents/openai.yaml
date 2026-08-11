@@ -1,4 +1,7 @@
 interface:
-  display_name: "Still Scenes Postcard Zine"
-  short_description: "Create personal postcards and quiet scene zines"
-  default_prompt: "Use $still-scenes-postcard-zine to turn my photo or scene idea into a postcard or zine artwork with a custom caption."
+  display_name: "Still Scenes"
+  short_description: "Scene-contract photo and paper transformations"
+  brand_color: "#E05A36"
+  default_prompt: "Use $still-scenes-postcard-zine to preserve or transform my photograph with a Scene Contract and exact locked copy."
+policy:
+  allow_implicit_invocation: true

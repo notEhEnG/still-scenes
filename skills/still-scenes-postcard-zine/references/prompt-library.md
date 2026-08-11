@@ -2,27 +2,44 @@
 
 Read this reference for Create, Prompt-only, Analyze + Create, and Batch Set routes. Replace every bracketed field. Do not send unresolved placeholders to image generation.
 
-## Prompt compiler
+## Prompt Compiler V2
 
 Compile visible instructions in this order:
 
-1. Surface, ratio, orientation, and purpose.
-2. Paper, safe area, picture zone, and quiet-space geometry.
-3. Image role, preservation level, invariants, permitted changes, and actual input-image use.
-4. One concrete scene or visual relation.
-5. Picture crop, anchor form, and material treatment.
-6. Locked-copy strategy and typography placement.
-7. Accent color and restrained marks.
-8. Flat reproduction, contrast, mood, and hard avoids.
+1. Output contract.
+2. Scene Contract.
+3. Scene DNA.
+4. Transformation path.
+5. Composition.
+6. Material language.
+7. Scene-dependent reduction map.
+8. Color function.
+9. Locked-copy strategy.
+10. Reproduction.
+11. Privacy and source boundary.
+12. Hard failures.
 
 Do not rely on vague words such as beautiful, artistic, balanced, minimal, or aesthetic without renderable constraints.
+
+### Reduction intelligence
+
+Choose only the map relevant to the actual scene:
+
+- Dense foliage: retain canopy direction and one to three branch gestures; merge leaves into two to five masses; remove about 80–95% of micro-detail when simplified.
+- Clouds: retain silhouette, light direction, and the dominant warm/cool relationship; merge small fragments.
+- Cities: retain skyline or horizon and one to three identifying structural rhythms; remove repetitive windows and street clutter.
+- People: preserve declared identity locks; simplify the environment before the person.
+- Products: geometry, construction, proportions, and count locks outrank style.
+- Landscapes: preserve horizon, dominant path, depth layers, and major color fields.
+
+Never substitute “apply minimalism” for a scene-dependent reduction map.
 
 ## User invocation prompts
 
 ### Supplied-photo postcard
 
 ~~~text
-Use $still-scenes-postcard-zine with my attached photo as the edit target. Make a landscape split postcard. Keep [subject and invariants] recognizable. Use the exact caption “[caption]”, location “[location]”, and date “[date]”. The mood should feel [mood]. Return the artifact, final prompt, recipe, preservation record, and alt text.
+Use $still-scenes-postcard-zine with my attached photo as the scene anchor. Make a landscape split postcard. Build a Scene Contract that locks [identity, geometry, spatial relation, palette, and count]. Use the preserve path and the exact caption “[caption]”, location “[location]”, and date “[date]”. Return the artifact, final prompt, recipe, Scene Contract, capability record, and alt text.
 ~~~
 
 ### Generated-picture postcard
@@ -69,10 +86,10 @@ Compose the image so the postcard layout has usable quiet space at [location], o
 Generate no words, letters, numbers, logos, signatures, watermarks, borders, stamp marks, or UI elements. Do not add invented people, objects, or landmarks. Avoid [relevant style drift].
 ~~~
 
-### B. High-preservation photo layer
+### B. Preserve-path scene-anchor layer
 
 ~~~text
-Use the supplied photograph as the edit target with high preservation. Keep [identity or subject invariants] recognizable and keep [object count, silhouette, pose, colors, scene relation] stable. Prefer the actual photo crop or a faithful printed-photo fragment; do not redraw or replace the subject.
+Use the supplied photograph as the scene anchor on the preserve path. Enforce these Scene Contract locks: [identity locks], [geometry and count locks], [spatial locks], and [palette locks]. Prefer the actual photo crop or a faithful printed-photo fragment; do not redraw or replace the subject.
 
 Permit changes only to [crop limits, scale, surrounding paper, surface treatment, optional color wash]. Stage the photo at [position and share] inside a [ratio, orientation] postcard composition with [paper tone] and [border treatment]. Reserve [percentage and position] as clean paper for later exact typography.
 
@@ -86,7 +103,7 @@ Use this when text rendering is reliable or a deterministic compositor will add 
 ~~~text
 Create a landscape 3:2 personal split postcard on warm [paper tone] matte paper. Use an outer safe inset of about 3% of the short edge. Place a framed [supplied photo / generated scene] in the left [44–49]% of the canvas, a [3–5]% gutter, and a calm writing field on the right. Keep the whole result as a flat front-facing paper composition, not a photographed mockup.
 
-[If supplied photo: Use the supplied photograph as an edit target with [high / medium] preservation. Keep [invariants] recognizable. Permit only [changes].] [If generated: Show [scene description] with [viewpoint, light, palette, and relation].] Use a clean paper mat around the picture and preserve the focal subject at thumbnail size.
+[If supplied photo: Use the supplied photograph as the scene anchor with the declared Scene Contract. Enforce [locks] and permit only [allowed mutations].] [If generated: Show [scene description] with [viewpoint, light, palette, and relation].] Use a clean paper mat around the picture and preserve the focal subject at thumbnail size.
 
 In the right field, reserve the upper-left for location “[location]” and date “[date]”, the upper-right for one small [accent color] camera outline or empty stamp frame, and the middle for [six to nine faint writing rules / exact short message]. Place the exact caption “[caption]” at [position]. Use [editorial serif] for the primary line and [small utility sans or mono] for metadata. Keep all locked wording character-for-character; if exact text cannot be guaranteed, leave clean text zones for deterministic composition.
 
@@ -120,7 +137,7 @@ Use one restrained [accent color] utility mark and subtle paper fiber. Keep typo
 ~~~text
 Plan one shared [ratio, orientation], [paper family], [typographic family], [accent family], and edge treatment. Run two separate generation or composition steps so each side becomes its own artifact.
 
-FRONT PROMPT: Create the image-led front using [scene], [image role], [preservation contract], and short locked caption “[caption]”. Use the shared family and reserve no address field.
+FRONT PROMPT: Create the image-led front using [scene], [reference role], [Scene Contract], [transformation path], and short locked caption “[caption]”. Use the shared family and reserve no address field.
 
 BACK PROMPT: Create the writable back using exact message “[message]”, location “[location]”, date “[date]”, and an empty decorative stamp placeholder. Use the shared family and do not repeat the front image unless requested.
 
@@ -150,7 +167,7 @@ Write three caption options for a personal postcard based only on this observed 
 ~~~text
 Inspect every supplied reference and separate observation from interpretation. For each usable image, record dimensions when available, ratio, picture share, quiet space, paper, typography, palette, reproduction, marks, hierarchy, and source-specific text or identity.
 
-Synthesize fixed rules that repeat, variable rules that can change, and sample residue that must not be reused. With one reference, report only observed traits and confidence limits. Produce a reusable Still Scenes prompt that creates a new subject and composition without copying source text, branding, watermark, signature, date, location, person, or exact layout.
+Synthesize reference grammar that repeats, variables that can change, and reference residue that must not be reused. With one reference, report only observed traits and confidence limits. Produce a reusable Still Scenes prompt that creates a new subject and composition without copying source text, branding, watermark, signature, date, location, person, or exact layout.
 ~~~
 
 ## Compact avoid bank
@@ -165,7 +182,8 @@ commercial advertisement, CTA, fake logo, brand campaign, glossy paper mockup, c
 
 - No unresolved bracketed fields remain.
 - The exact picture or scene is named.
-- Image role and preservation invariants are explicit.
+- Reference role, Scene Contract locks, transformation path, and source boundary are explicit.
+- The reduction map is specific to the actual scene rather than generic minimalism.
 - Locked copy is separated from optional decorative type.
 - Layout includes ratio, placement, and approximate shares.
 - Accent hue and material carrier are explicit.

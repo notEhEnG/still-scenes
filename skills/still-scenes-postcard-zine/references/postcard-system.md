@@ -43,7 +43,7 @@ Best for a supplied landscape photograph plus place, date, caption, or message.
 - Message: six to nine faint writing rules, or one short typeset message.
 - Footer: low-contrast divider plus optional personal mark.
 
-The design reference behind this recipe used a landscape image close to 3:2 and demonstrated the hierarchy well. Treat its place, date, accent, footer, and subject as sample residue rather than defaults.
+The design reference behind this recipe used a landscape image close to 3:2 and demonstrated the hierarchy well. Treat its place, date, accent, footer, and subject as reference residue rather than defaults.
 
 ### Image front
 
@@ -100,7 +100,7 @@ Return a proof sheet only when requested.
 
 ## Picture selection
 
-When one image is supplied, use it unless the user says it is reference-only. When several are supplied:
+When one image is supplied, use it as the scene anchor unless the user assigns it to reference grammar only. When several are supplied:
 
 1. Prefer an explicitly named file or numbered choice.
 2. If the user describes a visible subject that uniquely identifies one image, use it.
@@ -115,7 +115,7 @@ Do not choose based on hidden metadata or private location.
 - Do not crop through eyes, mouths, or the focal object without intent.
 - Leave visual breathing room in the direction a subject faces or moves.
 - For flowers or objects, keep at least one complete defining form when possible.
-- For a high-preservation edit target, prefer fit-with-border over aggressive crop.
+- For a scene anchor with strong geometry or identity locks, prefer fit-with-border over aggressive crop.
 - Report when the requested ratio requires a meaningful crop.
 
 ## Copy placement
