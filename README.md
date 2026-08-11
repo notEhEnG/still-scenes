@@ -2,6 +2,10 @@
 
 [Try Still Scenes Studio live on GitHub Pages](https://noteheng.github.io/still-scenes/) — the default composer remains local-first, dependency-free, and telemetry-free.
 
+[![Still Scenes Studio showing the split-postcard canvas, Scene Contract controls, local export, and output checks](demos/studio-screenshot.png)](https://noteheng.github.io/still-scenes/)
+
+*The local-first Studio: route-aware composition, Scene Contract controls, deterministic canvas preview, export, and returned-image checks. Select the screenshot to open the live demo.*
+
 Still Scenes is a scene-preservation and visual-memory system built around one rule: the author's selected picture and exact words remain authoritative.
 
 > Still Scenes understands what makes a scene yours, controls what may change, and records what actually changed.
