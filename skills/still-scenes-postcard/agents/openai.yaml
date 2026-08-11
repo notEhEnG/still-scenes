@@ -1,0 +1,7 @@
+interface:
+  display_name: "Still Scenes"
+  short_description: "Scene-graph photo and memory transformations"
+  brand_color: "#E05A36"
+  default_prompt: "Use $still-scenes-postcard to build a Scene Graph and Scene Contract, transform my photograph, and report the Scene Delta."
+policy:
+  allow_implicit_invocation: true

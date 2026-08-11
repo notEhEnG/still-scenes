@@ -8,7 +8,7 @@ The product promise is simple:
 
 > The user chooses the picture and the words. The skill turns both into a coherent, inspectable paper composition without silently changing either.
 
-This is a system, not a fixed visual template. Both products share a Scene Contract, exact-copy handling, deliberate variation, route-aware prompts, and truthful quality language. The Studio measures deterministic layout behavior; the Skill handles semantic generation, editing, and inspection when the runtime supports them.
+This is a system, not a fixed visual template. Both products share Scene Intelligence, exact-copy handling, deliberate variation, route-aware prompts, and truthful quality language. Still Scenes understands what makes a scene yours, controls what may change, and records what actually changed.
 
 ## 2. Source study and originality boundary
 
@@ -30,7 +30,7 @@ Still Scenes is MIT-licensed. Do not represent it as affiliated with or endorsed
 - Preserve recognizable people, pets, products, objects, and keepsakes when requested.
 - Support postcard front, back, split, duplex, and zine surfaces.
 - Generate usable images by default and production-ready prompts on request.
-- Make assumptions, image roles, preservation levels, and recipes visible.
+- Make assumptions, source roles, native Scene Contract locks, legacy preservation aliases, and recipes visible.
 - Keep a family of outputs coherent without repeating one template.
 - Protect private location data and avoid copying reference-specific identity.
 
@@ -220,13 +220,20 @@ Avoid commercial advertising, CTA buttons, fake brands, glossy product mockups, 
 Every supplied image receives one source role:
 
 - Scene anchor: the real photo or recognizable subject organizes the artifact.
+- Scene evidence: the user's Scene DNA, palette, gesture, depth, relation, and emotional temperature inform a source-free result while recognizable source raster is prohibited.
 - Reference grammar: only reusable visual behavior may transfer.
 - Supporting fragment: one selected source fragment remains real inside a new composition.
 - Generated scene: the subject is newly made from user-authored instructions.
 
-The Scene Contract records anchor, Scene DNA, identity, geometry, spatial, palette, count, and text locks; permitted and forbidden mutations; transformation path; reduction level; source role; and privacy constraints.
+The compact Scene Graph records anchor and supporting nodes, relations, direction, depth layers, quiet fields, focal hierarchy, density, and evidence status. The Scene Contract records identity, geometry, spatial, palette, count, and text locks; permitted and forbidden mutations; transformation path; reduction level; source role; and privacy constraints.
 
-The four transformation paths are preserve, reduce, hybrid, and distill. A distilled result contains no recognizable source raster. High, medium, and low remain compatibility aliases that map respectively to strong locks/preserve, Scene-DNA locks/reduce, and reference grammar/distill.
+The Mutation Budget then assigns `locked`, `tight`, `restrained`, `flexible`, `free`, or `not-applicable` to identity, geometry, spatial relation, palette, count, background detail, crop, scale, texture, material, typography, composition, abstraction, symbolic interpretation, added elements, removal, and source raster. Contract locks always override the budget.
+
+The layout solver consumes graph, locks, budget, crop pressure, copy pressure, quiet fields, gaze, horizon, scene density, and subject sensitivity. Material Logic chooses a reasoned treatment and refuses destructive treatments that conflict with identity or geometry. The Scene Delta records retained, simplified, transformed, removed, added, and unexpected changes without claiming unobserved evidence.
+
+The four transformation paths are preserve, reduce, hybrid, and distill. A distilled result contains no recognizable source raster. High, medium, and low remain compatibility aliases that seed respectively strong locks/preserve, Scene-DNA locks/reduce, and a flexible distill profile. A user photograph on Distill uses scene-evidence; an external style source remains reference-grammar.
+
+Native Distill follows observation → residue → relation → optional declared tension → paper-native form → opening. Tension is never invented as decorative interpretation; an undeclared tension remains empty in the plan.
 
 For identifiable people, pets, artworks, products, or keepsakes, explicit identity, geometry, spatial, palette, and count locks are required unless the user permits reinterpretation. A changed face, object count, distinctive marking, or product component is a contract failure, but it is only **verified** when an available inspection process compares the result.
 
@@ -254,20 +261,23 @@ Generate art and exact type in separate passes when possible. The image model sh
 
 ## 12. Prompt architecture
 
-Compile prompts in this order:
+Prompt Compiler V3 compiles prompts in this order:
 
 1. Output contract.
-2. Scene Contract.
-3. Scene DNA.
-4. Transformation path.
-5. Composition.
-6. Material language.
-7. Scene-dependent reduction map.
-8. Color function.
-9. Locked-copy strategy.
-10. Reproduction.
-11. Privacy and source boundary.
-12. Hard failures.
+2. Source role.
+3. Scene Graph.
+4. Scene Contract.
+5. Mutation Budget.
+6. Transformation path.
+7. Layout plan.
+8. Scene-dependent reduction map.
+9. Material logic.
+10. Color function.
+11. Locked-copy strategy.
+12. Reproduction.
+13. Privacy and reference boundary.
+14. Hard failures.
+15. Scene Delta expectation.
 
 The prompt must specify visible decisions rather than aesthetic adjectives alone.
 
@@ -276,7 +286,7 @@ The prompt must specify visible decisions rather than aesthetic adjectives alone
 ### Content
 
 - Correct photo or generated subject is used.
-- Every source role, Scene Contract lock, transformation path, and capability is recorded.
+- Every source role, Scene Graph relation, Scene Contract lock, Mutation Budget decision, transformation path, and capability is recorded.
 - Exact caption, location, date, and message match character-for-character.
 - No private metadata is exposed.
 - No reference-specific brand, signature, watermark, or exact layout is copied.
@@ -326,7 +336,7 @@ Every gate reports **verified**, **declared**, **warning**, **failed**, or **not
 - Maintain strong enough contrast for required copy; texture must not reduce legibility.
 - Do not infer sensitive traits from people in photos.
 - Do not read, store, or publish EXIF GPS unless the user explicitly asks and understands the consequence.
-- Treat personal photos as task-scoped references; the Studio keeps them in memory for the current session and has no transmission path.
+- Treat personal photos as task-scoped references. The core Studio keeps them in memory with `connect-src 'none'`; only the separate opt-in gateway transmits the precisely disclosed prompt, credential, and required source image after explicit consent.
 - Ship no analytics, trackers, remote fonts, remote images, remote APIs, or telemetry; enforce `connect-src 'none'` in the browser Content Security Policy.
 - Track preset-owned versus user-owned copy so a custom photo cannot inherit demo location, date, caption, description, or provenance.
 - Flag when handwritten or tiny decorative text may be unreadable.
@@ -338,20 +348,21 @@ Every creation response returns:
 1. Generated artifact or absolute local path.
 2. Final prompt actually used.
 3. Recipe and surface.
-4. Picture source, reference role, Scene Contract, transformation path, and capabilities.
+4. Picture source, source role, Scene Graph, Scene Contract, Mutation Budget, transformation path, and capabilities.
 5. Locked-copy record.
 6. One short interpretation.
 7. Any retry or limitation.
-8. Concise alt text.
+8. Explainable art-direction record and Scene Delta.
+9. Concise alt text.
 
 Prompt-only responses omit the artifact and make no generation claim. Reference analysis returns evidence, reference grammar, variables, reference residue, a reusable prompt, and confidence limits.
 
 ## 17. Evaluation scenarios
 
-The V2 suite contains 30 scenarios. It retains the original routing and source cases and adds hostile file signatures, oversized inputs, quotes/newlines, emoji, CJK, overflow, portrait and product locks, extreme crop conflict, filename privacy, copyrighted reference residue, source-free distillation, exact preservation, hybrid and reduction paths, and missing-capability fallbacks.
+The canonical V3 suite contains 53 scenarios. It covers the original routing and source cases plus Scene Graph validation, scene-evidence separation, lock/budget precedence, gaze and horizon layout, material conflicts, Scene Delta honesty, four- and eight-part memory sequences, Collection DNA, similarity guarding, per-lock verification, hostile files, Unicode copy, privacy, source-free distillation, capability loss, hybrid work, and reduction. Only three cases are an explicit legacy-alias group.
 
 - One supplied landscape photo, exact location/date/caption, split layout.
-- One portrait of an identifiable person, high preservation, front-only.
+- One front-only portrait of an identifiable person with native identity, geometry, spatial, palette, and count locks.
 - Generated scene with user-selected subject and assisted caption options.
 - Multiple unrelated photos where selection is ambiguous.
 - Duplex front/back with a long message moved to the back.
@@ -377,7 +388,7 @@ Additional implemented demo assets:
 - Semantic, local vision assistance for Scene DNA suggestions without location inference.
 - Contact-sheet selection when many images are supplied.
 - Script-aware font packaging with clear licensing for broader multilingual glyph coverage.
-- CMYK-aware proof export, printer profiles, PDF, and bleed overlays.
+- CMYK-aware proof export, printer profiles, and automated press certification.
 - Caption tone presets based on user-provided examples rather than generic labels.
 - Sequence planning for travel diaries and seasonal card sets.
 - Editable SVG or layered export when the runtime supports it.

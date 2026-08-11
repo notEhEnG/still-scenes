@@ -1,28 +1,68 @@
 # Still Scenes
 
-Still Scenes is a personal photography and visual-storytelling system built around one rule: the author's selected picture and exact words remain authoritative.
+[Still Scenes Studio on GitHub Pages](https://noteheng.github.io/still-scenes/) — published by the Pages workflow after these changes reach `main`; the default composer remains local-first, dependency-free, and telemetry-free.
+
+Still Scenes is a scene-preservation and visual-memory system built around one rule: the author's selected picture and exact words remain authoritative.
+
+> Still Scenes understands what makes a scene yours, controls what may change, and records what actually changed.
 
 The repository contains two related products:
 
 1. A dependency-free browser studio that composes uploaded photographs into Still Scenes layouts.
 2. A reusable Still Scenes skill for planning, transforming, reviewing, and documenting personal photographic artwork.
 
-![Geometric postcard transformed from the author's urban-sunset photograph](demos/user-photo-styles/generated/demo-u11-wires-geometric.png)
+| Source photograph | Scene Contract summary | Final Still Scenes output |
+|---|---|---|
+| <img src="demos/user-photo-styles/source-photos/20250817_194352.jpg" width="260" alt="The author's urban-sunset source photograph with utility wires"> | **U11** · Anchor: wire-crossed urban dusk.<br>Geometry: wires, tower, lamps, poles, and tree silhouettes retained.<br>Palette: coral, rust, cobalt, cream. | <img src="demos/user-photo-styles/generated/demo-u11-wires-geometric.png" width="260" alt="U11 geometric urban-sunset transformation"><br>*LINES CROSSING THE EVENING.* |
+| <img src="demos/user-photo-styles/source-photos/20250927_174531.jpg" width="260" alt="The author's hillside-garden source photograph"> | **U18** · Anchor: layered hillside garden.<br>Spatial locks: left tree, conifers, paths, fences, and hillside depth.<br>Palette: moss, pine, sky blue, flax. | <img src="demos/user-photo-styles/generated/demo-u18-garden-jacquard.png" width="260" alt="U18 woven hillside-garden transformation"><br>*THE HILLSIDE WOVE ITSELF.* |
+| <img src="demos/user-photo-styles/source-photos/20250927_190614.jpg" width="260" alt="The author's orange-lit cloud source photograph"> | **U26** · Anchor: central orange-lit cloud.<br>Geometry: cloud silhouette, surrounding strata, and low shadowed base retained.<br>Palette: amber, burnt orange, smoke, charcoal, cream. | <img src="demos/user-photo-styles/generated/demo-u26-cloud-stained-glass.png" width="260" alt="U26 stained-glass cloud transformation"><br>*LIGHT GATHERED IN THE CLOUD.* |
+
+All three source photographs were taken by Bryan, the repository owner and author. Their exact production prompts remain in the documented U-series galleries below.
 
 ## What is included
 
 - Six workflow routes spanning artwork creation, prompt-only work, reference analysis, analyze-and-create, and batch sets.
 - Five surfaces: image front, writable back, split card, duplex pair, and editorial page.
-- Explicit image roles: edit target, reference-only image, supporting insert, or no image.
-- A first-party Scene Contract with anchor, Scene DNA, identity, geometry, spatial, palette, count, text, mutation, source-role, and privacy locks.
+- Explicit source roles: scene anchor, scene evidence, reference grammar, supporting fragment, generated scene, or no source.
+- A compact Scene Graph for anchors, relations, direction, depth, quiet fields, focal hierarchy, density, and declared source evidence.
+- A first-party Scene Contract with identity, geometry, spatial, palette, count, text, source-role, and privacy locks.
+- A per-dimension Mutation Budget whose permissions are always subordinate to Scene Contract locks.
+- Constraint-based layout and material logic driven by the actual scene rather than a fixed whitespace template.
+- Explainable art-direction records and Scene Deltas covering retained, simplified, transformed, removed, added, unexpected, and independently verified lock families.
 - Preserve, reduce, hybrid, and source-free distill transformation paths; high, medium, and low remain compatibility aliases.
 - Locked caption, message, location, and date handling.
 - Caption assistance, alt text, production records, and reusable generation prompts.
 - Source-safe batch variation and privacy rules that never infer a printable location from photo metadata.
-- A static ES-module Canvas studio with bounded local image upload, deterministic texture, exact-copy fitting, and blob-based client-side PNG export.
+- A static ES-module Canvas studio with bounded local image upload, deterministic texture, exact-copy fitting, and blob-based client-side export.
+- Heuristic returned-image verification for palette distance, 64-bit perceptual structure, and declared surface geometry.
+- An optional, separately disclosed bring-your-own-endpoint gateway; it is disabled by default and never weakens the core page's `connect-src 'none'` policy.
+- Portable PNG/PDF provenance, a matching JSON sidecar, and a local PNG provenance reader.
 - 34 distinct rendered Still Scenes artworks: seven original generated scenes and 27 source-preserving transformations.
 - Three transformations for each of the nine photographs taken by the owner and author, with exact prompts and SHA-256 provenance.
-- Thirty evaluation scenarios covering routing, provenance, hostile uploads, Scene Contracts, Unicode copy, print surfaces, capabilities, batches, and failure reporting.
+- Fifty-three canonical evaluation scenarios covering V3 scene intelligence, sequences, collections, similarity, provenance, hostile uploads, Unicode copy, capabilities, and failure reporting, plus a smaller legacy compatibility suite.
+
+## Scene Intelligence V3
+
+The browser Studio and portable Skill now share one governed planning flow:
+
+~~~text
+source declaration
+  → Scene Graph
+  → Scene Contract
+  → Mutation Budget
+  → source boundary
+  → layout plan + material logic
+  → expected Scene Delta
+  → Prompt Compiler V3 / deterministic render
+  → returned-image verification
+  → observed Scene Delta
+~~~
+
+The new `scene-evidence` role is distinct from style reference grammar. It lets a personal photograph provide Scene DNA, palette, gesture, depth, relation, and emotional temperature for Distill while explicitly prohibiting recognizable source raster in the result.
+
+Distill uses a bounded six-stage plan—observation, residue, relation, optional declared tension, paper-native form, and opening. The Studio never invents a tension merely to make the artwork sound profound; absent user evidence, that stage stays empty and disclosed.
+
+Memory Sequence planning assigns narrative roles and pace across mixed photo, generated, and text-only inputs while preserving user order by default. Collection DNA creates current-request family resemblance without pretending to remember an unrelated session. The similarity guard requires at least three meaningful recipe-axis changes when adjacent outputs become too alike.
 
 ## Quick start: browser studio
 
@@ -44,23 +84,29 @@ Serving the directory over HTTP is preferable to opening `index.html` directly b
 - Click-to-upload and keyboard/drag-and-drop local images with MIME, file-size, signature, decoded-dimension, and pixel-count validation.
 - Live location, date, caption, writing-rule, paper, accent, typography, postal-mark, and texture controls.
 - Route-compatible composite, text-free, front, and back views.
-- Safe JSON brief, route-aware Prompt Compiler V2, and route-aware accessibility-alt-text inspector.
+- Safe JSON brief, route-aware Prompt Compiler V3, explainable art-direction/Scene Delta inspector, and route-aware accessibility alt text.
 - Client-side RGB PNG export via `canvas.toBlob()`; duplex exports separate matching front and back files.
+- Additional dependency-free RGB PDF export with configurable bleed (3 mm default), trim/bleed boxes, embedded provenance, and an explicit no-CMYK/no-certification limitation.
+- Embedded PNG provenance plus a matching human-readable JSON sidecar and copyable record.
+- A returned-image verification panel that reports palette distance, perceptual-hash Hamming distance, aspect-ratio agreement, and numeric confidence.
 - Five observable source treatments, six paper families, purpose-labelled accents, and stable seeded texture with deliberate regeneration.
 - Fit and 100% zoom, keyboard navigation, modal focus management, visible focus, live status announcements, and narrow-screen layouts.
-- Three built-in presets using the first three generated demos.
+- All 34 documented artworks are available as built-in presets; the 27 U-series entries use their existing manifest metadata.
+- Optional in-browser generation through a generic JSON or OpenAI Images-compatible endpoint adapter, enabled only after the user supplies an endpoint and explicitly consents to the disclosed transfer.
 
-The browser studio is a deterministic layout composer and prompt workbench. It does not call an AI model or generate a new scene; raster generation and photo transformation happen through the Still Scenes skill and image-generation workflow.
+The default browser path is a deterministic layout composer and prompt workbench and performs no network generation. Users may separately opt into the bring-your-own-endpoint gateway. That action sends the compiled prompt, API key, model/size request, and—when the route requires it—the selected source image to the endpoint the user entered. See [`PRIVACY.md`](PRIVACY.md) before enabling it.
 
 ## Use the Still Scenes skill
 
-The portable skill is named **Still Scenes**. Its current compatibility package remains at [`skills/still-scenes-postcard-zine/`](skills/still-scenes-postcard-zine/); the legacy directory and command names are retained so existing installations continue to work.
+The canonical portable skill is [`skills/still-scenes-postcard/`](skills/still-scenes-postcard/). The original [`skills/still-scenes-postcard-zine/`](skills/still-scenes-postcard-zine/) package remains intact as a compatibility package so existing installations and exact historical prompt records continue to work.
 
 Copy that directory into a new, non-conflicting directory under your Codex skills location, then invoke:
 
 ~~~text
-$still-scenes-postcard-zine
+$still-scenes-postcard
 ~~~
+
+Legacy invocation remains supported as `$still-scenes-postcard-zine`.
 
 Example request:
 
@@ -68,7 +114,7 @@ Example request:
 Use the Still Scenes skill to transform my photograph or scene idea into a personal artwork with a custom caption.
 ~~~
 
-The skill returns the artifact or output path, final prompt, route and surface recipe, reference role, Scene Contract, transformation path, locked-copy record, accessibility alt text, capability record, and any retry or limitation note.
+The skill returns the artifact or output path, final prompt, route and surface recipe, source role, Scene Graph, Scene Contract, Mutation Budget, layout and material decisions, Scene Delta, locked-copy record, accessibility alt text, capability record, and any retry or limitation note.
 
 ## Author-photo collection: three transformations per source
 
@@ -197,8 +243,11 @@ Avoid: church window motifs, kaleidoscope clutter, literal fire, disaster imager
 ├── DESIGN.md
 ├── ARCHITECTURE.md
 ├── PRIVACY.md
+├── PROVENANCE.md
 ├── TESTING.md
 ├── CHANGELOG.md
+├── network.html                       # explicit opt-in network gateway
+├── provenance.html                    # local read-only PNG metadata reader
 ├── index.html
 ├── app.js                              # preserved V1 reference; not loaded
 ├── styles.css
@@ -212,6 +261,12 @@ Avoid: church window motifs, kaleidoscope clutter, literal fire, disaster imager
 │   ├── prompt-compiler.js
 │   ├── quality.js
 │   ├── export.js
+│   ├── export-print.js
+│   ├── provenance.js
+│   ├── provenance-reader.js
+│   ├── verify.js
+│   ├── generate.js
+│   ├── adapters/
 │   └── render/
 ├── tests/                              # Node built-in behavior tests
 ├── demos/
@@ -225,7 +280,12 @@ Avoid: church window motifs, kaleidoscope clutter, literal fire, disaster imager
 │       ├── review-previews/               # 9 reduced inspection references
 │       ├── generated/                     # U01–U27
 │       └── MANIFEST.csv
-└── skills/still-scenes-postcard-zine/
+├── skills/still-scenes-postcard/          # canonical lean skill package
+│   ├── SKILL.md
+│   ├── agents/openai.yaml
+│   ├── evals/evals.json
+│   └── references/
+└── skills/still-scenes-postcard-zine/     # preserved legacy package
     ├── SKILL.md
     ├── agents/openai.yaml
     ├── evals/evals.json
@@ -251,15 +311,16 @@ Avoid: church window motifs, kaleidoscope clutter, literal fire, disaster imager
 - Do not infer or print a private location from metadata. Only use a location explicitly supplied or approved by the user.
 - The Studio accepts only bounded JPEG, PNG, WebP, and supported AVIF inputs; checks declared MIME against file signatures; validates decoded dimensions; and releases replaced image resources.
 - User-upload mode carries explicit provenance. Untouched preset location, date, caption, description, and preset ID are cleared when a custom upload succeeds; manually authored copy is preserved.
-- The shipped page has no analytics, trackers, remote fonts, remote images, remote APIs, or telemetry. Its Content Security Policy sets `connect-src 'none'`.
-- Uploaded images remain in the current browser session and are never persisted by the Studio. See [`PRIVACY.md`](PRIVACY.md).
+- The core page has no analytics, trackers, remote fonts, remote images, remote APIs, or telemetry. Its Content Security Policy remains `connect-src 'none'`.
+- Uploaded images remain in the current browser session and are never persisted by the Studio. Only an explicit generation action in the separately opened gateway can transmit the disclosed prompt, key, and optional source image to the user-entered endpoint.
+- Exported PNG/PDF files and JSON sidecars carry a deliberately limited provenance record; they do not contain raw uploaded image bytes, a full compiled prompt, EXIF, or inferred location. See [`PROVENANCE.md`](PROVENANCE.md) and [`PRIVACY.md`](PRIVACY.md).
 
 ## Validation
 
 Skill metadata:
 
 ~~~bash
-python3 -B /path/to/skill-creator/scripts/quick_validate.py skills/still-scenes-postcard-zine
+python3 -B /path/to/skill-creator/scripts/quick_validate.py skills/still-scenes-postcard
 ~~~
 
 Automated behavior, privacy, upload, Unicode, routing, quality, and compiler tests:
@@ -279,7 +340,7 @@ node --check src/main.js
 Evaluation JSON:
 
 ~~~bash
-python3 -c 'import json; json.load(open("skills/still-scenes-postcard-zine/evals/evals.json", encoding="utf-8")); print("evals: valid JSON")'
+python3 -c 'import json; json.load(open("skills/still-scenes-postcard/evals/evals.json", encoding="utf-8")); print("evals: valid JSON")'
 ~~~
 
 Image inspection:
@@ -292,16 +353,19 @@ The completed workspace validation also compares every gallery image with its mi
 
 ## Known browser-studio limitations
 
-- The Studio composes and measures imagery; it does not call an AI model, semantically recognize an uploaded subject, or prove that a person or product remains identical after an external AI edit.
+- The verifier is intentionally heuristic. Palette distance, a 64-bit dHash, and aspect-ratio checks can flag conspicuous divergence, but they cannot prove identity, object geometry, count, OCR accuracy, semantic fidelity, source-boundary compliance, or every Scene Contract lock. Those families remain `declared` or `not-applicable` until capable inspection exists.
+- The browser Scene Graph is built from user/preset declarations and bounded file facts; it does not claim semantic computer vision. Its art-direction record explains external inputs and decisions, not hidden chain-of-thought.
+- Memory Sequence, Collection DNA, and similarity planning are deterministic current-request modules. The Studio does not persist collections or claim cross-session memory.
+- Optional generation depends on the endpoint's API, CORS policy, availability, output schema, and retention terms. API keys remain in page memory only; HTTPS-hosted Studio pages cannot call insecure HTTP endpoints because browsers block mixed content.
 - Browser Distill is an honest source-free procedural interpretation based on declared Scene DNA and sampled palette evidence, not full semantic image-model distillation.
-- Quality gates verify deterministic properties such as route compatibility, provenance ownership, exact source strings, measured fit, pixel dimensions, and source-free procedural rendering. AI identity and semantic fidelity remain **declared** until inspected through the Skill workflow.
+- Quality gates verify deterministic properties such as route compatibility, provenance ownership, exact source strings, measured fit, pixel dimensions, and source-free procedural rendering. Returned-image verification provides evidence, not semantic proof; identity and fidelity claims still require human or capable-model inspection.
 - Uploaded images are session-only and are not restored after refresh.
 - AVIF is accepted only when the current browser can decode it.
-- Only demos 01–03 are wired into the preset selector; all 34 artworks remain available in the documentation galleries.
-- Export is print-sized RGB PNG only. There is no PDF, CMYK conversion, printer proof, automatic bleed, or press certification.
+- PNG and PDF exports remain RGB. The PDF packages a raster page with configurable bleed and trim metadata, but performs no CMYK conversion, ICC proofing, printer proof, or press certification.
+- Embedded provenance is self-asserted local metadata, not a signature, external timestamp, or tamper-proof certificate.
 - `app.js` is retained as a historical V1 reference under the repository's no-deletion policy; `index.html` ships only `src/main.js` and its module dependency graph.
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md), [`PRIVACY.md`](PRIVACY.md), and [`TESTING.md`](TESTING.md) for the implementation boundaries and verification commands.
+See [`ARCHITECTURE.md`](ARCHITECTURE.md), [`PRIVACY.md`](PRIVACY.md), [`PROVENANCE.md`](PROVENANCE.md), and [`TESTING.md`](TESTING.md) for the implementation boundaries and verification commands.
 
 ## Design references and originality
 

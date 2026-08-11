@@ -1,5 +1,7 @@
 import { QUALITY_STATUS, VIEW_COMPATIBILITY } from './constants.js';
 import { buildSceneContract } from './scene-contract.js';
+import { buildSceneIntelligence } from './scene-intelligence.js';
+import { auditSourceBoundary } from './source-boundary.js';
 import { hasPresetCopyLeak } from './state.js';
 
 function result(id, label, status, detail) {
@@ -21,9 +23,12 @@ function sourceCheck(state) {
 
 function contractCheck(state) {
   const contract = buildSceneContract(state);
+  const intelligence = buildSceneIntelligence(state, contract);
   const undeclared = contract.anchor === 'Undeclared scene anchor' || contract.scene_dna[0].startsWith('Scene DNA requires');
   if (undeclared) return result('contract', 'Scene Contract', QUALITY_STATUS.WARNING, 'Declare the anchor and Scene DNA for a complete contract.');
-  return result('contract', 'Scene Contract', QUALITY_STATUS.DECLARED, 'Locks are user- or preset-declared; visual identity is not automatically verified.');
+  if (!intelligence.graphValidation.valid) return result('contract', 'Scene Contract', QUALITY_STATUS.FAILED, intelligence.graphValidation.errors.join(' '));
+  const graphWarning = intelligence.graphValidation.warnings.length ? ' Scene Graph warning: ' + intelligence.graphValidation.warnings.join(' ') : '';
+  return result('contract', 'Scene Contract', QUALITY_STATUS.DECLARED, 'Scene Graph, locks, mutation budget, layout, and material logic are declared; visual identity is not automatically verified.' + graphWarning);
 }
 
 function copyCheck(state, diagnostics) {
@@ -45,11 +50,16 @@ function routeCheck(state, diagnostics) {
   if (!VIEW_COMPATIBILITY[state.route].includes(state.viewMode)) {
     return result('route', 'Route', QUALITY_STATUS.FAILED, 'The active view is incompatible with the selected route.');
   }
+  const contract = buildSceneContract(state);
+  const intelligence = buildSceneIntelligence(state, contract);
   if (state.transformationPath === 'distill' && diagnostics.sourcePixelsUsed) {
-    return result('route', 'Distillation', QUALITY_STATUS.FAILED, 'A distilled output contains source-photo pixels.');
+    return result('route', 'Source Boundary', QUALITY_STATUS.FAILED, 'A distilled output contains source-photo pixels.');
   }
-  if (state.transformationPath === 'distill') {
-    return result('route', 'Distillation', QUALITY_STATUS.VERIFIED, 'The browser preview is procedurally drawn without source-photo raster.');
+  if (intelligence.sourceBoundary.role === 'scene-evidence') {
+    const audit = auditSourceBoundary(intelligence.sourceBoundary, state.generatedResource ? {} : { sourcePixelsUsed: diagnostics.sourcePixelsUsed });
+    if (audit.status === QUALITY_STATUS.FAILED) return result('route', 'Source Boundary', QUALITY_STATUS.FAILED, audit.violations.join(' '));
+    if (state.generatedResource) return result('route', 'Source Boundary', QUALITY_STATUS.DECLARED, 'A returned scene-evidence image is active. Source-raster absence is declared until capable visual inspection verifies it.');
+    return result('route', 'Source Boundary', QUALITY_STATUS.VERIFIED, 'The local procedural preview used no source-photo raster.');
   }
   return result('route', 'Route', QUALITY_STATUS.VERIFIED, 'The active view, renderer, brief, and prompt use the selected route.');
 }
@@ -59,7 +69,10 @@ function privacyCheck(state) {
     return result('privacy', 'Privacy', QUALITY_STATUS.FAILED, 'Preset-owned copy remains attached to a user upload.');
   }
   if (state.source.kind === 'user-upload') {
-    return result('privacy', 'Privacy', QUALITY_STATUS.VERIFIED, 'User upload has custom provenance and no preset-owned copy; no network path is used.');
+    if (state.capability.imageGeneration) {
+      return result('privacy', 'Privacy', QUALITY_STATUS.WARNING, 'Preset isolation is verified, but the optional endpoint gateway was enabled; the third-party endpoint privacy policy is not verified here.');
+    }
+    return result('privacy', 'Privacy', QUALITY_STATUS.VERIFIED, 'User upload has custom provenance, no preset-owned copy, and remains in the local composer path.');
   }
   return result('privacy', 'Privacy', QUALITY_STATUS.NOT_APPLICABLE, 'No user-owned upload is active.');
 }

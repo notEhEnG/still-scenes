@@ -26,7 +26,7 @@ export function drawPaper(context, dimensions, state) {
   context.fillRect(0, 0, dimensions.width, dimensions.height);
 }
 
-export function drawImageCover(context, image, rect) {
+export function drawImageCover(context, image, rect, options = {}) {
   const sourceWidth = image.naturalWidth || image.width;
   const sourceHeight = image.naturalHeight || image.height;
   const sourceRatio = sourceWidth / sourceHeight;
@@ -37,12 +37,28 @@ export function drawImageCover(context, image, rect) {
   let cropHeight = sourceHeight;
   if (sourceRatio > targetRatio) {
     cropWidth = sourceHeight * targetRatio;
-    sourceX = (sourceWidth - cropWidth) / 2;
+    const alignment = options.alignment || 'center';
+    sourceX = alignment === 'left' ? 0 : alignment === 'right' ? sourceWidth - cropWidth : (sourceWidth - cropWidth) / 2;
   } else {
     cropHeight = sourceWidth / targetRatio;
-    sourceY = (sourceHeight - cropHeight) / 2;
+    sourceY = options.verticalAlignment === 'top' ? 0 : options.verticalAlignment === 'bottom' ? sourceHeight - cropHeight : (sourceHeight - cropHeight) / 2;
   }
   context.drawImage(image, sourceX, sourceY, cropWidth, cropHeight, rect.x, rect.y, rect.width, rect.height);
+}
+
+function drawImageFit(context, image, rect) {
+  const sourceWidth = image.naturalWidth || image.width;
+  const sourceHeight = image.naturalHeight || image.height;
+  const scale = Math.min(rect.width / sourceWidth, rect.height / sourceHeight);
+  const width = sourceWidth * scale;
+  const height = sourceHeight * scale;
+  const x = rect.x + (rect.width - width) / 2;
+  const y = rect.y + (rect.height - height) / 2;
+  context.drawImage(image, x, y, width, height);
+}
+
+export function cropPolicyUsesFit(policy) {
+  return String(policy || '').startsWith('fit');
 }
 
 export function drawPlaceholder(context, rect, state) {
@@ -139,7 +155,8 @@ export function drawPhotoTreatment(context, state, rect) {
   if (state.photoTreatment === 'film') context.filter = 'sepia(0.16) saturate(0.82) contrast(0.94) brightness(1.02)';
   if (state.photoTreatment === 'halftone') context.filter = 'grayscale(0.75) contrast(1.22) saturate(0.65)';
   if (state.photoTreatment === 'silhouette') context.filter = 'grayscale(1) contrast(4.5) brightness(0.7)';
-  drawImageCover(context, image, imageRect);
+  if (cropPolicyUsesFit(state.layoutPlan?.crop_policy)) drawImageFit(context, image, imageRect);
+  else drawImageCover(context, image, imageRect, { alignment: state.layoutPlan?.photo_alignment || 'center' });
   context.filter = 'none';
 
   if (state.photoTreatment === 'film') {

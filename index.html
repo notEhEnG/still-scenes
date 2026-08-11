@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
-  <title>Still Scenes — Interactive Postcard & Zine Studio</title>
-  <meta name="description" content="Turn personal photographs, scene descriptions, and quiet memories into refined paper postcards and zine artwork with exact copy control.">
+  <title>Still Scenes — Scene-Preservation Studio</title>
+  <meta name="description" content="Understand what makes a scene yours, control what may change, and record what actually changed.">
   
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -18,7 +18,7 @@
         <span class="logo-mark">▪</span>
         <span class="logo-text">STILL SCENES</span>
       </div>
-      <span class="version-badge">v2.0 Studio</span>
+      <span class="version-badge">v3.0 Studio</span>
     </div>
 
     <!-- Creation Route Selector -->
@@ -65,6 +65,52 @@
         Export Artwork (PNG)
       </button>
       <button type="button" class="btn btn-outline" id="btnExportBoth" hidden>Export Both Sides</button>
+      <details class="verification-panel" id="verificationPanel">
+        <summary>
+          Output checks
+          <span class="verification-overall verification-idle" id="verificationOverall">NOT RUN</span>
+        </summary>
+        <div class="verification-card">
+          <h2>Returned-image verification</h2>
+          <p id="verificationIntro">Load a returned image or use the opt-in generator to compare it with the current source and Scene Contract.</p>
+          <div class="verification-metrics" aria-live="polite">
+            <div>
+              <strong>Palette</strong>
+              <span class="verification-row verification-warning" id="verifyPalette">WARNING · Not run.</span>
+            </div>
+            <div>
+              <strong>Structure</strong>
+              <span class="verification-row verification-warning" id="verifyStructure">WARNING · Not run.</span>
+            </div>
+            <div>
+              <strong>Geometry</strong>
+              <span class="verification-row verification-warning" id="verifyGeometry">WARNING · Not run.</span>
+            </div>
+          </div>
+          <details class="verification-raw lock-family-report">
+            <summary>Scene Contract lock families</summary>
+            <ul id="verificationLockFamilies"><li>Lock families have not been compared.</li></ul>
+          </details>
+          <label class="returned-image-label" for="generatedImageInput">Check an image returned by another AI tool</label>
+          <input type="file" id="generatedImageInput" accept="image/jpeg,image/png,image/webp,image/avif">
+          <div class="verification-actions">
+            <button type="button" class="btn btn-sm btn-outline" id="btnClearGenerated" hidden>Return to source</button>
+          </div>
+          <details class="verification-raw">
+            <summary>Full heuristic report</summary>
+            <pre><code id="verificationJson"></code></pre>
+          </details>
+          <div class="print-export-controls">
+            <label for="printBleed">PDF bleed
+              <span><input type="number" id="printBleed" min="0" max="12" step="0.5" value="3"> mm</span>
+            </label>
+            <button type="button" class="btn btn-outline" id="btnExportPdf">Export RGB PDF + bleed</button>
+            <button type="button" class="btn btn-outline" id="btnCopyProvenance">Copy provenance</button>
+          </div>
+          <p class="verification-note">Heuristic checks can flag divergence; they cannot prove identity or semantic fidelity. PDF export remains RGB and is not CMYK-converted or press-certified.</p>
+          <pre class="provenance-preview" aria-hidden="true"><code id="codeProvenance"></code></pre>
+        </div>
+      </details>
     </div>
   </header>
 
@@ -129,7 +175,8 @@
         <div class="field-row">
           <label for="preservationLevel">Scene Contract Profile:</label>
           <select id="preservationLevel">
-            <option value="high" selected>Identity + geometry locked (legacy high)</option>
+            <option value="native" selected>Native explicit Scene Contract</option>
+            <option value="high">Identity + geometry locked (legacy high)</option>
             <option value="medium">Scene DNA locked (legacy medium)</option>
             <option value="low">Reference grammar only (legacy low)</option>
           </select>
@@ -146,15 +193,32 @@
         </div>
 
         <div class="field-row">
+          <label for="sourceRole">Source Role:</label>
+          <select id="sourceRole">
+            <option value="auto" selected>Automatic from path</option>
+            <option value="scene-anchor">Scene anchor</option>
+            <option value="scene-evidence">Scene evidence (source-free)</option>
+            <option value="reference-grammar">Reference grammar</option>
+            <option value="supporting-fragment">Supporting fragment</option>
+            <option value="generated-scene">Generated scene</option>
+            <option value="none">No source</option>
+          </select>
+        </div>
+
+        <div class="field-row">
           <label for="subjectCategory">Scene Type for Reduction:</label>
           <select id="subjectCategory">
             <option value="general" selected>General scene</option>
             <option value="foliage">Dense foliage</option>
             <option value="clouds">Clouds / weather</option>
             <option value="city">City / infrastructure</option>
+            <option value="architecture">Architecture</option>
             <option value="person">Identifiable person</option>
             <option value="product">Product / constructed object</option>
+            <option value="vehicles">Vehicle</option>
             <option value="landscape">Landscape</option>
+            <option value="interior">Interior</option>
+            <option value="night">Night scene</option>
           </select>
         </div>
 
@@ -167,6 +231,48 @@
           <label for="inputSceneDNA">Scene DNA (one lock per line):</label>
           <textarea id="inputSceneDNA" rows="3" placeholder="horizon remains low&#10;one figure faces the shore"></textarea>
         </div>
+
+        <details class="scene-intelligence-controls">
+          <summary>Scene Graph & mutation controls</summary>
+          <p>These declarations steer layout and prompt compilation. They are not automatic visual observations.</p>
+          <div class="field-row">
+            <label for="inputSceneRelationships">Relationships (one per line):</label>
+            <textarea id="inputSceneRelationships" rows="2" placeholder="moon separated from branches&#10;path leads toward the house"></textarea>
+          </div>
+          <div class="field-row compact-field-grid">
+            <label for="sceneFocalPosition">Focal position
+              <select id="sceneFocalPosition">
+                <option value="auto" selected>Auto</option><option value="far-left">Far left</option><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option><option value="far-right">Far right</option>
+              </select>
+            </label>
+            <label for="sceneDirection">Dominant gesture
+              <select id="sceneDirection">
+                <option value="auto" selected>Auto</option><option value="left">Left</option><option value="right">Right</option><option value="up">Up</option><option value="down">Down</option><option value="inward">Inward</option><option value="outward">Outward</option><option value="static">Static</option>
+              </select>
+            </label>
+            <label for="sceneGazeDirection">Gaze / motion
+              <select id="sceneGazeDirection">
+                <option value="auto" selected>Auto</option><option value="left">Left</option><option value="right">Right</option><option value="up">Up</option><option value="down">Down</option><option value="inward">Inward</option><option value="outward">Outward</option><option value="static">Static</option>
+              </select>
+            </label>
+            <label for="sceneDensity">Scene density
+              <select id="sceneDensity"><option value="sparse">Sparse</option><option value="balanced" selected>Balanced</option><option value="dense">Dense</option></select>
+            </label>
+          </div>
+          <label class="inline-check" for="strongHorizon"><input type="checkbox" id="strongHorizon"> Strong horizon is compositionally protected</label>
+          <div class="field-row">
+            <label for="quietField">Quiet field declaration:</label>
+            <input type="text" id="quietField" value="" placeholder="e.g. open sky across the left two-thirds">
+          </div>
+          <div class="field-row compact-field-grid">
+            <label for="mutationProfile">Mutation profile
+              <select id="mutationProfile"><option value="governed" selected>Governed</option><option value="conservative">Conservative</option><option value="expressive">Expressive</option><option value="source-free">Source-free</option></select>
+            </label>
+            <label for="materialPreference">Material override
+              <select id="materialPreference"><option value="auto" selected>Automatic</option><option value="framed">Framed</option><option value="film">Film</option><option value="specimen">Specimen</option><option value="halftone">Halftone</option><option value="silhouette">Silhouette</option></select>
+            </label>
+          </div>
+        </details>
 
         <div class="field-row">
           <label for="photoTreatment">Photo Treatment:</label>
@@ -284,8 +390,46 @@
           </select>
         </div>
         <button type="button" class="btn btn-sm btn-outline" id="btnRegenerateTexture">Regenerate Texture</button>
-        <p class="privacy-note">Uploaded images remain in this browser session. The Studio does not transmit them over the network.</p>
+        <p class="privacy-note">The core Studio keeps uploads in this browser session. Only the separately disclosed, opt-in endpoint gateway can transmit them.</p>
       </section>
+
+      <details class="control-group network-control-group">
+        <summary class="group-title">Bring your own API key (optional)</summary>
+        <div class="network-fields">
+          <div class="network-warning" role="alert">
+            Enabling generation sends your compiled prompt, API key, and—when the route uses one—the selected source image to the third-party endpoint you enter. This is separate from the local-only Studio.
+          </div>
+          <p class="network-disclosure" id="generationDisclosure">Generate sends the compiled prompt and API key to your endpoint. No source image is currently included.</p>
+          <div class="field-row">
+            <label for="generationAdapter">Endpoint adapter:</label>
+            <select id="generationAdapter">
+              <option value="generic-json" selected>Generic JSON image endpoint</option>
+              <option value="openai-images">OpenAI Images-compatible</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <label for="generationEndpoint">Endpoint URL:</label>
+            <input type="url" id="generationEndpoint" value="" placeholder="https://your-endpoint.example/generate" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field-row">
+            <label for="generationModel">Model or variant:</label>
+            <input type="text" id="generationModel" value="gpt-image-2" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="field-row">
+            <label for="generationApiKey">API key (kept only in this tab):</label>
+            <input type="password" id="generationApiKey" value="" autocomplete="off" spellcheck="false">
+          </div>
+          <label class="generation-consent">
+            <input type="checkbox" id="generationConsent">
+            I understand the disclosed prompt and optional source image will leave this browser for my endpoint.
+          </label>
+          <div class="generation-actions">
+            <button type="button" class="btn btn-primary" id="btnGenerateImage">Generate through endpoint</button>
+            <button type="button" class="btn btn-sm btn-outline" id="btnClearGenerationKey">Clear key</button>
+          </div>
+          <p class="field-status" id="generationStatus" aria-live="polite">Disabled until you configure an endpoint and consent.</p>
+        </div>
+      </details>
 
     </aside>
 
@@ -330,7 +474,7 @@
   <div class="modal-overlay" id="briefModal" role="dialog" aria-modal="true" aria-labelledby="briefModalTitle" hidden>
     <div class="modal-card" tabindex="-1">
       <div class="modal-header">
-        <h2 id="briefModalTitle">Creation Brief & Prompt Compiler</h2>
+        <h2 id="briefModalTitle">Scene Intelligence & Prompt Compiler</h2>
         <button type="button" class="modal-close" id="btnCloseModal" aria-label="Close inspector">&times;</button>
       </div>
       <div class="modal-body">
@@ -338,6 +482,7 @@
         <div class="modal-tabs" role="tablist" aria-label="Inspector content">
           <button type="button" class="tab-btn active" id="tabBrief" role="tab" aria-selected="true" aria-controls="briefTab">Structured Brief (JSON)</button>
           <button type="button" class="tab-btn" id="tabPrompt" role="tab" aria-selected="false" aria-controls="promptTab" tabindex="-1">Compiled Prompt</button>
+          <button type="button" class="tab-btn" id="tabArtDirection" role="tab" aria-selected="false" aria-controls="artDirectionTab" tabindex="-1">Art Direction Record</button>
           <button type="button" class="tab-btn" id="tabAlt" role="tab" aria-selected="false" aria-controls="altTab" tabindex="-1">Accessibility Alt Text</button>
         </div>
 
@@ -349,6 +494,11 @@
         <div class="tab-content" id="promptTab" role="tabpanel" aria-labelledby="tabPrompt" hidden>
           <pre><code id="codePrompt"></code></pre>
           <button type="button" class="btn btn-sm btn-outline copy-btn" data-target="codePrompt">Copy Final Prompt</button>
+        </div>
+
+        <div class="tab-content" id="artDirectionTab" role="tabpanel" aria-labelledby="tabArtDirection" hidden>
+          <pre><code id="codeArtDirection"></code></pre>
+          <button type="button" class="btn btn-sm btn-outline copy-btn" data-target="codeArtDirection">Copy Art Direction Record</button>
         </div>
 
         <div class="tab-content" id="altTab" role="tabpanel" aria-labelledby="tabAlt" hidden>

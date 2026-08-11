@@ -18,9 +18,11 @@ scene_contract:
   forbidden_mutations: []
   transformation_path: preserve | reduce | hybrid | distill
   reduction_level: none | restrained | simplified | distilled
-  source_role: scene-anchor | reference-grammar | supporting-fragment | generated-scene | none
+  source_role: scene-anchor | scene-evidence | reference-grammar | supporting-fragment | generated-scene | none
   privacy_constraints: []
 ~~~
+
+Use `scene-evidence` for a user's source photograph when Scene DNA, palette, gesture, depth, or relation may inform a Distill result but recognizable source raster is prohibited. Keep it distinct from external `reference-grammar`. Build the qualitative Mutation Budget from `scene-intelligence.md`; locks always override permission.
 
 ## Field meanings
 

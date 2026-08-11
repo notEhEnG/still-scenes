@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Still Scenes — Provenance Reader</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="gateway-page">
+  <main class="gateway-card" aria-labelledby="readerTitle">
+    <p class="gateway-boundary">Local read-only utility</p>
+    <h1 id="readerTitle">PNG provenance reader</h1>
+    <p>Choose an exported Still Scenes PNG to inspect its embedded transformation record. The file remains in this browser and is never uploaded.</p>
+    <label class="reader-file" for="provenanceFile">Choose exported PNG</label>
+    <input id="provenanceFile" type="file" accept="image/png">
+    <p class="gateway-status" id="provenanceStatus" aria-live="polite">No file selected.</p>
+    <pre class="reader-output" id="provenanceOutput" aria-label="Extracted provenance JSON"></pre>
+    <a class="btn btn-outline" href="index.html">Return to Studio</a>
+  </main>
+  <script type="module" src="src/provenance-reader-ui.js"></script>
+</body>
+</html>

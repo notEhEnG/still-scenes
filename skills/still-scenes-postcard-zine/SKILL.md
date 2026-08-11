@@ -1,6 +1,6 @@
 ---
 name: still-scenes-postcard-zine
-description: Create, analyze, or prompt personal postcards and scene-preservation artwork from user photos, scene ideas, exact captions, locations, dates, or visual references. Use for postcard fronts, writable backs, split cards, duplex pairs, scene zines, deterministic locked copy, Scene Contracts, preserve/reduce/hybrid/distill transformations, source-safe reference analysis, batches, or production-ready image-generation prompts.
+description: Create, analyze, verify, sequence, or prompt personal scene-preservation artwork from user photos, scene ideas, exact captions, locations, dates, or visual references. Use for legacy postcard-zine invocation plus postcards, zines, Scene Graphs, Scene Contracts, Mutation Budgets, scene-evidence distillation, Scene Deltas, memory sequences, Collection DNA, meaningful batches, verification, provenance, or production-ready prompts.
 ---
 
 # Still Scenes
@@ -26,6 +26,7 @@ If the user says only “make this a postcard” with one attached photo, use a 
 
 - Read references/style-system.md for every route.
 - Read references/scene-contract.md for every route.
+- Read references/scene-intelligence.md for every route, sequence, collection, and verification request.
 - Read references/capability-matrix.md before promising generation, editing, exact text, inspection, or export.
 - Read references/postcard-system.md for Postcard Create and any print-ready request.
 - Read references/prompt-library.md for Create, Prompt-only, and Batch Set routes.
@@ -42,7 +43,7 @@ Record these fields before generation. Infer unprovided optional fields and disc
 route:
 surface: front | back | split | duplex | zine
 image_source: supplied | generated | hybrid
-reference_role: scene-anchor | reference-grammar | supporting-fragment | generated-scene | none
+reference_role: scene-anchor | scene-evidence | reference-grammar | supporting-fragment | generated-scene | none
 subject_or_scene:
 exact_caption:
 message:
@@ -66,6 +67,12 @@ scene_contract:
   reduction_level: none | restrained | simplified | distilled
   source_role:
   privacy_constraints: []
+scene_graph:
+mutation_budget:
+source_boundary:
+layout_plan:
+material_logic:
+scene_delta:
 style_recipe:
 privacy_notes:
 ~~~
@@ -79,11 +86,12 @@ Inspect every supplied image before describing or using it. Record visible subje
 Assign each image one reference role:
 
 - **Scene anchor:** the recognizable photo or subject must organize the result.
+- **Scene evidence:** extract the user's Scene DNA, palette, gesture, depth, relation, and emotional temperature while prohibiting recognizable source raster; use mainly for Distill.
 - **Reference grammar:** learn layout rhythm, paper character, typography role, reproduction process, or color relationship; do not transfer source-specific residue.
 - **Supporting fragment:** preserve one specified person, object, flower, texture, or fragment inside a new composition.
 - **Generated scene:** create a new scene from user-authored instructions.
 
-Build the Scene Contract before style selection. Use `references/scene-contract.md`. Treat old preservation levels only as compatibility aliases:
+Build the Scene Graph, Scene Contract, and Mutation Budget before style selection. Use `references/scene-contract.md` and `references/scene-intelligence.md`. Treat old preservation levels only as compatibility aliases that seed native locks:
 
 - **High:** strong identity, geometry, count, and spatial locks; default to preserve.
 - **Medium:** strong Scene DNA with flexible crop, material, and secondary detail; default to reduce.
@@ -97,7 +105,7 @@ When generating or editing an image, include the actual target image through the
 
 Declare whether the runtime supports image generation, image editing with the actual source, deterministic text composition, file export, image inspection, and metadata inspection. Never infer one capability from another.
 
-If deterministic typography is unavailable, generate text-free art, return exact placement specifications, and disclose the limitation. If the source image cannot be attached to an edit call, ask for reattachment rather than reconstructing it from prose. If the result cannot be inspected, mark preservation and quality as declared or unverified, never passed.
+If deterministic typography is unavailable, generate text-free art, return exact placement specifications, and disclose the limitation. If the source image cannot be attached to an edit call, ask for reattachment rather than reconstructing it from prose. If the result cannot be inspected, use declared, warning, failed, or not-applicable as appropriate; never invent verified status.
 
 ## Choose the surface and picture
 
@@ -126,20 +134,23 @@ Keep generated in-image text short. Move long messages to a writable back or det
 
 ## Create the artifact
 
-1. **Read the scene.** Identify the anchor, Scene DNA, spatial relation, visual weight, quiet field, emotional temperature, and specific evidence.
+1. **Read the scene.** Build the compact Scene Graph and label evidence as declared or observed.
 2. **Write the Scene Contract.** Record locks, permitted changes, forbidden mutations, source role, privacy constraints, and one transformation path.
-3. **Select a recipe.** Choose surface, ratio, picture treatment, paper family, typography, purposeful accent, texture, and optional postal marks from the relevant references.
-4. **Compile Prompt V2.** Order it as output contract → Scene Contract → Scene DNA → transformation path → composition → material language → reduction map → color function → locked-copy strategy → reproduction → privacy/source boundary → hard failures.
-5. **Generate.** Use the built-in image-generation capability for new raster art. For photo-based work, include the actual user image.
-6. **Compose exact copy.** Use a deterministic text/layout pass when exact caption rendering matters.
-7. **Inspect.** Apply references/quality-gates.md. Compare photo-based results with declared locks and verify every locked string character-for-character only when inspection is available.
-8. **Retry once if useful.** Tighten preservation, simplify text, or reduce decorative elements. If a second attempt still fails a hard requirement, return the best honest partial result and explain the limitation.
+3. **Set the Mutation Budget.** Assign qualitative freedom per dimension; locks always override freedom.
+4. **Audit the source boundary.** Keep scene-evidence distinct from reference-grammar and prohibit source raster for Distill.
+5. **Solve layout and material.** Derive them from graph, locks, copy, crop, and output; state concise reasons.
+6. **Write the expected Scene Delta.** Do not pretend it is observed.
+7. **Compile Prompt V3.** Follow references/scene-intelligence.md exactly.
+8. **Generate and compose.** Include actual edit targets when required and add locked copy deterministically.
+9. **Inspect and verify.** Update each lock family independently using only declared, verified, warning, failed, or not-applicable.
+10. **Record provenance.** Include whitelisted Scene Intelligence and Scene Delta summaries, never raw source bytes.
+11. **Retry once if useful.** Tighten the relevant budget dimension. Report unresolved hard failures honestly.
 
 ## Vary a batch deliberately
 
-Keep the set coherent through paper family, typographic family, tone, and recurring accent logic. Change at least three meaningful axes between adjacent outputs: scene crop, layout family, image scale, caption placement, accent material, or postal marks. Do not generate the same template with different coordinates.
+Build Collection DNA only from explicit current-request context. Change at least three meaningful axes between adjacent outputs and run the similarity guard against every prior current-request recipe. Coordinate jitter does not count.
 
-For a sequence, optionally create a narrative order: establishing scene → observed detail → human trace → quiet closing image. Preserve the user’s requested order when provided.
+For a Memory Sequence, assign narrative roles and pace while preserving the user’s requested order. Never claim hidden cross-session memory.
 
 ## Analyze references without copying
 
@@ -178,4 +189,4 @@ For Prompt-only, omit the artifact and never imply generation occurred. For Refe
 
 ## Non-negotiable outcome
 
-The result must feel like a personal paper object built around one scene or memory, not a commercial advertisement, generic social template, dense scrapbook, or copied reference. The user’s selected picture and locked caption must remain authoritative.
+Still Scenes understands what makes a scene yours, controls what may change, and records what actually changed. The result must feel like a personal paper object rather than an advertisement, generic social template, dense scrapbook, or copied reference. The user’s selected picture and locked caption remain authoritative.

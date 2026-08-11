@@ -4,7 +4,7 @@ import { drawBrandMark, drawPaper, drawPhotoTreatment, drawPostalMark, fontFamil
 
 function geometry(dimensions, state) {
   const safe = getSafeRect(dimensions, state.marginSize);
-  const photoWidth = safe.width * state.splitRatio;
+  const photoWidth = safe.width * (state.layoutPlan?.image_share || state.splitRatio);
   const gutter = safe.width * 0.045;
   return {
     safe,

@@ -5,13 +5,13 @@ import { drawPaper, drawPhotoTreatment, drawPostalMark, fontFamily, mutedInk, pa
 
 function geometry(dimensions, state) {
   const safe = getSafeRect(dimensions, Math.max(0.05, state.marginSize));
-  const quiet = computeQuietFieldShare(state);
+  const quiet = state.layoutPlan?.quiet_field_share || computeQuietFieldShare(state);
   const clusterWidth = safe.width * Math.max(0.28, 1 - quiet);
   const clusterHeight = safe.height * (state.transformationPath === 'distill' ? 0.28 : 0.42);
   return {
     safe,
     cluster: {
-      x: safe.x + safe.width * 0.08,
+      x: state.layoutPlan?.photo_alignment === 'right' ? safe.x + safe.width - Math.min(safe.width * 0.58, clusterWidth) : safe.x + safe.width * 0.08,
       y: safe.y + safe.height * 0.48,
       width: Math.min(safe.width * 0.58, clusterWidth),
       height: clusterHeight

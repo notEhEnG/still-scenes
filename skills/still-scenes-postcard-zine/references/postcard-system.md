@@ -28,6 +28,8 @@ When a printer requires bleed, use its specification. If none is supplied, do no
 
 ## Layout recipes
 
+Treat these as compatibility fallbacks. V3 layouts are solved from the Scene Graph, Scene Contract, Mutation Budget, crop and copy pressure, gaze, horizon, quiet fields, and focal sensitivity.
+
 ### Field-note split
 
 Best for a supplied landscape photograph plus place, date, caption, or message.

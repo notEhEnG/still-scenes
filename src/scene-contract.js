@@ -1,4 +1,15 @@
+import { getCanvasProfile } from './layout.js';
+import { resolveSourceRole } from './source-boundary.js';
+
 const PROFILE_ALIASES = Object.freeze({
+  native: {
+    label: 'native Scene Contract',
+    identity: 'declared by explicit locks',
+    geometry: 'declared by explicit locks',
+    spatial: 'Scene DNA relations',
+    palette: 'source-resonant',
+    defaultPath: 'preserve'
+  },
   high: {
     label: 'identity-and-geometry locked',
     identity: 'strong',
@@ -25,10 +36,14 @@ const PROFILE_ALIASES = Object.freeze({
   }
 });
 
-export function mapLegacyPreservation(level) {
+export function resolveContractProfile(level) {
   const profile = PROFILE_ALIASES[level];
   if (!profile) throw new Error('Unknown preservation alias: ' + level);
   return { ...profile, compatibilityAlias: level };
+}
+
+export function mapLegacyPreservation(level) {
+  return resolveContractProfile(level);
 }
 
 export function parseSceneDNA(value) {
@@ -55,6 +70,11 @@ export function getReductionMap(subjectCategory) {
       'preserve directional infrastructure such as roads, rails, or wires',
       'remove repetitive windows, signage, and street clutter'
     ],
+    architecture: [
+      'preserve the building silhouette, defining rooflines, and important openings',
+      'retain one to three structural rhythms without inventing floors or impossible geometry',
+      'simplify repetitive windows, signs, and surface detail before structural edges'
+    ],
     person: [
       'preserve identity, pose, gaze, clothing anchors, and body proportions',
       'simplify the environment before simplifying the person',
@@ -69,6 +89,21 @@ export function getReductionMap(subjectCategory) {
       'preserve horizon, dominant path, depth layers, and major color fields',
       'simplify texture before changing spatial relations',
       'retain the directional gesture that makes the place recognizable'
+    ],
+    interior: [
+      'retain doorway, window, furniture, and light-source relations that identify the room',
+      'merge surface clutter before changing architectural edges',
+      'keep the anchor object on its declared depth plane'
+    ],
+    vehicles: [
+      'preserve vehicle silhouette, orientation, wheel count, and major window and light geometry',
+      'keep visible construction and component count ahead of decorative style',
+      'simplify road, traffic, and background texture before the vehicle'
+    ],
+    night: [
+      'retain the distribution of lit and unlit fields',
+      'protect isolated light anchors and their count',
+      'remove sensor noise before changing the darkness relation'
     ],
     general: [
       'retain the anchor and the smallest recognizable relation',
@@ -86,11 +121,10 @@ function lockedCopy(state) {
 }
 
 export function buildSceneContract(state) {
-  const legacy = mapLegacyPreservation(state.preservationLevel);
-  const path = state.transformationPath || legacy.defaultPath;
-  const sourceRole = path === 'distill'
-    ? 'reference-grammar'
-    : state.source.kind === 'none' ? 'none' : 'scene-anchor';
+  const profile = resolveContractProfile(state.preservationLevel);
+  const surfaceProfile = getCanvasProfile(state.aspectRatio);
+  const path = state.transformationPath || profile.defaultPath;
+  const sourceRole = resolveSourceRole(state, path);
   const anchor = state.sceneAnchor || state.source.description || 'Undeclared scene anchor';
   const dna = parseSceneDNA(state.sceneDNA);
 
@@ -108,28 +142,56 @@ export function buildSceneContract(state) {
     'unrequested people or objects'
   ];
   if (path === 'distill') forbidden.push('recognizable source-photo raster');
-  if (legacy.geometry === 'strong') forbidden.push('changed object count, proportions, silhouette, or construction');
+  if (profile.geometry === 'strong') forbidden.push('changed object count, proportions, silhouette, or construction');
+
+  const nativeProfile = state.preservationLevel === 'native';
+  const sourceFreeNative = nativeProfile && (state.source.kind === 'none' || path === 'distill');
+  const identityLocks = Array.isArray(state.identityLocks)
+    ? [...state.identityLocks]
+    : profile.identity === 'not retained' || sourceFreeNative ? [] : ['preserve identity according to the declared anchor and visible source evidence'];
+  const geometryLocks = Array.isArray(state.geometryLocks)
+    ? [...state.geometryLocks]
+    : profile.geometry === 'relation only' || sourceFreeNative ? [] : ['preserve defining shape, proportions, silhouette, and construction'];
+  const spatialLocks = Array.isArray(state.spatialLocks)
+    ? [...state.spatialLocks]
+    : ['preserve declared Scene DNA relationships and anchor position'];
+  const countLocks = Array.isArray(state.countLocks)
+    ? [...state.countLocks]
+    : profile.geometry === 'strong' || (nativeProfile && path !== 'distill' && ['person', 'product'].includes(state.subjectCategory)) ? ['preserve visible subject and component count'] : [];
+  if ((geometryLocks.length || countLocks.length)
+      && !forbidden.includes('changed object count, proportions, silhouette, or construction')) {
+    forbidden.push('changed object count, proportions, silhouette, or construction');
+  }
 
   return {
+    contract_version: 3,
     anchor,
     scene_dna: dna.length ? dna : ['Scene DNA requires user declaration or visual inspection'],
-    identity_locks: [legacy.identity],
-    geometry_locks: [legacy.geometry],
-    spatial_locks: [legacy.spatial],
-    palette_locks: [legacy.palette],
-    count_locks: legacy.geometry === 'strong' ? ['preserve visible subject and component count'] : [],
+    identity_locks: identityLocks,
+    geometry_locks: geometryLocks,
+    spatial_locks: spatialLocks,
+    palette_locks: [profile.palette, ...(state.paletteSamples || [])],
+    count_locks: countLocks,
     text_locks: lockedCopy(state),
     allowed_mutations: allowedByPath[path] || allowedByPath.preserve,
     forbidden_mutations: forbidden,
     transformation_path: path,
     reduction_level: state.reductionLevel,
     source_role: sourceRole,
+    source_evidence_only: sourceRole === 'scene-evidence',
+    surface: {
+      route: state.route,
+      aspect_ratio: state.aspectRatio,
+      width: surfaceProfile.width,
+      height: surfaceProfile.height
+    },
     privacy_constraints: [
       'do not inspect or infer EXIF GPS',
       'print a location only when explicitly entered',
       'keep user uploads inside the current browser session'
     ],
-    compatibility_alias: state.preservationLevel,
-    profile: legacy.label
+    compatibility_alias: nativeProfile ? null : state.preservationLevel,
+    profile: 'native Scene Contract',
+    compatibility_profile: profile.label
   };
 }

@@ -7,17 +7,31 @@ function createCopyMeta(owner) {
   }, {});
 }
 
-export function createInitialState(documentSeed = 'still-scenes-v2') {
+const SCENE_INTELLIGENCE_DEFAULTS = Object.freeze({
+  sourceRole: 'auto',
+  sceneRelationships: '',
+  sceneFocalPosition: 'auto',
+  sceneDirection: 'auto',
+  sceneGazeDirection: 'auto',
+  sceneDensity: 'balanced',
+  strongHorizon: false,
+  quietField: '',
+  mutationProfile: 'governed',
+  materialPreference: 'auto'
+});
+
+export function createInitialState(documentSeed = 'still-scenes-v3') {
   return {
     route: 'split',
     aspectRatio: '3:2',
     splitRatio: 0.46,
     marginSize: 0.04,
-    preservationLevel: 'high',
+    preservationLevel: 'native',
     transformationPath: 'preserve',
     reductionLevel: 'none',
     subjectCategory: 'general',
     photoTreatment: 'framed',
+    ...SCENE_INTELLIGENCE_DEFAULTS,
     sceneAnchor: '',
     sceneDNA: '',
     sceneFieldsDirty: false,
@@ -43,9 +57,16 @@ export function createInitialState(documentSeed = 'still-scenes-v2') {
       loadedAt: null,
       width: 0,
       height: 0,
+      sha256: '',
       description: ''
     },
     imageResource: null,
+    generatedResource: null,
+    generatedPrompt: '',
+    generatedContract: null,
+    generatedIntelligence: null,
+    generatedAt: null,
+    verificationReport: null,
     paletteSamples: ['#35566f', '#f0ede4', '#d8643b', '#25272a'],
     documentSeed,
     textureRevision: 0,
@@ -63,6 +84,15 @@ export function createInitialState(documentSeed = 'still-scenes-v2') {
 
 export function compatibleViews(route) {
   return VIEW_COMPATIBILITY[route] ? [...VIEW_COMPATIBILITY[route]] : ['composite'];
+}
+
+export function listPresets() {
+  return Object.entries(PRESETS).map(([id, preset]) => ({
+    id,
+    label: preset.label || id,
+    imagePath: preset.imagePath,
+    manifestId: preset.manifestId || null
+  }));
 }
 
 export function normalizeViewForRoute(route, viewMode) {
@@ -99,7 +129,7 @@ export function updateCopyField(state, field, value) {
 }
 
 export function updateSceneField(state, field, value) {
-  if (!['sceneAnchor', 'sceneDNA'].includes(field)) throw new Error('Unsupported scene field: ' + field);
+  if (!['sceneAnchor', 'sceneDNA', 'sceneRelationships', 'quietField'].includes(field)) throw new Error('Unsupported scene field: ' + field);
   state[field] = String(value);
   state.sceneFieldsDirty = true;
   return state;
@@ -109,6 +139,7 @@ export function applyPreset(state, presetId) {
   const preset = PRESETS[presetId];
   if (!preset) throw new Error('Unknown preset: ' + presetId);
 
+  Object.assign(state, SCENE_INTELLIGENCE_DEFAULTS);
   Object.entries(preset).forEach(([key, value]) => {
     if (!['imagePath', 'description'].includes(key)) state[key] = value;
   });
@@ -124,6 +155,7 @@ export function applyPreset(state, presetId) {
     loadedAt: new Date().toISOString(),
     width: 0,
     height: 0,
+    sha256: preset.outputSha256 || preset.sourceSha256 || '',
     description: preset.description
   };
   state.viewMode = normalizeViewForRoute(state.route, state.viewMode);
@@ -143,7 +175,15 @@ export function transitionToUserUpload(state, fileMeta) {
   if (!state.sceneFieldsDirty) {
     state.sceneAnchor = 'User-selected photograph';
     state.sceneDNA = '';
+    state.sceneRelationships = '';
+    state.quietField = '';
+    state.sceneFocalPosition = 'auto';
+    state.sceneDirection = 'auto';
+    state.sceneGazeDirection = 'auto';
+    state.sceneDensity = 'balanced';
+    state.strongHorizon = false;
   }
+  state.sourceRole = 'auto';
 
   state.source = {
     kind: 'user-upload',
@@ -154,6 +194,7 @@ export function transitionToUserUpload(state, fileMeta) {
     loadedAt: fileMeta.loadedAt || new Date().toISOString(),
     width: fileMeta.width,
     height: fileMeta.height,
+    sha256: fileMeta.sha256 || '',
     description: 'a user-selected photograph'
   };
   state.uploadError = '';
@@ -170,10 +211,11 @@ export function leavePresetForCustom(state) {
   });
   state.sceneAnchor = '';
   state.sceneDNA = '';
+  Object.assign(state, SCENE_INTELLIGENCE_DEFAULTS);
   state.sceneFieldsDirty = false;
   state.source = {
     kind: 'none', presetId: null, filename: '', mimeType: '', userOwned: false,
-    loadedAt: null, width: 0, height: 0, description: ''
+    loadedAt: null, width: 0, height: 0, sha256: '', description: ''
   };
   state.imageResource = null;
   return state;
@@ -183,6 +225,16 @@ export function classifyImageSource(state) {
   if (state.source.kind === 'user-upload') return 'supplied';
   if (state.source.kind === 'preset') return 'preset';
   return 'none';
+}
+
+export function clearGeneratedState(state) {
+  state.generatedResource = null;
+  state.generatedPrompt = '';
+  state.generatedContract = null;
+  state.generatedIntelligence = null;
+  state.generatedAt = null;
+  state.verificationReport = null;
+  return state;
 }
 
 export function hasPresetCopyLeak(state) {

@@ -4,7 +4,8 @@ import { drawPaper, drawPhotoTreatment, drawPostalMark, fontFamily, mutedInk, pa
 
 function geometry(dimensions, state) {
   const safe = getSafeRect(dimensions, state.marginSize);
-  const band = Math.max(110, safe.height * 0.18);
+  const plannedQuiet = state.layoutPlan?.quiet_field_share;
+  const band = Math.max(110, safe.height * Math.max(0.15, Math.min(0.3, plannedQuiet || 0.18)));
   return {
     safe,
     photo: { x: safe.x, y: safe.y, width: safe.width, height: safe.height - band - 16 },

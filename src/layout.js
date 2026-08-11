@@ -45,6 +45,7 @@ export function getSafeRect(dimensions, marginSize) {
 }
 
 export function computeQuietFieldShare(state) {
+  if (Number.isFinite(state.layoutPlan?.quiet_field_share)) return state.layoutPlan.quiet_field_share;
   const base = {
     split: 0.43,
     front: 0.18,

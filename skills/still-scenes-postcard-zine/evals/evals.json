@@ -1,13 +1,13 @@
 {
   "skill": "still-scenes-postcard-zine",
-  "version": 2,
+  "version": 3,
   "evals": [
     {
       "id": "split-photo-locked-copy",
       "prompt": "Use $still-scenes-postcard-zine with my attached flower photo. Make a landscape split postcard. Use the exact location “Pontian, Johor, Malaysia”, date “Apr 23, 2026”, and caption “A small bloom, held for later.”",
       "assertions": [
         "Routes to Postcard Create with the split surface.",
-        "Treats the photo as an edit target with high preservation.",
+        "Builds strong identity, geometry, count, and spatial locks in a native Scene Contract.",
         "Records all supplied strings as locked copy.",
         "Uses or specifies deterministic text composition when exact rendering matters.",
         "Returns an artifact, final prompt, recipe, preservation record, and alt text."
@@ -36,7 +36,7 @@
       "id": "portrait-high-preservation",
       "prompt": "Turn this portrait into a postcard. Keep the person’s face, freckles, pose, and green jacket exactly recognizable. You may change only the background and paper treatment.",
       "assertions": [
-        "Classifies the photo as an edit target with high preservation.",
+        "Classifies the photo as a scene anchor with explicit identity, geometry, spatial, palette, and count locks.",
         "Records face, freckles, pose, and jacket as invariants.",
         "Permits only the background and paper changes.",
         "Retries or reports a limitation if identity drifts."
@@ -240,7 +240,7 @@
       "id": "distill-source-free-adversarial",
       "prompt": "Distill my photograph, but do not preserve, crop, mask, trace, or visibly retain any source-photo raster.",
       "assertions": [
-        "Uses the distill path and reference-grammar source role.",
+        "Uses the distill path and scene-evidence source role.",
         "Builds from Scene DNA, palette evidence, gesture, and relation only.",
         "Treats any recognizable source raster as a hard failure."
       ]
@@ -259,7 +259,7 @@
       "prompt": "Generate the card, but this runtime cannot inspect the finished image.",
       "assertions": [
         "Records image inspection as unavailable.",
-        "Keeps identity, exact-copy, and layout-safety checks declared or unverified.",
+        "Keeps identity and layout-safety declared and marks unavailable checks not-applicable or warning.",
         "Does not present a successful tool call as visual verification."
       ]
     },
@@ -279,6 +279,114 @@
         "Uses the reduce path rather than generic minimalism.",
         "Keeps the declared canopy and branch Scene DNA.",
         "Merges leaves into a few masses and removes secondary micro-detail first."
+      ]
+    },
+    {
+      "id": "v3-scene-graph-layout",
+      "prompt": "The person stands left, looks right, and the low horizon must remain level. Keep the right field open.",
+      "assertions": [
+        "Builds nodes, relations, directions, horizon, focal hierarchy, and quiet fields.",
+        "Uses the Scene Graph in layout and prompt compilation.",
+        "Protects gaze room and the horizon."
+      ]
+    },
+    {
+      "id": "v3-scene-evidence-distill",
+      "prompt": "Distill my photograph into paper forms with no crop, trace, mask, or recognizable source raster.",
+      "assertions": [
+        "Uses scene-evidence rather than reference-grammar.",
+        "Locks source raster out of the output.",
+        "Uses relation and opening rather than a hidden photo crop."
+      ]
+    },
+    {
+      "id": "v3-mutation-precedence",
+      "prompt": "Be expressive with material but keep my product's ports, seams, proportions, and three controls exact.",
+      "assertions": [
+        "Creates a per-dimension Mutation Budget.",
+        "Lets geometry and count locks override expressive freedom.",
+        "Reports the precedence."
+      ]
+    },
+    {
+      "id": "v3-scene-delta",
+      "prompt": "Report what the output retained, simplified, transformed, removed, added, and unexpectedly changed.",
+      "assertions": [
+        "Separates expected from observed delta.",
+        "Uses only declared, verified, warning, failed, and not-applicable.",
+        "Does not invent unobserved changes."
+      ]
+    },
+    {
+      "id": "v3-memory-sequence",
+      "prompt": "Build an eight-part sequence from photos, generated scenes, and text-only moments in my supplied order.",
+      "assertions": [
+        "Preserves user order and assigns narrative roles.",
+        "Handles each source role independently.",
+        "Creates intentional pacing and a sequence ledger."
+      ]
+    },
+    {
+      "id": "v3-collection-dna",
+      "prompt": "Make five related cards with one family resemblance but no repeated layout.",
+      "assertions": [
+        "Builds explicit current-request Collection DNA.",
+        "Defines at least three variable axes.",
+        "Does not claim hidden cross-session memory."
+      ]
+    },
+    {
+      "id": "v3-similarity-guard",
+      "prompt": "Create six variations that are not the same template moved around.",
+      "assertions": [
+        "Compares each candidate with prior current-request recipes.",
+        "Changes at least three meaningful axes after a collision.",
+        "Rejects coordinate jitter as meaningful variation."
+      ]
+    },
+    {
+      "id": "v3-lock-family-verification",
+      "prompt": "Verify this returned result and report every Scene Contract lock family independently.",
+      "assertions": [
+        "Separates identity, geometry, spatial, palette, count, text, boundary, layout, and export statuses.",
+        "Does not infer semantic proof from palette, dHash, or ratio.",
+        "Uses the V3 status vocabulary."
+      ]
+    },
+    {
+      "id": "v3-source-boundary-audit",
+      "prompt": "Check whether my Distill result retained source pixels or copied reference residue.",
+      "assertions": [
+        "Audits scene-evidence and reference-grammar boundaries separately.",
+        "Fails confirmed violations.",
+        "Keeps unavailable evidence declared."
+      ]
+    },
+    {
+      "id": "legacy-high-alias",
+      "prompt": "Legacy request: high preservation for a portrait.",
+      "assertions": [
+        "Accepts the alias.",
+        "Maps it to explicit native locks.",
+        "Uses V3 logic after mapping."
+      ]
+    },
+    {
+      "id": "legacy-medium-alias",
+      "prompt": "Legacy request: medium preservation with background reduction.",
+      "assertions": [
+        "Accepts the alias.",
+        "Maps it to Scene DNA and a constrained Mutation Budget.",
+        "Uses V3 logic after mapping."
+      ]
+    },
+    {
+      "id": "legacy-low-alias",
+      "prompt": "Legacy request: low preservation and Distill.",
+      "assertions": [
+        "Accepts the alias.",
+        "Uses scene-evidence for a user photo.",
+        "Prohibits source raster."
       ]
     }
   ]

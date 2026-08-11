@@ -1,7 +1,7 @@
 interface:
   display_name: "Still Scenes"
-  short_description: "Scene-contract photo and paper transformations"
+  short_description: "Legacy scene-graph photo transformations"
   brand_color: "#E05A36"
-  default_prompt: "Use $still-scenes-postcard-zine to preserve or transform my photograph with a Scene Contract and exact locked copy."
+  default_prompt: "Use $still-scenes-postcard-zine to transform my photograph with V3 Scene Intelligence and report the Scene Delta."
 policy:
   allow_implicit_invocation: true

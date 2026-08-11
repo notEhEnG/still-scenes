@@ -2,17 +2,17 @@
 
 ## Studio promise
 
-> Uploaded images remain in this browser session. The Studio does not transmit them over the network.
+> By default, uploaded images remain in this browser session. The core Studio does not transmit them over the network.
 
-This statement applies to the shipped browser Studio at the current revision. It does not automatically apply to separate AI-generation tools, browser extensions, modified forks, hosting infrastructure, or a user's operating system.
+This statement applies to the shipped core page at the current revision. The optional bring-your-own-endpoint feature is a separate, explicit processing path described below. It does not automatically apply to browser extensions, modified forks, hosting infrastructure, endpoint operators, or a user's operating system.
 
 ## Verified browser boundaries
 
-The shipped page uses:
+The shipped core page uses:
 
 - no analytics or trackers;
 - no remote scripts, styles, fonts, images, or APIs;
-- no `fetch`, `XMLHttpRequest`, `WebSocket`, or `sendBeacon` path;
+- no `fetch`, `XMLHttpRequest`, `WebSocket`, or `sendBeacon` path in its own CSP boundary;
 - system font stacks only;
 - a Content Security Policy with `connect-src 'none'`;
 - same-origin preset images;
@@ -20,6 +20,31 @@ The shipped page uses:
 - in-memory state only.
 
 The Studio never asks for a location from EXIF, filename, or visual inference. A printable location exists only when the user types it or explicitly chooses a preset that contains it.
+
+## Optional endpoint boundary
+
+Bring-your-own-endpoint generation is off by default. The endpoint and API-key fields alone send nothing. A request occurs only after the user:
+
+1. opens the optional section;
+2. enters an HTTP/HTTPS endpoint;
+3. checks the explicit transfer-consent box; and
+4. presses **Generate through endpoint**.
+
+The core page retains `connect-src 'none'`. The Generate action opens same-origin `network.html`, a narrowly scoped gateway page whose CSP permits HTTP/HTTPS connections. The gateway accepts only a same-origin message from its opener and makes the single requested call.
+
+Exactly the following application data leaves the browser for the configured endpoint:
+
+- the API key as a bearer authorization header, when supplied;
+- the compiled production prompt, which may contain copy the user typed;
+- the requested model, image size, and PNG output format;
+- for routes that use a source photograph, a bounded PNG re-encoding of that image, sent as base64 JSON or a multipart file named `source.png`;
+- normal connection metadata supplied by the browser and network, such as the user's IP address and an `Origin` header.
+
+The original local filename, source SHA-256, provenance record, verification report, and unrelated Studio state are not sent. The request uses `credentials: 'omit'` and `referrerPolicy: 'no-referrer'`; it does not send Studio cookies or a referring page URL. The endpoint operator may still store or process received data under its own terms.
+
+The endpoint URL, key, request, and returned image are kept only in current page/window memory. They are not written to `localStorage`, `sessionStorage`, IndexedDB, cookies, a service worker, console logs, provenance, or analytics. The **Clear key** button blanks the key field; refreshing or closing the page ends the session. The gateway accepts returned images only up to 25 MB and the Studio decodes them through the same bounded loader used for manual uploads.
+
+Browser security still applies. Endpoints must permit the Studio origin through CORS. When the Studio is hosted over HTTPS, the browser blocks insecure HTTP endpoints as mixed content.
 
 ## Upload validation
 
@@ -49,7 +74,9 @@ The quality strip fails the privacy gate if preset-owned copy is ever attached t
 
 ## Persistence and export
 
-The Studio has no database, local-storage, cookie, service-worker, or telemetry path. Refreshing the page ends the document session. PNG export creates a browser blob URL, triggers a local download, and releases the temporary URL afterward.
+The Studio has no database, local-storage, cookie, service-worker, or telemetry path. Refreshing the page ends the document session. PNG and PDF export create browser blob URLs, trigger local downloads, and release the temporary URLs afterward.
+
+Each export also writes a local JSON sidecar. PNG carries the same record in an iTXt chunk; PDF carries it in XMP metadata. Provenance schema v2 deliberately includes user-entered text locks, a whitelisted Scene Graph and Scene Delta signature, Mutation Budget values, layout/material decisions, and source-boundary role/status. When a returned AI image is active, it also includes the generation-time contract and intelligence summary. It records source SHA-256 when known, prompt hashes, timestamps, and output geometry. It does **not** include raw source bytes, original filename, full compiled prompt, hidden reasoning, EXIF, API key, endpoint URL, inferred location, or verification pixel samples. Users who consider their caption or declared scene descriptions sensitive should review the sidecar before sharing it. See [`PROVENANCE.md`](PROVENANCE.md).
 
 ## Repository photographs
 
@@ -58,3 +85,7 @@ The repository itself contains nine full-resolution source photographs taken by 
 ## Skill and external model boundary
 
 Using the Still Scenes Skill with an image-generation or image-editing service is a separate processing path. Before sending a personal photo to such a service, use the runtime's disclosure and consent model. The Skill must include the real edit target when required, must not infer hidden location, and must state when inspection or deterministic typography is unavailable.
+
+## GitHub Pages hosting
+
+The Pages workflow publishes static same-origin HTML, CSS, JavaScript, and documented demo images. `.nojekyll` disables Jekyll processing. The application loads no remote fonts, third-party scripts, or analytics. Visiting any hosted site necessarily sends ordinary request metadata such as IP address and user agent to the host, but selecting or uploading a photograph does not send that photograph to GitHub Pages. Only the separate opt-in endpoint action transmits the fields listed above.

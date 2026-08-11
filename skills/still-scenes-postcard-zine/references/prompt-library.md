@@ -2,22 +2,25 @@
 
 Read this reference for Create, Prompt-only, Analyze + Create, and Batch Set routes. Replace every bracketed field. Do not send unresolved placeholders to image generation.
 
-## Prompt Compiler V2
+## Prompt Compiler V3
 
 Compile visible instructions in this order:
 
 1. Output contract.
-2. Scene Contract.
-3. Scene DNA.
-4. Transformation path.
-5. Composition.
-6. Material language.
-7. Scene-dependent reduction map.
-8. Color function.
-9. Locked-copy strategy.
-10. Reproduction.
-11. Privacy and source boundary.
-12. Hard failures.
+2. Source role.
+3. Scene Graph.
+4. Scene Contract.
+5. Mutation Budget.
+6. Transformation path.
+7. Layout plan.
+8. Scene-dependent reduction map.
+9. Material logic.
+10. Color function.
+11. Locked-copy strategy.
+12. Reproduction.
+13. Privacy and reference boundary.
+14. Hard failures.
+15. Scene Delta expectation.
 
 Do not rely on vague words such as beautiful, artistic, balanced, minimal, or aesthetic without renderable constraints.
 

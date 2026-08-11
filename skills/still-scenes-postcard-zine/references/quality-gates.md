@@ -10,7 +10,7 @@ Read this reference before returning any generated artifact, final prompt, or re
 - **Failed:** a measured hard requirement is violated.
 - **Not applicable:** irrelevant to the active route.
 
-Never mark identity, preservation, semantic fidelity, or reference safety verified merely because the brief declares it. If the runtime cannot inspect an output, keep those properties declared or unverified.
+Never mark identity, preservation, semantic fidelity, or reference safety verified merely because the brief declares it. Use only declared, verified, warning, failed, and not-applicable.
 
 ## Gate 1: Brief completeness
 
@@ -34,7 +34,7 @@ Never mark identity, preservation, semantic fidelity, or reference safety verifi
 
 First report the contract as **declared**. Upgrade individual locks to **verified** only after comparing an inspectable result against the source and stated evidence.
 
-For high preservation:
+For the legacy high alias:
 
 - identity remains recognizable;
 - facial structure and defining markings do not drift;
@@ -43,7 +43,7 @@ For high preservation:
 - recognizable colors remain unless changes were permitted;
 - focal relation survives the crop.
 
-For medium preservation:
+For the legacy medium alias:
 
 - subject and defining traits remain recognizable;
 - permitted crop, palette, and paper treatment match the brief.

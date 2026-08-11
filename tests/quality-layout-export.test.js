@@ -49,3 +49,15 @@ test('distilled output fails if source pixels are reported', () => {
   const gates = evaluateQuality(state, { copy: [], collisions: [], sourcePixelsUsed: true, safeArea: true }, { width: 972, height: 1620 });
   assert.equal(gates.find((gate) => gate.id === 'route').status, 'failed');
 });
+
+test('returned distillation and third-party privacy are never falsely verified', () => {
+  const state = createInitialState('test');
+  transitionToUserUpload(state, { name: 'mine.png', type: 'image/png', width: 100, height: 100 });
+  state.route = 'zine';
+  state.transformationPath = 'distill';
+  state.generatedResource = { image: {}, name: 'returned.png' };
+  state.capability.imageGeneration = true;
+  const gates = evaluateQuality(state, { copy: [], collisions: [], sourcePixelsUsed: false, safeArea: true }, { width: 972, height: 1620 });
+  assert.equal(gates.find((gate) => gate.id === 'route').status, 'declared');
+  assert.equal(gates.find((gate) => gate.id === 'privacy').status, 'warning');
+});
