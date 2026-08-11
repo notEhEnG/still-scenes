@@ -280,11 +280,14 @@ Avoid: church window motifs, kaleidoscope clutter, literal fire, disaster imager
 │       ├── review-previews/               # 9 reduced inspection references
 │       ├── generated/                     # U01–U27
 │       └── MANIFEST.csv
-├── skills/still-scenes-postcard/          # canonical lean skill package
+├── skills/still-scenes-postcard/          # canonical portable skill package
 │   ├── SKILL.md
 │   ├── agents/openai.yaml
 │   ├── evals/evals.json
-│   └── references/
+│   ├── references/
+│   └── assets/
+│       ├── demos/                          # mirrored 7 generated demos
+│       └── user-photo-demos/               # mirrored U01–U27
 └── skills/still-scenes-postcard-zine/     # preserved legacy package
     ├── SKILL.md
     ├── agents/openai.yaml

@@ -33,7 +33,7 @@ If the user says only “make this a postcard” with one attached photo, use a 
 - Read references/quality-gates.md before returning any prompt, analysis, or generated artifact.
 - Read the repository-level DESIGN.md only when changing or extending this skill itself.
 
-Repository visual examples live under `../../demos/generated/` for generated-scene routes and `../../demos/user-photo-styles/generated/` for source-preserving photo routes. Treat them as reference grammar only; never substitute a demo image for a user's scene anchor or reuse its reference residue or locked caption by default. The legacy package retains its mirrored asset archive for compatibility; do not require that archive for normal skill operation.
+Portable visual examples are bundled under `assets/demos/` for generated-scene routes and `assets/user-photo-demos/` for source-preserving photo routes. In the repository, their authoritative gallery copies live under `../../demos/generated/` and `../../demos/user-photo-styles/generated/`; the bundled files are byte-identical mirrors. Treat every example as reference grammar only: never substitute a demo for a user's scene anchor or reuse its reference residue or locked caption by default. Full-resolution personal source photographs remain outside the portable skill package.
 
 ## Build the creation brief
 

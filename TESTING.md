@@ -37,6 +37,7 @@ The suite covers:
 - returned-image palette distance, perceptual-hash structure, surface-ratio failure cases, and independent lock-family status vocabulary;
 - generation-adapter request/response contracts using mocked `fetch` only;
 - all 34 built-in presets and U-series manifest row parity;
+- all 34 canonical portable-skill assets matching the repository galleries byte-for-byte;
 - dependency-free PDF page, 3 mm bleed, RGB, trim-box, and XMP output;
 - PNG provenance embed/read round trips and schema privacy allow-listing;
 - CSP separation, remote-dependency absence, and the V3 module entry point.
