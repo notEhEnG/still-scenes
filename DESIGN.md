@@ -27,6 +27,8 @@ Still Scenes is MIT-licensed. Do not represent it as affiliated with or endorsed
 
 - Let the user explicitly choose a supplied photo or request a newly generated picture.
 - Let the user lock an exact caption, message, location, date, and language.
+- Keep visible evidence, remembered context, uncertainty, and forbidden invention in separate authority classes.
+- Offer captions that can be traced character-for-character to the user's evidence without claiming that a memory is historically verified.
 - Preserve recognizable people, pets, products, objects, and keepsakes when requested.
 - Support postcard front, back, split, duplex, and zine surfaces.
 - Generate usable images by default and production-ready prompts on request.
@@ -53,6 +55,7 @@ Still Scenes is MIT-licensed. Do not represent it as affiliated with or endorsed
 6. “Analyze these references and give me a reusable prompt only.”
 7. “Create four cards from these trip photos that feel related but do not reuse the same layout.”
 8. “Give me three caption options before generating the card.”
+9. “The photo shows one porch light. I remember waiting there, but I am unsure whether it was raining. Do not invent another person.”
 
 ## 5. Experience principles
 
@@ -71,6 +74,10 @@ Infer safe defaults. Ask only when two plausible choices would produce materiall
 ### Exact copy is a data contract
 
 Treat caption, message, location, and date as immutable strings. Image generation and text composition are separate production concerns.
+
+### Memory has an authority boundary
+
+Observed declarations, remembered context, uncertainty, and prohibited invention are not interchangeable. Remembered context affects captions by default; it affects visible artwork only after explicit opt-in. Deterministic caption traceability proves where the words came from, not whether the memory is historically true.
 
 ### Personal, not promotional
 
@@ -122,6 +129,16 @@ scene_contract:
   source_role: scene-anchor
   privacy_constraints:
     - no metadata-derived location
+memory_evidence:
+  influence: caption-only
+  observed: []
+  remembered: []
+  uncertain: []
+  forbidden: []
+caption_ladder:
+  mode: zero-fabrication
+  options: []
+caption_authority:
 style_recipe:
   layout: field-note-split
   paper: warm-archive
@@ -239,6 +256,8 @@ For identifiable people, pets, artworks, products, or keepsakes, explicit identi
 
 ## 11. Caption and message system
 
+Before assisted captioning, the Memory Evidence Ledger separates observed declarations, remembered context, uncertain details, and forbidden invention. The zero-fabrication ladder can then offer a literal observed line, an exact memory note, and a two-line paired fragment without adding connective prose. Each option records source entry IDs. A custom caption remains exact locked copy even when its claims cannot be mapped automatically.
+
 ### Copy modes
 
 - Locked: use exact supplied wording.
@@ -267,17 +286,18 @@ Prompt Compiler V3 compiles prompts in this order:
 2. Source role.
 3. Scene Graph.
 4. Scene Contract.
-5. Mutation Budget.
-6. Transformation path.
-7. Layout plan.
-8. Scene-dependent reduction map.
-9. Material logic.
-10. Color function.
-11. Locked-copy strategy.
-12. Reproduction.
-13. Privacy and reference boundary.
-14. Hard failures.
-15. Scene Delta expectation.
+5. Memory Authority.
+6. Mutation Budget.
+7. Transformation path.
+8. Layout plan.
+9. Scene-dependent reduction map.
+10. Material logic.
+11. Color function.
+12. Locked-copy strategy.
+13. Reproduction.
+14. Privacy and reference boundary.
+15. Hard failures.
+16. Scene Delta expectation.
 
 The prompt must specify visible decisions rather than aesthetic adjectives alone.
 
@@ -359,7 +379,7 @@ Prompt-only responses omit the artifact and make no generation claim. Reference 
 
 ## 17. Evaluation scenarios
 
-The canonical V3 suite contains 53 scenarios. It covers the original routing and source cases plus Scene Graph validation, scene-evidence separation, lock/budget precedence, gaze and horizon layout, material conflicts, Scene Delta honesty, four- and eight-part memory sequences, Collection DNA, similarity guarding, per-lock verification, hostile files, Unicode copy, privacy, source-free distillation, capability loss, hybrid work, and reduction. Only three cases are an explicit legacy-alias group.
+The canonical V3 suite contains 58 scenarios. It covers the original routing and source cases plus Memory Authority, zero-fabrication caption traceability, authority conflicts, Scene Graph validation, scene-evidence separation, lock/budget precedence, gaze and horizon layout, material conflicts, Scene Delta honesty, four- and eight-part memory sequences, Collection DNA, similarity guarding, per-lock verification, hostile files, Unicode copy, privacy, source-free distillation, capability loss, hybrid work, and reduction. Only three cases are an explicit legacy-alias group.
 
 - One supplied landscape photo, exact location/date/caption, split layout.
 - One front-only portrait of an identifiable person with native identity, geometry, spatial, palette, and count locks.

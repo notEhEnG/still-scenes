@@ -14,11 +14,16 @@
   <!-- Main Navigation Header -->
   <header class="studio-header">
     <div class="header-brand">
-      <div class="brand-logo">
+      <h1 class="brand-logo">
         <span class="logo-mark">▪</span>
         <span class="logo-text">STILL SCENES</span>
-      </div>
-      <span class="version-badge">v3.0 Studio</span>
+      </h1>
+      <span class="version-badge">v3.1 Studio</span>
+    </div>
+
+    <div class="workspace-toggle" role="group" aria-label="Workspace mode">
+      <button type="button" class="workspace-btn active" data-workspace="single" aria-pressed="true">Single</button>
+      <button type="button" class="workspace-btn" data-workspace="collection" aria-pressed="false">Collection</button>
     </div>
 
     <!-- Creation Route Selector -->
@@ -64,6 +69,8 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Export Artwork (PNG)
       </button>
+      <button type="button" class="btn btn-primary" id="btnExportCollection" hidden>Export Contact Sheet</button>
+      <button type="button" class="btn btn-outline" id="btnExportCollectionManifest" hidden>Export Collection JSON</button>
       <button type="button" class="btn btn-outline" id="btnExportBoth" hidden>Export Both Sides</button>
       <details class="verification-panel" id="verificationPanel">
         <summary>
@@ -119,6 +126,63 @@
 
     <!-- Left Control Sidebar -->
     <aside class="studio-sidebar" id="studioSidebar">
+
+      <section class="control-group collection-control-group" id="collectionControlGroup" hidden>
+        <h2 class="group-title">Collection Workspace</h2>
+        <div class="field-row">
+          <label for="collectionName">Collection name</label>
+          <input type="text" id="collectionName" value="Untitled collection" maxlength="120">
+        </div>
+        <div class="compact-field-grid">
+          <label for="collectionSurface">Default surface
+            <select id="collectionSurface">
+              <option value="front" selected>Image Front</option>
+              <option value="split">Split Postcard</option>
+              <option value="zine">Scene Zine</option>
+            </select>
+          </label>
+          <label for="collectionPaper">Paper family
+            <select id="collectionPaper">
+              <option value="warm-archive" selected>Warm Archive</option>
+              <option value="clean-natural">Clean Natural</option>
+              <option value="dusk-gray">Dusk Gray</option>
+              <option value="flax">Flax</option>
+              <option value="charcoal">Charcoal</option>
+            </select>
+          </label>
+          <label for="collectionTypography">Typography
+            <select id="collectionTypography">
+              <option value="editorial" selected>Editorial</option>
+              <option value="modern">Modern</option>
+              <option value="typewriter">Typewriter</option>
+              <option value="newspaper">Newspaper</option>
+            </select>
+          </label>
+          <label for="collectionCaptionVoice">Caption voice
+            <select id="collectionCaptionVoice">
+              <option value="observational" selected>Observational</option>
+              <option value="documentary">Documentary</option>
+              <option value="intimate">Intimate</option>
+              <option value="minimal">Minimal</option>
+            </select>
+          </label>
+        </div>
+        <div class="field-row">
+          <label for="collectionAccentLogic">Accent logic</label>
+          <select id="collectionAccentLogic">
+            <option value="source resonance" selected>Source resonance</option>
+            <option value="temperature counterpoint">Temperature counterpoint</option>
+            <option value="spatial counterweight">Spatial counterweight</option>
+            <option value="directional cue">Directional cue</option>
+          </select>
+        </div>
+        <label class="collection-file-picker" for="collectionImageInput">
+          Add 2–12 photographs
+          <input type="file" id="collectionImageInput" accept="image/jpeg,image/png,image/webp,image/avif" multiple>
+        </label>
+        <button type="button" class="btn btn-primary" id="btnPlanCollection">Plan Collection</button>
+        <p class="field-status" id="collectionStatus" aria-live="polite">Add at least two photographs. Files stay in this browser session.</p>
+      </section>
 
       <!-- Accordion Section 1: Surface & Aspect -->
       <section class="control-group" id="canvasControlGroup">
@@ -286,6 +350,38 @@
         </div>
       </section>
 
+      <section class="control-group" id="memoryEvidenceGroup">
+        <h3 class="group-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14"/><path d="M8 7h8M8 11h8M8 15h5"/><path d="M2 19h20"/></svg>
+          Memory Evidence Ledger
+        </h3>
+        <p class="privacy-note">Separate what is visible, what you remember, what is uncertain, and what the artwork must never invent. These are your declarations—not automatic image recognition.</p>
+        <div class="field-row">
+          <label for="inputObservedEvidence">Observed in the scene (one exact fact per line):</label>
+          <textarea id="inputObservedEvidence" rows="3" maxlength="2400" placeholder="one red umbrella near the curb&#10;wet road reflects the shelter light"></textarea>
+        </div>
+        <div class="field-row">
+          <label for="inputRememberedEvidence">Remembered context (one memory per line):</label>
+          <textarea id="inputRememberedEvidence" rows="3" maxlength="2400" placeholder="we waited here after the last bus"></textarea>
+        </div>
+        <div class="field-row compact-field-grid">
+          <label for="inputUncertainEvidence">Uncertain—keep ambiguous
+            <textarea id="inputUncertainEvidence" rows="3" maxlength="1600" placeholder="the shop may have been closed"></textarea>
+          </label>
+          <label for="inputForbiddenEvidence">Do not invent
+            <textarea id="inputForbiddenEvidence" rows="3" maxlength="1600" placeholder="no extra people&#10;no readable shop name"></textarea>
+          </label>
+        </div>
+        <div class="field-row">
+          <label for="memoryInfluence">Remembered context may influence:</label>
+          <select id="memoryInfluence">
+            <option value="caption-only" selected>Captions only (safer)</option>
+            <option value="art-and-caption">Artwork and captions</option>
+          </select>
+        </div>
+        <p class="field-status" id="memoryEvidenceStatus" aria-live="polite">No evidence declared yet.</p>
+      </section>
+
       <!-- Accordion Section 3: Exact Copy & Wording -->
       <section class="control-group">
         <h3 class="group-title">
@@ -306,6 +402,16 @@
         <div class="field-row">
           <label for="inputCaption">Exact Caption:</label>
           <textarea id="inputCaption" rows="3" placeholder="Enter exact locked wording; line breaks are preserved"></textarea>
+        </div>
+
+        <div class="caption-workshop">
+          <div class="caption-workshop-heading">
+            <strong>Zero-fabrication caption ladder</strong>
+            <button type="button" class="btn btn-sm btn-outline" id="btnBuildCaptionLadder">Refresh options</button>
+          </div>
+          <p>Options reuse your evidence character-for-character; they do not add mood, place, or events.</p>
+          <div class="caption-ladder" id="captionLadder" role="group" aria-label="Evidence-bound caption options"></div>
+          <p class="field-status" id="captionAuthorityStatus" aria-live="polite">No caption claim requires tracing.</p>
         </div>
 
         <div class="field-row" id="writingRulesRow">
@@ -449,10 +555,18 @@
         </div>
       </div>
 
+      <section class="collection-strip" id="collectionStrip" aria-labelledby="collectionStripTitle" hidden>
+        <div class="collection-strip-heading">
+          <h2 id="collectionStripTitle">Collection items</h2>
+          <span id="collectionItemCount">0 artworks</span>
+        </div>
+        <div class="collection-items" id="collectionItems" role="list" aria-label="Ordered collection artworks"></div>
+      </section>
+
       <!-- Canvas Container -->
       <div class="canvas-viewport" id="canvasViewport">
         <div class="paper-frame-container zoom-fit" id="paperContainer">
-          <canvas id="studioCanvas" width="1536" height="1024" role="img" aria-label="Still Scenes artwork preview">Your browser does not support the canvas preview.</canvas>
+          <canvas id="studioCanvas" width="1536" height="1024" role="img" aria-label="Still Scenes artwork preview" aria-describedby="canvasDescription">Your browser does not support the canvas preview.</canvas>
         </div>
       </div>
       <p class="sr-only" id="canvasDescription">Still Scenes artwork preview.</p>
@@ -462,6 +576,7 @@
         <div class="gate-pill gate-warning" id="gateSource">SOURCE · WARNING</div>
         <div class="gate-pill gate-warning" id="gateContract">SCENE CONTRACT · WARNING</div>
         <div class="gate-pill gate-not-applicable" id="gateCopy">LOCKED COPY · N/A</div>
+        <div class="gate-pill gate-not-applicable" id="gateAuthority">MEMORY AUTHORITY · N/A</div>
         <div class="gate-pill gate-verified" id="gateRoute">ROUTE · VERIFIED</div>
         <div class="gate-pill gate-not-applicable" id="gatePrivacy">PRIVACY · N/A</div>
         <div class="gate-pill gate-verified" id="gateExport">EXPORT · VERIFIED</div>

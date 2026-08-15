@@ -1,3 +1,5 @@
+import { evidenceCounts } from './memory-evidence.js';
+
 const PNG_SIGNATURE = Uint8Array.from([137, 80, 78, 71, 13, 10, 26, 10]);
 export const PROVENANCE_KEYWORD = 'still-scenes:provenance';
 
@@ -108,6 +110,7 @@ function normalizedSha256(value) {
 }
 
 function contractSummary(sceneContract) {
+  const memoryEvidence = sceneContract.memory_evidence || null;
   return {
     anchor: String(sceneContract.anchor || ''),
     transformationPath: String(sceneContract.transformation_path || ''),
@@ -117,6 +120,12 @@ function contractSummary(sceneContract) {
     paletteLocks: copyLocks(sceneContract.palette_locks),
     countLocks: copyLocks(sceneContract.count_locks),
     textLocks: copyLocks(sceneContract.text_locks),
+    memoryEvidence: memoryEvidence ? {
+      schema: memoryEvidence.schema,
+      influence: memoryEvidence.influence,
+      counts: evidenceCounts(memoryEvidence),
+      rawTextEmbedded: false
+    } : null,
     surface: sceneContract.surface ? {
       route: sceneContract.surface.route,
       aspectRatio: sceneContract.surface.aspect_ratio,

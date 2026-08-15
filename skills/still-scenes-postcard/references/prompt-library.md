@@ -161,6 +161,8 @@ Keep the mood [mood]. Avoid full illustrated scene, commercial headline, product
 
 ## Caption-generation prompt
 
+When the user requests zero-fabrication captions, prefer the deterministic ladder in `memory-authority.md`: literal observed entry, remembered entry, and a paired two-line fragment. Do not use a language model to embellish those options.
+
 ~~~text
 Write three caption options for a personal postcard based only on this observed scene: [scene facts]. Use [language] and a [tone] voice. Keep each option between [minimum] and [maximum] words. Make each option materially different: one observational, one reflective, and one minimal. Do not invent a relationship, event, location, weather, or emotion not supported by the user. Avoid hashtags, slogans, clichés, and marketing language. Return only a numbered list.
 ~~~

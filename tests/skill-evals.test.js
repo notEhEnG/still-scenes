@@ -13,7 +13,7 @@ test('canonical V3 eval pack covers native Scene Intelligence and bounded legacy
   const pack = await readJson(canonicalPath);
   assert.equal(pack.skill, 'still-scenes-postcard');
   assert.equal(pack.version, 3);
-  assert.equal(pack.evals.length, 53);
+  assert.equal(pack.evals.length, 58);
 
   const legacyCases = pack.evals.filter(({ id }) => id.startsWith('legacy-'));
   assert.deepEqual(legacyCases.map(({ id }) => id).sort(), [
@@ -30,12 +30,13 @@ test('canonical V3 eval pack covers native Scene Intelligence and bounded legacy
   assert.match(nativeAssertions, /Mutation Budget/);
   assert.match(nativeAssertions, /Scene Delta/);
   assert.match(nativeAssertions, /scene-evidence/i);
+  assert.match(nativeAssertions, /Memory Authority|observed.*remembered|caption-only/i);
 });
 
 test('legacy invocation remains a V3 compatibility package', async () => {
   const pack = await readJson(legacyPath);
   assert.equal(pack.skill, 'still-scenes-postcard-zine');
   assert.equal(pack.version, 3);
-  assert.equal(pack.evals.length, 42);
+  assert.equal(pack.evals.length, 45);
   assert.ok(pack.evals.some(({ assertions }) => assertions.some((line) => /Scene Graph/.test(line))));
 });

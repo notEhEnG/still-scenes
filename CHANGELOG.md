@@ -1,5 +1,37 @@
 # Changelog
 
+## 3.2.0 — 2026-08-15
+
+### Memory Authority
+
+- Added a first-party Memory Evidence Ledger that keeps user-declared observations, remembered context, uncertainty, and forbidden invention in separate authority classes.
+- Added an explicit influence policy: remembered context is caption-only by default and may shape visible artwork only after the user selects artwork-and-caption influence.
+- Added exact cross-class conflict detection and a separate Memory Authority quality gate so ambiguity cannot silently become fact.
+
+### Caption authorship and privacy
+
+- Added a deterministic zero-fabrication caption ladder with literal, memory-note, and paired-fragment options assembled character-for-character from user evidence.
+- Added caption claim audits with source entry IDs and explicit separation between wording traceability and real-world truth.
+- Added MEMORY AUTHORITY to Prompt Compiler V3 and count-only compact provenance so private evidence text is not embedded in PNG/PDF provenance.
+
+### Skill and tests
+
+- Extended the canonical and compatibility Skills with the Memory Authority reference and upgraded their eval suites to 58 and 45 scenarios.
+- Added unit coverage for authority classification, caption traceability, conflict failures, compiler boundaries, and provenance redaction.
+
+## 3.1.0 — 2026-08-15
+
+### Collection Studio
+
+- Added an in-browser Collection workspace for 2–12 photographs with isolated item state, upload-order sequencing, accessible reordering, Collection DNA, and rendered-axis variation planning.
+- Added per-item editing and PNG export, contact-sheet PNG export, and a complete collection manifest that excludes raw source bytes, EXIF, credentials, inferred locations, and original filenames.
+- Added requested-versus-resolved collection recipes so Scene Contract and extreme-ratio crop overrides remain visible.
+
+### Quality and testing
+
+- Corrected primary-action and helper-text contrast, added a semantic page heading, and associated the dynamic canvas description with the canvas.
+- Added unit coverage for collection state, recipe variation, manifest privacy, and contact-sheet geometry, plus Playwright browser coverage for the complete collection workflow and WCAG AA contrast.
+
 ## 3.0.0 — 2026-08-11
 
 ### Scene Intelligence

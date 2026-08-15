@@ -24,6 +24,9 @@ test('initial custom state contains no Pontian or demo copy', () => {
   assert.equal(state.mutationProfile, 'governed');
   assert.equal(state.sceneDensity, 'balanced');
   assert.equal(state.preservationLevel, 'native');
+  assert.equal(state.observedEvidence, '');
+  assert.equal(state.rememberedEvidence, '');
+  assert.equal(state.memoryInfluence, 'caption-only');
 });
 
 test('every route has only compatible views', () => {

@@ -30,7 +30,7 @@ test('prompt compiler is route-aware for every surface', () => {
 test('Prompt Compiler V3 uses the required section order and native terminology', () => {
   const prompt = compilePrompt(stateFor('front'));
   const expected = [
-    'OUTPUT CONTRACT', 'SOURCE ROLE', 'SCENE GRAPH', 'SCENE CONTRACT', 'MUTATION BUDGET',
+    'OUTPUT CONTRACT', 'SOURCE ROLE', 'SCENE GRAPH', 'SCENE CONTRACT', 'MEMORY AUTHORITY', 'MUTATION BUDGET',
     'TRANSFORMATION PATH', 'LAYOUT PLAN', 'REDUCTION MAP', 'MATERIAL LOGIC', 'COLOR FUNCTION',
     'LOCKED COPY STRATEGY', 'REPRODUCTION', 'PRIVACY / REFERENCE BOUNDARY', 'HARD FAILURES',
     'SCENE DELTA EXPECTATION'

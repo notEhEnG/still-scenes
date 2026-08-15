@@ -1,6 +1,6 @@
 ---
 name: still-scenes-postcard
-description: Create, analyze, verify, sequence, or prompt personal scene-preservation artwork from user photos, scene ideas, exact captions, locations, dates, or visual references. Use for postcards, zines, Scene Graphs, Scene Contracts, Mutation Budgets, scene-evidence distillation, explainable art direction, Scene Deltas, memory sequences, Collection DNA, meaningful batches, heuristic output verification, portable provenance, or production-ready image-generation prompts.
+description: Create, analyze, verify, sequence, or prompt personal scene-preservation artwork from user photos, scene ideas, memories, uncertainties, exact captions, locations, dates, or visual references. Use for postcards, zines, Memory Evidence Ledgers, zero-fabrication caption ladders, caption claim audits, Scene Graphs, Scene Contracts, Mutation Budgets, scene-evidence distillation, explainable art direction, Scene Deltas, memory sequences, Collection DNA, meaningful batches, heuristic output verification, portable provenance, or production-ready image-generation prompts.
 ---
 
 # Still Scenes
@@ -26,6 +26,7 @@ If the user says only “make this a postcard” with one attached photo, use a 
 
 - Read references/style-system.md for every route.
 - Read references/scene-contract.md for every route.
+- Read references/memory-authority.md whenever the request contains recollection, uncertainty, assisted captions, incomplete evidence, or a do-not-invent boundary.
 - Read references/scene-intelligence.md for every route, sequence, collection, and verification request.
 - Read references/capability-matrix.md before promising generation, editing, exact text, inspection, or export.
 - Read references/postcard-system.md for Postcard Create and any print-ready request.
@@ -67,6 +68,16 @@ scene_contract:
   reduction_level: none | restrained | simplified | distilled
   source_role:
   privacy_constraints: []
+memory_evidence:
+  influence: caption-only | art-and-caption
+  observed: []
+  remembered: []
+  uncertain: []
+  forbidden: []
+caption_ladder:
+  mode: zero-fabrication
+  options: []
+caption_authority:
 scene_graph:
   nodes: []
   relations: []
@@ -153,18 +164,19 @@ Keep generated in-image text short. Move long messages to a writable back or det
 
 ## Create the artifact
 
-1. **Read the scene.** Build the compact Scene Graph: anchor nodes, Scene DNA nodes, relations, direction, depth, quiet fields, focal hierarchy, and evidence status.
-2. **Write the Scene Contract.** Record locks, permitted changes, forbidden mutations, source role, privacy constraints, and one transformation path.
-3. **Set the Mutation Budget.** Assign qualitative freedom per dimension. Let every Scene Contract lock override requested freedom.
-4. **Audit the source boundary.** Separate scene-anchor, scene-evidence, reference-grammar, supporting-fragment, generated-scene, and no-source behavior.
-5. **Solve layout and material.** Derive the layout plan from graph, locks, copy pressure, crop pressure, and output. Give every material choice a reason.
-6. **Write the expected Scene Delta.** Record retained, simplified, transformed, removed, and added elements without pretending the output has been observed.
-7. **Compile Prompt V3.** Use the exact section order in references/scene-intelligence.md and translate data into concise visual instructions rather than raw YAML.
-8. **Generate.** Include the actual user image for preserve, reduce, or hybrid work. For scene-evidence Distill, use it only as input evidence and prohibit recognizable source raster in the output.
-9. **Compose exact copy.** Use a deterministic text/layout pass when exact caption rendering matters.
-10. **Inspect and verify.** Apply references/quality-gates.md, update lock families independently, and record unexpected changes without inventing observations.
-11. **Record provenance.** Preserve the source SHA-256 when known, Scene Contract and Scene Intelligence summaries, production-prompt hash, Scene Delta, timestamp, and output route. Never embed raw source bytes or inferred private metadata.
-12. **Retry once if useful.** Tighten the relevant budget dimensions or simplify the request. If a second attempt fails a hard requirement, return the best honest partial result and explain the limitation.
+1. **Classify memory authority.** Separate observed declarations, remembered context, uncertainty, and forbidden invention. Default remembered context to caption-only influence. Resolve exact cross-class conflicts before compilation.
+2. **Read the scene.** Build the compact Scene Graph: anchor nodes, Scene DNA nodes, relations, direction, depth, quiet fields, focal hierarchy, and evidence status.
+3. **Write the Scene Contract.** Record locks, permitted changes, forbidden mutations, source role, privacy constraints, Memory Evidence Ledger, and one transformation path.
+4. **Set the Mutation Budget.** Assign qualitative freedom per dimension. Let every Scene Contract lock override requested freedom.
+5. **Audit the source boundary.** Separate scene-anchor, scene-evidence, reference-grammar, supporting-fragment, generated-scene, and no-source behavior.
+6. **Solve layout and material.** Derive the layout plan from graph, locks, copy pressure, crop pressure, and output. Give every material choice a reason.
+7. **Write the expected Scene Delta.** Record retained, simplified, transformed, removed, and added elements without pretending the output has been observed.
+8. **Compile Prompt V3.** Use the exact section order in references/scene-intelligence.md, including MEMORY AUTHORITY, and translate data into concise visual instructions rather than raw YAML.
+9. **Generate.** Include the actual user image for preserve, reduce, or hybrid work. For scene-evidence Distill, use it only as input evidence and prohibit recognizable source raster in the output.
+10. **Compose exact copy.** Use a deterministic text/layout pass when exact caption rendering matters. When the user requests an evidence-bound caption, assemble the zero-fabrication ladder from exact observed and remembered entries and record source entry IDs.
+11. **Inspect and verify.** Apply references/quality-gates.md, update lock families and Memory Authority independently, and record unexpected changes without inventing observations. Treat caption traceability as distinct from historical truth.
+12. **Record provenance.** Preserve the source SHA-256 when known, Scene Contract and Scene Intelligence summaries, production-prompt hash, Scene Delta, timestamp, and output route. Store only Memory Evidence schema, influence, counts, and the false raw-text flag in compact embedded provenance. Never embed raw source bytes or inferred private metadata.
+13. **Retry once if useful.** Tighten the relevant budget dimensions or simplify the request. If a second attempt fails a hard requirement, return the best honest partial result and explain the limitation.
 
 ## Vary a batch deliberately
 

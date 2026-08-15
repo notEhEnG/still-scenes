@@ -30,6 +30,8 @@ All three source photographs were taken by Bryan, the repository owner and autho
 - Explicit source roles: scene anchor, scene evidence, reference grammar, supporting fragment, generated scene, or no source.
 - A compact Scene Graph for anchors, relations, direction, depth, quiet fields, focal hierarchy, density, and declared source evidence.
 - A first-party Scene Contract with identity, geometry, spatial, palette, count, text, source-role, and privacy locks.
+- A Memory Evidence Ledger that separates observed declarations, remembered context, uncertainty, and forbidden invention before prompt compilation.
+- A deterministic zero-fabrication caption ladder with source entry IDs and a claim audit that verifies wording traceability without pretending to verify historical truth.
 - A per-dimension Mutation Budget whose permissions are always subordinate to Scene Contract locks.
 - Constraint-based layout and material logic driven by the actual scene rather than a fixed whitespace template.
 - Explainable art-direction records and Scene Deltas covering retained, simplified, transformed, removed, added, unexpected, and independently verified lock families.
@@ -37,13 +39,14 @@ All three source photographs were taken by Bryan, the repository owner and autho
 - Locked caption, message, location, and date handling.
 - Caption assistance, alt text, production records, and reusable generation prompts.
 - Source-safe batch variation and privacy rules that never infer a printable location from photo metadata.
+- A browser Collection workspace for 2–12 photographs with upload-order sequencing, Collection DNA, rendered-axis variation, per-item editing, contact-sheet PNG export, and a private JSON manifest.
 - A static ES-module Canvas studio with bounded local image upload, deterministic texture, exact-copy fitting, and blob-based client-side export.
 - Heuristic returned-image verification for palette distance, 64-bit perceptual structure, and declared surface geometry.
 - An optional, separately disclosed bring-your-own-endpoint gateway; it is disabled by default and never weakens the core page's `connect-src 'none'` policy.
 - Portable PNG/PDF provenance, a matching JSON sidecar, and a local PNG provenance reader.
 - 34 distinct rendered Still Scenes artworks: seven original generated scenes and 27 source-preserving transformations.
 - Three transformations for each of the nine photographs taken by the owner and author, with exact prompts and SHA-256 provenance.
-- Fifty-three canonical evaluation scenarios covering V3 scene intelligence, sequences, collections, similarity, provenance, hostile uploads, Unicode copy, capabilities, and failure reporting, plus a smaller legacy compatibility suite.
+- Fifty-eight canonical evaluation scenarios covering V3 scene intelligence, Memory Authority, evidence-bound captions, sequences, collections, similarity, provenance, hostile uploads, Unicode copy, capabilities, and failure reporting, plus a 45-case legacy compatibility suite.
 
 ## Scene Intelligence V3
 
@@ -51,6 +54,7 @@ The browser Studio and portable Skill now share one governed planning flow:
 
 ~~~text
 source declaration
+  → Memory Evidence Ledger
   → Scene Graph
   → Scene Contract
   → Mutation Budget
@@ -87,6 +91,7 @@ Serving the directory over HTTP is preferable to opening `index.html` directly b
 - 3:2, 2:3, 4:5, 3:5, and A6 landscape output ratios.
 - Click-to-upload and keyboard/drag-and-drop local images with MIME, file-size, signature, decoded-dimension, and pixel-count validation.
 - Live location, date, caption, writing-rule, paper, accent, typography, postal-mark, and texture controls.
+- A local Memory Evidence Ledger, remembered-context influence control, exact conflict detection, and evidence-bound caption workshop.
 - Route-compatible composite, text-free, front, and back views.
 - Safe JSON brief, route-aware Prompt Compiler V3, explainable art-direction/Scene Delta inspector, and route-aware accessibility alt text.
 - Client-side RGB PNG export via `canvas.toBlob()`; duplex exports separate matching front and back files.
@@ -118,7 +123,7 @@ Example request:
 Use the Still Scenes skill to transform my photograph or scene idea into a personal artwork with a custom caption.
 ~~~
 
-The skill returns the artifact or output path, final prompt, route and surface recipe, source role, Scene Graph, Scene Contract, Mutation Budget, layout and material decisions, Scene Delta, locked-copy record, accessibility alt text, capability record, and any retry or limitation note.
+The skill returns the artifact or output path, final prompt, route and surface recipe, source role, Memory Evidence Ledger, caption authority record, Scene Graph, Scene Contract, Mutation Budget, layout and material decisions, Scene Delta, locked-copy record, accessibility alt text, capability record, and any retry or limitation note.
 
 ## Author-photo collection: three transformations per source
 
@@ -336,7 +341,13 @@ Automated behavior, privacy, upload, Unicode, routing, quality, and compiler tes
 npm test
 ~~~
 
-The package has no dependencies; `npm test` invokes Node's built-in test runner.
+The production Studio has no runtime dependencies; `npm test` invokes Node's built-in test runner. Playwright is a development-only dependency for browser acceptance tests.
+
+Browser collection, export, privacy, responsive, and contrast checks:
+
+~~~bash
+npm run test:browser
+~~~
 
 Shipped module syntax:
 
@@ -362,7 +373,7 @@ The completed workspace validation also compares every gallery image with its mi
 
 - The verifier is intentionally heuristic. Palette distance, a 64-bit dHash, and aspect-ratio checks can flag conspicuous divergence, but they cannot prove identity, object geometry, count, OCR accuracy, semantic fidelity, source-boundary compliance, or every Scene Contract lock. Those families remain `declared` or `not-applicable` until capable inspection exists.
 - The browser Scene Graph is built from user/preset declarations and bounded file facts; it does not claim semantic computer vision. Its art-direction record explains external inputs and decisions, not hidden chain-of-thought.
-- Memory Sequence, Collection DNA, and similarity planning are deterministic current-request modules. The Studio does not persist collections or claim cross-session memory.
+- Memory Sequence, Collection DNA, and similarity planning are deterministic current-request modules. The Collection workspace exposes them for the current browser session, but does not persist collections or claim cross-session memory.
 - Optional generation depends on the endpoint's API, CORS policy, availability, output schema, and retention terms. API keys remain in page memory only; HTTPS-hosted Studio pages cannot call insecure HTTP endpoints because browsers block mixed content.
 - Browser Distill is an honest source-free procedural interpretation based on declared Scene DNA and sampled palette evidence, not full semantic image-model distillation.
 - Quality gates verify deterministic properties such as route compatibility, provenance ownership, exact source strings, measured fit, pixel dimensions, and source-free procedural rendering. Returned-image verification provides evidence, not semantic proof; identity and fidelity claims still require human or capable-model inspection.

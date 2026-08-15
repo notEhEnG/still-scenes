@@ -18,6 +18,8 @@ The selected scene and the user's exact words remain authoritative. Build all do
 
 Never claim an observation that the available tools did not make.
 
+Run the Memory Evidence Ledger before graph compilation whenever recollection, uncertainty, assisted captions, or a do-not-invent boundary appears. Keep observed declarations, remembered context, uncertainty, and forbidden invention separate. See `memory-authority.md`.
+
 ## Scene Graph
 
 Use a compact graph, not a verbose scene description:
@@ -169,17 +171,18 @@ Compile concise visual instructions in this exact order:
 2. SOURCE ROLE
 3. SCENE GRAPH
 4. SCENE CONTRACT
-5. MUTATION BUDGET
-6. TRANSFORMATION PATH
-7. LAYOUT PLAN
-8. REDUCTION MAP
-9. MATERIAL LOGIC
-10. COLOR FUNCTION
-11. LOCKED COPY STRATEGY
-12. REPRODUCTION
-13. PRIVACY / REFERENCE BOUNDARY
-14. HARD FAILURES
-15. SCENE DELTA EXPECTATION
+5. MEMORY AUTHORITY
+6. MUTATION BUDGET
+7. TRANSFORMATION PATH
+8. LAYOUT PLAN
+9. REDUCTION MAP
+10. MATERIAL LOGIC
+11. COLOR FUNCTION
+12. LOCKED COPY STRATEGY
+13. REPRODUCTION
+14. PRIVACY / REFERENCE BOUNDARY
+15. HARD FAILURES
+16. SCENE DELTA EXPECTATION
 
 Do not paste raw YAML into the production prompt. Translate graph and contract fields into concrete instructions.
 

@@ -29,6 +29,11 @@ index.html
       ├── variation.js ────── meaningful axes + similarity guard
       ├── memory-sequence.js  current-request pacing and narrative roles
       ├── collection-dna.js ─ explicit family resemblance
+      ├── collection-recipe.js  renderable variation adaptation
+      ├── collection-state.js  isolated per-artwork session state
+      ├── collection-ui.js ── collection controls and ordered item strip
+      ├── collection-export.js  contact-sheet geometry and private manifest
+      ├── memory-evidence.js ─ authority ledger, caption ladder, claim audit
       ├── image-loader.js ─── bounded decode and resource lifecycle
       ├── layout.js ───────── dimensions, views, safe geometry
       ├── typography.js ───── exact wrapping, fitting, collision checks
@@ -75,12 +80,17 @@ Each locked-copy field separately records `owner: blank | preset | user` and `di
 
 Returned-image state is separate from source state. It records the generated image resource, exact prompt, Scene Contract, Scene Intelligence snapshot, generation time, and latest verification report. Returning to the source releases the generated resource without mutating the source record.
 
+Collection mode keeps 2–12 isolated editor snapshots in one in-memory workspace. The uploaded resources are referenced by their owning item rather than duplicated. Upload order is authoritative unless the user invokes the accessible reorder controls. Collection planning applies Collection DNA, Memory Sequence, and variation recipes before rendering; Scene Contract locks and extreme-ratio protections can override requested crop values, and both requested and resolved recipes remain inspectable.
+
+Collection export produces a contact-sheet PNG with compact manifest-hash provenance and a separate complete JSON manifest. The manifest contains briefs and prompts but allow-lists source metadata to SHA-256, MIME type, and dimensions; local filenames, raw source bytes, EXIF, endpoint credentials, and inferred locations are excluded.
+
 ## Scene Intelligence pipeline
 
 The browser builds one governed plan from deterministic state:
 
 ~~~text
 declared source + copy
+  → Memory Evidence Ledger
   → Scene Graph
   → Scene Contract
   → Mutation Budget
@@ -93,6 +103,8 @@ declared source + copy
 ~~~
 
 `scene-graph.js` stores declared nodes, relations, direction, depth, quiet fields, focal hierarchy, density, and bounded source evidence. It labels a property observed only when an inspection path actually supplied that observation.
+
+`memory-evidence.js` classifies exact user lines as observed declarations, remembered context, uncertainty, or forbidden invention. It detects exact cross-class conflicts, defaults memories to caption-only influence, assembles up to three zero-fabrication captions with source IDs, and audits wording traceability without making a truth claim. The Scene Contract and compiled prompt carry the full session ledger; compact provenance carries only its schema, influence policy, per-class counts, and `rawTextEmbedded: false`.
 
 The graph is operational, not display-only: focal position and gaze drive alignment and breathing direction; horizon and source ratio constrain crop strategy; density changes image allocation; quiet fields become protected regions; and graph relations are appended to the scene-dependent reduction map and expected Scene Delta.
 
@@ -160,7 +172,7 @@ The network page's CSP permits HTTP/HTTPS connections because a user-supplied ho
 
 PNG remains the default export. The export path inserts a `still-scenes:provenance` iTXt chunk after browser encoding and downloads a matching `.json` sidecar. The additional PDF path creates a one-page PDF 1.7 file around an edge-extended raster, with a configurable 3 mm default bleed, `/MediaBox`, `/BleedBox`, `/TrimBox`, and an XMP provenance field. Both formats remain RGB; the PDF writer performs no CMYK conversion, ICC proofing, or press certification.
 
-Provenance schema v2 includes the source SHA-256 when known, a limited current Scene Contract and Scene Intelligence summary, Scene Delta signature, compiled-prompt SHA-256, local timestamp, route/dimensions, bleed, and RGB declaration. When a returned AI image is active, a generation snapshot keeps its original contract, intelligence record, and prompt hash separate from later local composition edits. The schema excludes raw source bytes, full prompts, EXIF, credentials, and inferred location. See `PROVENANCE.md`.
+Provenance schema v2 includes the source SHA-256 when known, a limited current Scene Contract and Scene Intelligence summary, count-only Memory Evidence signature, Scene Delta signature, compiled-prompt SHA-256, local timestamp, route/dimensions, bleed, and RGB declaration. When a returned AI image is active, a generation snapshot keeps its original contract, intelligence record, and prompt hash separate from later local composition edits. The schema excludes raw source bytes, raw Memory Evidence text, full prompts, EXIF, credentials, and inferred location. See `PROVENANCE.md`.
 
 ## Static deployment
 

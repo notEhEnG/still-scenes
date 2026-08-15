@@ -21,6 +21,7 @@ export function solveLayoutPlan({ state, sceneGraph, sceneContract, mutationBudg
   const gesture = meaningfulDirection(sceneGraph.directions.dominant_gesture);
   const pressure = textPressure(state);
   const horizon = sceneGraph.directions.horizon === 'strong';
+  const variation = state.variationRecipe || null;
   const rationale = [];
 
   if (route === 'back') {
@@ -35,7 +36,8 @@ export function solveLayoutPlan({ state, sceneGraph, sceneContract, mutationBudg
     };
   }
 
-  let imageShare = route === 'split' ? Number(state.splitRatio || 0.46) : route === 'zine' ? 0.34 : 0.8;
+  let imageShare = variation?.imageShare ?? (route === 'split' ? Number(state.splitRatio || 0.46) : route === 'zine' ? 0.34 : 0.8);
+  if (variation?.imageShare != null) rationale.push('The collection recipe requested a distinct picture share for this item.');
   if (density === 'dense') {
     imageShare += route === 'zine' ? 0.06 : 0.04;
     rationale.push('Dense scene evidence receives additional image area before secondary detail is reduced.');
@@ -48,15 +50,19 @@ export function solveLayoutPlan({ state, sceneGraph, sceneContract, mutationBudg
   if (gaze) rationale.push('Breathing room is reserved in the declared gaze or motion direction.');
   if (sceneGraph.quiet_fields.length) rationale.push('Declared or focal-derived quiet fields remain low-density and free of decorative clutter.');
 
-  const family = route === 'split'
+  const inferredFamily = route === 'split'
     ? (horizon ? 'horizon-split' : 'scene-weighted-split')
     : route === 'zine' ? (horizon ? 'open-horizon-event' : 'relational-cluster')
       : horizon ? 'wide-horizon-front' : 'scene-weighted-front';
+  const family = horizon ? inferredFamily : variation?.layoutFamily || inferredFamily;
   const photoAlignment = ['far-right', 'right'].includes(focal) ? 'right' : ['far-left', 'left'].includes(focal) ? 'left' : 'center';
   const breathingDirection = gaze || gesture || (photoAlignment === 'left' ? 'right' : photoAlignment === 'right' ? 'left' : 'outer field');
-  const cropPolicy = mutationBudget.values.crop === 'locked' || mutationBudget.values.geometry === 'locked'
+  const recipeCrop = variation?.cropPolicy;
+  const cropLocked = mutationBudget.values.crop === 'locked' || mutationBudget.values.geometry === 'locked';
+  const cropPolicy = cropLocked
     ? 'fit-within-safe-area'
-    : horizon ? 'cover-with-level-horizon' : 'scene-aware-cover';
+    : horizon ? 'cover-with-level-horizon' : recipeCrop || 'scene-aware-cover';
+  if (recipeCrop && cropPolicy !== recipeCrop) rationale.push('Scene Contract or horizon protection overrode the requested collection crop.');
   const sourceRatio = state.source?.width && state.source?.height ? state.source.width / state.source.height : null;
   const targetPortrait = orientationFor(state.aspectRatio) === 'portrait';
   const extremeSourceMismatch = sourceRatio && ((sourceRatio > 2.4 && targetPortrait) || (sourceRatio < 0.42 && !targetPortrait));
@@ -82,7 +88,7 @@ export function solveLayoutPlan({ state, sceneGraph, sceneContract, mutationBudg
     text_regions: [breathingDirection === 'right' ? 'left counterfield' : breathingDirection === 'left' ? 'right counterfield' : 'quiet counterfield'],
     quiet_regions: quietRegions,
     breathing_direction: breathingDirection,
-    caption_placement: breathingDirection === 'right' ? 'left counterfield' : breathingDirection === 'left' ? 'right counterfield' : 'quiet counterfield',
+    caption_placement: variation?.captionPlacement || (breathingDirection === 'right' ? 'left counterfield' : breathingDirection === 'left' ? 'right counterfield' : 'quiet counterfield'),
     focal_protection: [sceneContract.anchor, ...sceneContract.spatial_locks].filter(Boolean),
     alignment_logic: 'Align the source anchor ' + photoAlignment + ' while protecting breathing room toward ' + breathingDirection + '.',
     visual_entry: quietRegions[0] || photoAlignment,
@@ -93,6 +99,15 @@ export function solveLayoutPlan({ state, sceneGraph, sceneContract, mutationBudg
       'do not crop identity, count, or geometry locks',
       horizon ? 'keep the declared horizon level' : 'preserve declared spatial relations'
     ],
+    requested_collection_recipe: variation ? variation.requested : null,
+    resolved_collection_recipe: variation ? {
+      family,
+      image_share: Number(Math.max(0.22, Math.min(0.9, imageShare)).toFixed(3)),
+      crop_policy: resolvedCropPolicy,
+      material: variation.photoTreatment,
+      transformation_path: variation.transformationPath,
+      texture: variation.printTexture
+    } : null,
     rationale
   };
 }

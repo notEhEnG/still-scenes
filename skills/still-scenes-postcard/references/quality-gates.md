@@ -21,6 +21,17 @@ Never mark identity, preservation, semantic fidelity, or reference safety verifi
 - Caption mode is locked, assisted, inferred, or writable.
 - Orientation and output target are explicit.
 - Privacy-sensitive location handling is recorded.
+- Memory Evidence classes and influence are recorded when recollection, uncertainty, or invention boundaries are active.
+
+## Gate 1A: Memory Authority
+
+- Observed declarations, remembered context, uncertainty, and forbidden invention remain separate.
+- Remembered context influences captions only unless the user explicitly enables artwork influence.
+- Uncertain details remain ambiguous rather than becoming depicted or asserted facts.
+- Forbidden entries are hard failures.
+- Exact cross-class conflicts stop compilation until resolved.
+- Evidence-bound caption options reuse source wording character-for-character and record source entry IDs.
+- A traceable caption verifies wording provenance only, never historical truth.
 
 ## Gate 2: Source handling
 
@@ -180,3 +191,4 @@ Return:
 - one short interpretation;
 - retry or limitation;
 - concise alt text.
+- Memory Authority status and caption source IDs when applicable.

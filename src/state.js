@@ -34,6 +34,11 @@ export function createInitialState(documentSeed = 'still-scenes-v3') {
     ...SCENE_INTELLIGENCE_DEFAULTS,
     sceneAnchor: '',
     sceneDNA: '',
+    observedEvidence: '',
+    rememberedEvidence: '',
+    uncertainEvidence: '',
+    forbiddenEvidence: '',
+    memoryInfluence: 'caption-only',
     sceneFieldsDirty: false,
     location: '',
     date: '',
@@ -68,6 +73,7 @@ export function createInitialState(documentSeed = 'still-scenes-v3') {
     generatedAt: null,
     verificationReport: null,
     paletteSamples: ['#35566f', '#f0ede4', '#d8643b', '#25272a'],
+    variationRecipe: null,
     documentSeed,
     textureRevision: 0,
     uploadError: '',
@@ -129,7 +135,7 @@ export function updateCopyField(state, field, value) {
 }
 
 export function updateSceneField(state, field, value) {
-  if (!['sceneAnchor', 'sceneDNA', 'sceneRelationships', 'quietField'].includes(field)) throw new Error('Unsupported scene field: ' + field);
+  if (!['sceneAnchor', 'sceneDNA', 'sceneRelationships', 'quietField', 'observedEvidence', 'rememberedEvidence', 'uncertainEvidence', 'forbiddenEvidence'].includes(field)) throw new Error('Unsupported scene field: ' + field);
   state[field] = String(value);
   state.sceneFieldsDirty = true;
   return state;
@@ -140,6 +146,11 @@ export function applyPreset(state, presetId) {
   if (!preset) throw new Error('Unknown preset: ' + presetId);
 
   Object.assign(state, SCENE_INTELLIGENCE_DEFAULTS);
+  state.observedEvidence = '';
+  state.rememberedEvidence = '';
+  state.uncertainEvidence = '';
+  state.forbiddenEvidence = '';
+  state.memoryInfluence = 'caption-only';
   Object.entries(preset).forEach(([key, value]) => {
     if (!['imagePath', 'description'].includes(key)) state[key] = value;
   });
@@ -177,6 +188,11 @@ export function transitionToUserUpload(state, fileMeta) {
     state.sceneDNA = '';
     state.sceneRelationships = '';
     state.quietField = '';
+    state.observedEvidence = '';
+    state.rememberedEvidence = '';
+    state.uncertainEvidence = '';
+    state.forbiddenEvidence = '';
+    state.memoryInfluence = 'caption-only';
     state.sceneFocalPosition = 'auto';
     state.sceneDirection = 'auto';
     state.sceneGazeDirection = 'auto';
@@ -211,6 +227,11 @@ export function leavePresetForCustom(state) {
   });
   state.sceneAnchor = '';
   state.sceneDNA = '';
+  state.observedEvidence = '';
+  state.rememberedEvidence = '';
+  state.uncertainEvidence = '';
+  state.forbiddenEvidence = '';
+  state.memoryInfluence = 'caption-only';
   Object.assign(state, SCENE_INTELLIGENCE_DEFAULTS);
   state.sceneFieldsDirty = false;
   state.source = {

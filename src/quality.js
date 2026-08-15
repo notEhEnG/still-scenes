@@ -3,6 +3,7 @@ import { buildSceneContract } from './scene-contract.js';
 import { buildSceneIntelligence } from './scene-intelligence.js';
 import { auditSourceBoundary } from './source-boundary.js';
 import { hasPresetCopyLeak } from './state.js';
+import { auditCaptionAuthority, buildCaptionLadder, buildMemoryEvidence, validateMemoryEvidence } from './memory-evidence.js';
 
 function result(id, label, status, detail) {
   return { id, label, status, detail };
@@ -44,6 +45,25 @@ function copyCheck(state, diagnostics) {
   if (missing.length || mismatch) return result('copy', 'Locked Copy', QUALITY_STATUS.FAILED, 'A required field was not rendered character-for-character.');
   if (overflow || collisions.length) return result('copy', 'Locked Copy', QUALITY_STATUS.WARNING, 'Copy is exact but does not fit safely without overflow or collision.');
   return result('copy', 'Locked Copy', QUALITY_STATUS.VERIFIED, 'Requested and rendered source strings match with no measured overflow or collision.');
+}
+
+function authorityCheck(state) {
+  const ledger = buildMemoryEvidence(state);
+  const validation = validateMemoryEvidence(ledger);
+  if (!validation.valid) {
+    return result('authority', 'Memory Authority', QUALITY_STATUS.FAILED, 'The same detail appears under conflicting authority classes: ' + validation.conflicts.map((conflict) => conflict.text + ' (' + conflict.kinds.join(', ') + ')').join('; ') + '.');
+  }
+  const audit = auditCaptionAuthority(state, ledger, buildCaptionLadder(state, ledger));
+  if (!ledger.entries.length && !state.caption) {
+    return result('authority', 'Memory Authority', QUALITY_STATUS.NOT_APPLICABLE, 'No memory evidence or caption is declared.');
+  }
+  if (audit.status === 'declared') {
+    return result('authority', 'Memory Authority', QUALITY_STATUS.DECLARED, audit.detail);
+  }
+  if (audit.status === 'verified') {
+    return result('authority', 'Memory Authority', QUALITY_STATUS.VERIFIED, audit.detail);
+  }
+  return result('authority', 'Memory Authority', QUALITY_STATUS.DECLARED, 'Evidence classes and influence policy are declared; no caption claim requires tracing.');
 }
 
 function routeCheck(state, diagnostics) {
@@ -89,6 +109,7 @@ export function evaluateQuality(state, diagnostics, dimensions) {
     sourceCheck(state),
     contractCheck(state),
     copyCheck(state, diagnostics),
+    authorityCheck(state),
     routeCheck(state, diagnostics),
     privacyCheck(state),
     exportCheck(state, dimensions, diagnostics)

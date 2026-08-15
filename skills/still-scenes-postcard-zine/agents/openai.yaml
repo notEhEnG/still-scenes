@@ -1,0 +1,7 @@
+interface:
+  display_name: "Still Scenes"
+  short_description: "Legacy alias for evidence-aware Still Scenes"
+  brand_color: "#E05A36"
+  default_prompt: "Use $still-scenes-postcard-zine to separate observed, remembered, uncertain, and forbidden details; build the Scene Contract; transform my photograph; and report the Scene Delta."
+policy:
+  allow_implicit_invocation: true

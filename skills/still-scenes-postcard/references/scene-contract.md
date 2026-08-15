@@ -20,11 +20,21 @@ scene_contract:
   reduction_level: none | restrained | simplified | distilled
   source_role: scene-anchor | scene-evidence | reference-grammar | supporting-fragment | generated-scene | none
   privacy_constraints: []
+  memory_evidence:
+    schema: still-scenes/memory-evidence/v1
+    influence: caption-only | art-and-caption
+    entries: []
+    policy: {}
+  memory_evidence_validation:
+    valid:
+    conflicts: []
 ~~~
 
 Use `scene-evidence` when the user's photograph supplies Scene DNA, palette, gesture, depth, or relation but recognizable source raster is prohibited from the final artifact. This is the normal Distill role. Keep it distinct from `reference-grammar`, which governs external style references.
 
 After the contract, build the qualitative Mutation Budget from `scene-intelligence.md`. Locks override every budget permission.
+
+Classify recollection and ambiguity through `memory-authority.md`. Default remembered context to caption-only influence, keep uncertain details ambiguous, and append every forbidden entry to hard failures. An exact cross-class conflict makes the contract invalid until the user resolves it.
 
 ## Field meanings
 

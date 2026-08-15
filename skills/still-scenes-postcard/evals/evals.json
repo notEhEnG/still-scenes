@@ -462,6 +462,51 @@
       ]
     },
     {
+      "id": "memory-authority-caption-only-default",
+      "prompt": "The photo shows one red umbrella. I remember that we missed the last bus, but that is not visible. Keep the memory in captions only and do not add a bus.",
+      "assertions": [
+        "Records the umbrella as observed, the missed bus as remembered, and the bus depiction as forbidden.",
+        "Defaults remembered context to caption-only influence.",
+        "Does not turn the remembered event into a visible fact."
+      ]
+    },
+    {
+      "id": "zero-fabrication-caption-ladder",
+      "prompt": "Use my exact evidence to offer a zero-fabrication caption ladder. Observed: ‘one porch light in rain.’ Remembered: ‘we stayed until it stopped.’",
+      "assertions": [
+        "Offers literal, memory-note, and paired-fragment options using the supplied wording character-for-character.",
+        "Records the source entry IDs behind every option.",
+        "Adds no connective prose, mood, place, weather detail, or event."
+      ]
+    },
+    {
+      "id": "uncertainty-remains-ambiguous",
+      "prompt": "I think the shop was closed, but I am not sure. Make the scene and keep that detail genuinely uncertain.",
+      "assertions": [
+        "Classifies the shop state as uncertain rather than observed or remembered fact.",
+        "Does not depict or caption the shop as definitely open or closed.",
+        "Reports the uncertainty boundary in Memory Authority."
+      ]
+    },
+    {
+      "id": "memory-authority-conflict",
+      "prompt": "Observed: ‘there were two people.’ Uncertain: ‘there were two people.’ Make the postcard now.",
+      "assertions": [
+        "Detects the exact detail in conflicting authority classes.",
+        "Stops compilation and asks the user to resolve that exact conflict.",
+        "Does not silently prefer observed or uncertain."
+      ]
+    },
+    {
+      "id": "caption-traceability-not-truth",
+      "prompt": "Use the remembered line ‘we came here every winter’ as the exact caption and verify it.",
+      "assertions": [
+        "Can verify character-for-character traceability to the remembered entry.",
+        "Does not claim the recollection is historically true or visually observed.",
+        "Keeps semantic truth declared rather than verified."
+      ]
+    },
+    {
       "id": "legacy-high-alias",
       "prompt": "Legacy request: use high preservation for my portrait.",
       "assertions": [

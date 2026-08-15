@@ -1,4 +1,5 @@
 import { getCanvasProfile } from './layout.js';
+import { buildMemoryEvidence, validateMemoryEvidence } from './memory-evidence.js';
 import { resolveSourceRole } from './source-boundary.js';
 
 const PROFILE_ALIASES = Object.freeze({
@@ -127,6 +128,8 @@ export function buildSceneContract(state) {
   const sourceRole = resolveSourceRole(state, path);
   const anchor = state.sceneAnchor || state.source.description || 'Undeclared scene anchor';
   const dna = parseSceneDNA(state.sceneDNA);
+  const memoryEvidence = buildMemoryEvidence(state);
+  const evidenceValidation = validateMemoryEvidence(memoryEvidence);
 
   const allowedByPath = {
     preserve: ['crop within safe bounds', 'paper framing', 'deterministic typography', 'restrained print treatment'],
@@ -162,6 +165,9 @@ export function buildSceneContract(state) {
       && !forbidden.includes('changed object count, proportions, silhouette, or construction')) {
     forbidden.push('changed object count, proportions, silhouette, or construction');
   }
+  memoryEvidence.entries
+    .filter((entry) => entry.kind === 'forbidden')
+    .forEach((entry) => forbidden.push('do not depict, imply, or state: ' + entry.text));
 
   return {
     contract_version: 3,
@@ -173,6 +179,8 @@ export function buildSceneContract(state) {
     palette_locks: [profile.palette, ...(state.paletteSamples || [])],
     count_locks: countLocks,
     text_locks: lockedCopy(state),
+    memory_evidence: memoryEvidence,
+    memory_evidence_validation: evidenceValidation,
     allowed_mutations: allowedByPath[path] || allowedByPath.preserve,
     forbidden_mutations: forbidden,
     transformation_path: path,

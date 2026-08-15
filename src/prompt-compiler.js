@@ -3,6 +3,7 @@ import { classifyImageSource } from './state.js';
 import { computeQuietFieldShare, getOrientation, getPrintSpecification } from './layout.js';
 import { buildSceneIntelligence } from './scene-intelligence.js';
 import { sceneGraphSummary } from './scene-graph.js';
+import { auditCaptionAuthority, buildCaptionLadder, memoryEvidencePromptSummary } from './memory-evidence.js';
 
 function list(values) {
   return values.length ? values.map((value) => typeof value === 'string' ? value : JSON.stringify(value)).join('; ') : 'not applicable';
@@ -57,6 +58,7 @@ function copyStrategy(state, contract) {
 export function buildCreationBrief(state) {
   const contract = buildSceneContract(state);
   const intelligence = buildSceneIntelligence(state, contract);
+  const captionLadder = buildCaptionLadder(state, contract.memory_evidence);
   return {
     schema_version: 3,
     product: 'Still Scenes Studio',
@@ -72,6 +74,8 @@ export function buildCreationBrief(state) {
       dimensions: state.source.width && state.source.height ? [state.source.width, state.source.height] : null
     },
     scene_contract: contract,
+    caption_ladder: captionLadder,
+    caption_authority: auditCaptionAuthority(state, contract.memory_evidence, captionLadder),
     scene_graph: intelligence.sceneGraph,
     mutation_budget: intelligence.mutationBudget,
     layout_plan: intelligence.layoutPlan,
@@ -99,7 +103,8 @@ export function buildCreationBrief(state) {
       network_payload: state.capability.imageGeneration
         ? ['compiled prompt', 'API key', 'model and size request', ...(state.capability.imageEditing ? ['selected source image'] : [])]
         : [],
-      session_only_source: state.source.kind === 'user-upload'
+      session_only_source: state.source.kind === 'user-upload',
+      memory_evidence_in_embedded_provenance: 'counts-and-policy-only'
     }
   };
 }
@@ -119,6 +124,7 @@ export function compilePrompt(state) {
     ['SOURCE ROLE', sourceBoundary.role + ' — use only: ' + list(sourceBoundary.permitted) + '. Prohibit: ' + list(sourceBoundary.prohibited) + '.'],
     ['SCENE GRAPH', 'Anchor: ' + graph.anchor + '. Focal position: ' + graph.focalPosition + '. Dominant gesture: ' + graph.dominantGesture + '. Gaze or motion: ' + graph.gazeOrMotion + '. Horizon: ' + graph.horizon + '. Density: ' + graph.density + '. Relations: ' + list(graph.relations) + '. Quiet fields: ' + list(graph.quietFields) + '.'],
     ['SCENE CONTRACT', 'Identity locks: ' + list(contract.identity_locks) + '. Geometry locks: ' + list(contract.geometry_locks) + '. Spatial locks: ' + list(contract.spatial_locks) + '. Count locks: ' + list(contract.count_locks) + '. Palette locks: ' + list(contract.palette_locks) + '.'],
+    ['MEMORY AUTHORITY', memoryEvidencePromptSummary(contract.memory_evidence)],
     ['MUTATION BUDGET', 'Identity ' + budget.identity + '; geometry ' + budget.geometry + '; spatial relation ' + budget.spatial_relation + '; palette ' + budget.palette + '; count ' + budget.count + '; crop ' + budget.crop + '; scale ' + budget.scale + '; texture ' + budget.texture + '; material ' + budget.material + '; composition ' + budget.composition + '; abstraction ' + budget.abstraction + '; background detail ' + budget.background_detail + '; added elements ' + budget.added_elements + '; removal ' + budget.removal + '. Contract locks override all freedom.'],
     ['TRANSFORMATION PATH', state.transformationPath + ' — ' + transformationFor(state) + (intelligence.distillationPlan ? ' Distillation sequence: observation — ' + list(intelligence.distillationPlan.observation) + '; residue — ' + list(intelligence.distillationPlan.residue) + '; relation — ' + list(intelligence.distillationPlan.relation) + '; tension — ' + list(intelligence.distillationPlan.tension) + '; form — ' + list(intelligence.distillationPlan.form) + '; opening — ' + list(intelligence.distillationPlan.opening) + '.' : '')],
     ['LAYOUT PLAN', compositionFor(state, intelligence.layoutPlan) + ' Focal protection: ' + list(intelligence.layoutPlan.focal_protection) + '.'],

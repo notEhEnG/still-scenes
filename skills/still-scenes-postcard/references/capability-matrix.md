@@ -57,3 +57,5 @@ Do not claim that EXIF was removed or absent. Still prohibit location inference 
 ## Browser Studio boundary
 
 The core browser Studio is a deterministic local composer. It can crop, frame, reduce visually, build hybrid overlays, create a source-free procedural distillation preview, typeset locked copy, inspect measured layout and coarse returned-image signals, and export RGB PNG/PDF. A separate opt-in endpoint gateway can request AI imagery after explicit disclosure. Neither path semantically recognizes a photograph, proves identity or count preservation, performs OCR verification, converts to CMYK, or certifies press readiness.
+
+The Studio can deterministically classify user-entered memory evidence, detect exact cross-class conflicts, assemble traceable captions, and compare caption strings. Those capabilities verify wording provenance and policy application only; they do not verify that an observation or recollection is true.

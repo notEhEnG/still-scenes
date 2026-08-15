@@ -1,9 +1,16 @@
+import { evidenceCounts } from './memory-evidence.js';
+
 export function buildArtDirectionRecord({ sceneGraph, sceneContract, mutationBudget, layoutPlan, materialLogic, sourceBoundary, sceneDelta, distillationPlan = null }) {
   return {
     schema: 'still-scenes/art-direction/v1',
     anchor: sceneContract.anchor,
     source_role: sourceBoundary.role,
     transformation_path: sceneContract.transformation_path,
+    memory_authority: sceneContract.memory_evidence ? {
+      influence: sceneContract.memory_evidence.influence,
+      counts: evidenceCounts(sceneContract.memory_evidence),
+      conflicts: sceneContract.memory_evidence_validation?.conflicts || []
+    } : null,
     scene_read: {
       focal_position: sceneGraph.directions.focal_position,
       dominant_gesture: sceneGraph.directions.dominant_gesture,

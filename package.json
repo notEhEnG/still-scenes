@@ -1,10 +1,14 @@
 {
   "name": "still-scenes",
-  "version": "3.0.0",
+  "version": "3.2.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
   },
   "engines": {
     "node": ">=20"

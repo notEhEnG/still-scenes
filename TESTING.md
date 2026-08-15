@@ -2,7 +2,7 @@
 
 ## Automated suite
 
-Still Scenes uses Node's built-in test runner and has no test dependencies.
+Still Scenes uses Node's built-in test runner for deterministic modules. The production Studio has no runtime dependencies.
 
 ~~~bash
 npm test
@@ -24,6 +24,7 @@ The suite covers:
 - six-stage source-free Distill planning without invented tension;
 - extreme source/output ratios choosing a non-destructive fit-with-border strategy;
 - Memory Sequence order/pacing and deterministic auto-editing, Collection DNA scope and deliberate breaks, and three-axis similarity guarding;
+- collection state isolation, accessible reordering, rendered-axis recipe differences, manifest privacy allow-listing, and contact-sheet geometry;
 - source-free distill failures;
 - scene-dependent reduction rules;
 - route-specific prompt compilation;
@@ -42,19 +43,31 @@ The suite covers:
 - PNG provenance embed/read round trips and schema privacy allow-listing;
 - CSP separation, remote-dependency absence, and the V3 module entry point.
 
+## Browser acceptance suite
+
+Playwright is a development-only dependency. Install it and its Chromium test browser, then run:
+
+~~~bash
+npm install
+npx playwright install chromium
+npm run test:browser
+~~~
+
+The browser suite uploads multiple local photographs, preserves and changes collection order, runs deterministic planning, exports and inspects the collection manifest, exercises contact-sheet downloads, rejects filename and credential leakage, confirms the core page makes only same-origin requests, and measures WCAG AA contrast for primary actions and helper text.
+
 ## Skill validation
 
 ~~~bash
 python3 -B /path/to/skill-creator/scripts/quick_validate.py skills/still-scenes-postcard
 ~~~
 
-The canonical V3 eval file contains 53 cases. It adds Scene Graph, scene-evidence, Mutation Budget, layout, material, Scene Delta, sequence, Collection DNA, similarity, source-boundary, and independent verification cases while retaining hostile uploads, Unicode copy, privacy, products, portraits, capability loss, hybrid work, and reduction. Only three cases form the explicit legacy-alias group. The preserved legacy package carries a smaller 42-case compatibility suite.
+The canonical V3 eval file contains 58 cases. It adds Memory Authority, zero-fabrication caption traceability, authority conflicts, Scene Graph, scene-evidence, Mutation Budget, layout, material, Scene Delta, sequence, Collection DNA, similarity, source-boundary, and independent verification cases while retaining hostile uploads, Unicode copy, privacy, products, portraits, capability loss, hybrid work, and reduction. Only three cases form the explicit legacy-alias group. The preserved legacy package carries a smaller 45-case compatibility suite.
 
 ## Static checks
 
 ~~~bash
 node --check src/main.js
-node -e "const e=require('./skills/still-scenes-postcard/evals/evals.json'); if(e.version !== 3 || e.evals.length !== 53) process.exit(1)"
+node -e "const e=require('./skills/still-scenes-postcard/evals/evals.json'); if(e.version !== 3 || e.evals.length !== 58) process.exit(1)"
 ~~~
 
 Confirm that the core page keeps its fail-closed CSP and does not directly transmit data:
@@ -92,3 +105,9 @@ Serve the repository with `python3 -m http.server 8000`, then verify:
 20. Distill with a loaded photo reports `scene-evidence`, prohibits recognizable source raster, and never substitutes `reference-grammar`;
 21. returned-image lock families use only `declared`, `verified`, `warning`, `failed`, or `not-applicable`, with identity/count/text never inferred from palette, dHash, or ratio;
 22. the Art Direction tab explains declared inputs, layout/material decisions, source boundary, and Scene Delta without claiming hidden reasoning or unobserved pixels.
+23. Collection mode accepts 2–12 valid photographs, preserves valid items when another file fails, and keeps each item's copy and Scene Contract state isolated;
+24. reorder controls work by keyboard, planning records a quiet close and at least three rendered-axis differences, and only Front, Split, and Zine surfaces remain available;
+25. collection contact-sheet and JSON exports preserve visible order while excluding source filenames, raw source bytes, EXIF, credentials, and inferred locations.
+26. Memory Evidence keeps observed, remembered, uncertain, and forbidden entries distinct; an exact cross-class conflict fails the authority gate.
+27. caption-ladder buttons reuse evidence character-for-character, retain line breaks, and report wording traceability without claiming historical truth.
+28. compact PNG/PDF provenance contains Memory Evidence counts and influence but none of the raw remembered, uncertain, or forbidden wording.
